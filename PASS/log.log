@@ -1,0 +1,17 @@
+devenv.exe Information: 0 : 
+2017/10/29 上午 11:38:29:  - TokenCache: Deserialized 2 items to token cache.
+Web method running: [https://app.vssps.visualstudio.com/_apis/connectionData?connectOptions=IncludeServices&lastChangeId=682&lastChangeId64=682] (GET)connectionData[connectionData]
+Web method response: [https://app.vssps.visualstudio.com/_apis/connectionData?connectOptions=IncludeServices&lastChangeId=682&lastChangeId64=682] (GET)connectionData[connectionData] 1116 ms
+Web method running: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/connectionData?connectOptions=IncludeServices&lastChangeId=33638&lastChangeId64=33638] (GET)connectionData[connectionData]
+Web method response: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/connectionData?connectOptions=IncludeServices&lastChangeId=33638&lastChangeId64=33638] (GET)connectionData[connectionData] 1007 ms
+Web method running: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Profiles/me?details=true&withattributes=false&coreattributes=Minimal%2CEmail%2CAvatar%2CDisplayName%2CAll] (GET)me[Profile]
+Web method running: [https://app.vssps.visualstudio.com/_apis/connectionData?connectOptions=None&lastChangeId=682&lastChangeId64=682] (GET)connectionData[connectionData]
+Web method response: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Profiles/me?details=true&withattributes=false&coreattributes=Minimal%2CEmail%2CAvatar%2CDisplayName%2CAll] (GET)me[Profile] 983 ms
+Web method running: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Locations?profilePageType=Update] (GET)Locations[Profile]
+Web method response: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Locations?profilePageType=Update] (GET)Locations[Profile] 237 ms
+Web method running: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Settings/ProfileRefreshInterval] (GET)ProfileRefreshInterval[Profile]
+Web method response: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Settings/ProfileRefreshInterval] (GET)ProfileRefreshInterval[Profile] 236 ms
+Web method running: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Profiles/me/Attributes?partition=VisualStudio.14_PreferredProfile&modifiedafterrevision=522765] (GET)Attributes[Profile]
+Web method running: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Profiles/me/Avatar?size=Small] (GET)Avatar[Profile]
+Web method response: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Profiles/me/Attributes?partition=VisualStudio.14_PreferredProfile&modifiedafterrevision=522765] (GET)Attributes[Profile] 340 ms
+Web method response: [https://vsspsextprodch1su1.vsspsext.visualstudio.com/_apis/Profile/Profiles/me/Avatar?size=Small] (GET)Avatar[Profile] 1069 ms

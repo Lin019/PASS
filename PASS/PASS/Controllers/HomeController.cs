@@ -14,5 +14,10 @@ namespace PASS.Controllers
 
             return View();
         }
+
+        public ActionResult Curse()
+        {
+            return View();
+        }
     }
 }
