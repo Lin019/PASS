@@ -7,21 +7,44 @@ using System.Web.Mvc;
 using PASS.Services;
 
 
+
 namespace PASS.Controllers
 {
     public class HomeController : Controller
     {
-        public MemberService _memberService = new MemberService();
+        public MemberService _memberService;
+        public HomeController()
+        {
+            _memberService = new MemberService();
+        }
         public ActionResult Index()
         {
             return View();
         }
 
-        //測試 取得會員資料
+        //設置會員資料
         [HttpPost]
-        public JsonResult GetMemberInfo()
+        public JsonResult SetOneMemberInfo(int id, string password, string name, string email)
         {
-            return Json(_memberService.GetOneMemberInfo(5));
+            try { _memberService.SetOneMemberInfo(id, password, name, email); }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
+            return Json("true");
+        }
+        //取得會員資料
+        [HttpPost]
+        public JsonResult GetOneMemberInfo(int id)
+        {
+            try
+            {
+                return Json(_memberService.GetOneMemberInfo(id));
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
         }
     }
 }

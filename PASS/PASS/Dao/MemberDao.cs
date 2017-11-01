@@ -11,13 +11,16 @@ namespace PASS.Dao
     //處理會員資料庫
     public class MemberDao
     {
-        private string _dbConnectionString;
+        //private string _dbConnectionString;
         public MemberDao()
         {
             //取得連接資料庫的string
-            _dbConnectionString = WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
+            //_dbConnectionString = WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
-
+        private string GetDBConnectionString()
+        {
+            return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
+        }
         //從資料庫取會員資訊
         public List<Member> GetMemberInfo()
         {
@@ -28,7 +31,7 @@ namespace PASS.Dao
                                   memberEmail as Email,
                                   memberType as Type
                         from member";
-            using (var connection = new MySqlConnection(_dbConnectionString))
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
@@ -60,12 +63,13 @@ namespace PASS.Dao
                                   memberType as Type
                         FROM member
                         WHERE memberID=" + oneMemberID.ToString();
-            using (var connection = new MySqlConnection(_dbConnectionString))
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
                 MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("ID not found");
                 Member member = null;
                 while (reader.Read())
                 {
@@ -80,6 +84,25 @@ namespace PASS.Dao
                 return member;
             }
         }
+
+        //設定單一會員個人資訊
+        public void SetOneMemberInfo(int id, string password, string name, string email)
+        {
+            string sql = "UPDATE member SET memberPassword=@password, memberName=@name, memberEmail=@email WHERE memberID=@ID;";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@ID", id);
+                if (cmd.ExecuteNonQuery() == 0) throw new Exception("ID not exist");
+                return;
+            }
+        }
+
     }
 
 }
