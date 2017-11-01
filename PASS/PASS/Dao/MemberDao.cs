@@ -48,6 +48,38 @@ namespace PASS.Dao
                 return result;
             }
         }
+
+        //取得單一會員資料
+        public Member GetOneMemberInfo(int oneMemberID)
+        {
+           string sql = @"SELECT memberID AS ID,
+	                              memberAccount AS Account,
+	                              memberPassword as Password,
+                                  memberName as Name,
+                                  memberEmail as Email,
+                                  memberType as Type
+                        FROM member
+                        WHERE memberID=" + oneMemberID.ToString();
+            using (var connection = new MySqlConnection(_dbConnectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                Member member = null;
+                while (reader.Read())
+                {
+                    int id = reader.GetInt16(0);
+                    string account = reader.GetString(1);
+                    string password = reader.GetString(2);
+                    string name = reader.GetString(3);
+                    string email = reader.GetString(4);
+                    int type = reader.GetInt16(5);
+                    member = new Member(id, account, password, name, email, type);
+                }
+                return member;
+            }
+        }
     }
 
 }

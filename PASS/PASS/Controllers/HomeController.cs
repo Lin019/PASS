@@ -21,7 +21,7 @@ namespace PASS.Controllers
         [HttpPost]
         public JsonResult GetMemberInfo()
         {
-            return Json(_memberService.GetMemberInfo());
+            return Json(_memberService.GetOneMemberInfo(5));
         }
     }
 }

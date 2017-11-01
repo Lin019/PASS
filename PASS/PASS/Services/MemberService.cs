@@ -11,10 +11,16 @@ namespace PASS.Services
     public class MemberService
     {
         public MemberDao _memberDao = new MemberDao();
-
+        //取的全部member
         public List<Member> GetMemberInfo()
         {
             return _memberDao.GetMemberInfo();
         }
+        //取得指定member
+        public Member GetOneMemberInfo(int memberID)
+        {
+            return _memberDao.GetOneMemberInfo(memberID);
+        }
+        
     }
 }
