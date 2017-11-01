@@ -24,22 +24,30 @@
 </div>
 
 <button id="test">取得會員資料</button>
+<button id="createUser">新增會員</button>
 
+<text>  </text>
 <script>
     $("#test").click(function () {
         $.ajax({
             type: "POST",
-            url: "Home/GetMemberInfo",
+            url: "GetMemberInfo",
             dataType: "json",
-            async: false,
             success: function (response) {
 
             }
         });
-
-
-
     });
+    //新增會員測試
+    $("#createUser").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "CreateUser",
+            dataType: "json",
+            success: function (response) {
 
+            }
+        });
+    });
 
 </script>

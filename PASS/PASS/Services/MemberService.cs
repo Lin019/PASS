@@ -16,5 +16,9 @@ namespace PASS.Services
         {
             return _memberDao.GetMemberInfo();
         }
+        public string  CreateUser(string id, string account, string password, string name, string email, int type)
+        {
+            return _memberDao.CreateUser(id, account, password, name, email, type);
+        }
     }
 }

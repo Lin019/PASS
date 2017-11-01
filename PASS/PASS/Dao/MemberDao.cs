@@ -48,6 +48,40 @@ namespace PASS.Dao
                 return result;
             }
         }
+
+        //新增帳號
+        public string  CreateUser(string id,string account,string password,string name ,string email ,int type)
+        {
+            MySqlCommand cmd;
+            //string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
+            string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
+            using (var connection = new MySqlConnection(_dbConnectionString))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                List<Member> result = new List<Member>();
+                cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@Account", account);
+                cmd.Parameters.AddWithValue("@Password", password);
+                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@Type",type);
+                try
+                {
+                    cmd.ExecuteReader(); //execure the reader
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return e.Message.ToString();
+                }
+                return "success";
+            }
+            
+        }
+
+
     }
 
 }
