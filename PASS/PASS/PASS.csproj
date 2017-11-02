@@ -249,13 +249,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\IndexStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Views\index.html" />
-    <Content Include="Views\style.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="img\about\assignment2.png" />
+    <Content Include="img\about\assignment_hover.png" />
+    <Content Include="img\about\grade.png" />
+    <Content Include="img\about\grade_hover.png" />
+    <Content Include="img\about\track.png" />
+    <Content Include="img\about\track_hover.png" />
+    <Content Include="img\background\back.jpg" />
+    <Content Include="img\background\background.png" />
+    <Content Include="img\background\library.jpeg" />
+    <Content Include="img\background\nature-grass-leaf-green.jpg" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -309,6 +321,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Curse.cshtml" />
+    <Content Include="Views\Home\Assignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

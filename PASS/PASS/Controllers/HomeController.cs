@@ -10,12 +10,17 @@ namespace PASS.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "登陸";
 
             return View();
         }
 
         public ActionResult Curse()
+        {
+            ViewBag.Title = "我的課程";
+            return View();
+        }
+        public ActionResult Assignment()
         {
             return View();
         }
