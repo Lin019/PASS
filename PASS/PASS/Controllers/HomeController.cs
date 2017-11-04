@@ -10,7 +10,7 @@ namespace PASS.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "登陸";
+            ViewBag.Title = "登入";
 
             return View();
         }

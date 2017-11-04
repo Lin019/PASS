@@ -67,7 +67,7 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 , p {
 	font-weight: 700;
     color: #4a4a4a;
 }
@@ -108,9 +108,9 @@ h1, h2, h3, h4, h5, h6 {
    ========================================================================== */
 
 #headerwrap {
-	background: url(../img/background/background.png) no-repeat center top;
+	background: url(../img/background/background2.png) no-repeat center top;
 	margin-top: -70px;
-	padding-top: 250px;
+	padding-top: 200px;
 	text-align:center;
 	background-attachment: relative;
 	background-position: center center;
@@ -135,13 +135,18 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 20px;
 	letter-spacing: 4px;
 	font-size: 80px;
-	font-weight: bold;
+	font-weight: 500;
 }
 
-#headerwrap h4 {
+#headerwrap h3 {
 	font-weight: 400;
 	color:#ffffff; 
     /*color : black;*/
+}
+
+#about h1
+{
+    font-weight:500;
 }
 
 #social {
@@ -249,37 +254,77 @@ h1, h2, h3, h4, h5, h6 {
     position:absolute;
 }
 
-.login
-{
-    margin-top : 20%;
-}
-
+/*登入*/
 .login a
 {
-    margin-right:100px;
-}
-
-.loginbutton
-{
-    margin-right:24px;
+    margin-right:120px;
 }
 
 .login li
 {
-    margin-top : 30px;
     list-style-type:none;
     margin : 10px 0px;
-    font-family:"微軟正黑體";
 }
 
 .login ul
 {
-    margin : 5% 0px;
+    margin : 1% 0px;
+}
+
+.login li h5
+{
+    font-weight:400;
+}
+
+.login input
+{
+    margin-top:13px;
+}
+
+.login button
+{
+    width:100px;
+    background-color:#1abc9c;
+    border:none;
+    color:white;
+    font-family:"思源宋體 ExtraLight";
+    font-size:14px;
+    font-weight:200;
+}
+
+.login button:hover
+{
+    background-color:darkgray;
+}
+
+/*簡介*/
+.aboutText
+{
+    margin-top:20%;
+}
+
+.aboutText p 
+{
+    padding-left:28px;
+    text-align:justify;
 }
 
 .about
 {
-    margin: 20px 0px;
+    margin: 20px 0px 40px 0px;
     padding:0px 275px;
     text-align:justify;
 }
+
+.chinese h1,h2,h3,h4,h5,h6,p
+{
+    font-family:"思源宋體 ExtraLight";
+    line-height:200%;
+}
+
+.eng
+{
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
