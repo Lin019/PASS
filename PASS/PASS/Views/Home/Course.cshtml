@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Personal Web">
+    <meta name="author" content="Chi Wu William Chiang">
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <title>G5 classroom</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../../Content/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../Content/IndexStyle.css" rel="stylesheet">
+    <link href="../../Content/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="#about">關於我</a></li>
+                    <li><a href="#course">我的課程</a></li>
+                    <li><a href="http://localhost:50714/">登出</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 chinese">
+                    @*登入後改成顯示下面的*@
+                    <h3>歡迎來到我的個人頁面，我是</h3>
+                        <h1>江紀武</h1>
+                        <h3 class="eng">Welcome , you are student</h3>
+                </div>
+            </div><! --/row -->
+        </div> <!-- /container -->
+    </div><! --/headerwrap -->
+
+    <section id="about"></section>
+    <div class="container">
+        <div class="row centered mt mb chinese  ">
+            <div class="title">
+                <h1>關於我</h1>
+            </div>
+            <div class="col-lg-12 profile">
+                <img src="../../img/demo/profile2.png" class="img-responsive">
+                <button class="" onclick="location.href = 'http://localhost:50714/Home/Course'">修改</button>
+            </div>
+            @*<div class="col-lg-4 col-md-4 col-sm-4">
+                <p>1</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <p>2</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <p>3</p>
+            </div>*@
+        </div><! --/row -->
+    </div><! --/container -->
+
+
+    <section id="course"></section>
+    <div id="about">
+        <div class="container">
+            <div class="row centered mt mb chinese">
+                <div class="title">
+                    <h1>我的課程</h1>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="course chinese">
+                        <img src="../../img/course/web.jpeg" class="img-responsive">
+                        <h4>網頁設計</h4>
+                        <p>隨著行動裝置的興起，前端工程已經是業界重要的顯學。俞老師教學團隊致力於前端工程與行動裝置的教學與討論，希望能培養學生前端工程與行動裝置開發的能力。</p>
+                        <div class="icon">
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="course chinese">
+                        <img src="../../img/course/software.jpg" class="img-responsive">
+                        <h4>軟體工程</h4>
+                        <p>軟體工程包括兩方面內容：軟體開發技術和軟體專案管理，軟體開發技術包括軟體開發方法學、軟體工具和軟體工程環境，軟體專案管理包括項目估算、項目計畫等。</p>
+                        <div class="icon">
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="course chinese">
+                        <img src="../../img/course/window.jpeg" class="img-responsive">
+                        <h4>視窗程式設計</h4>
+                        <p>強調程式MVC架構，培養學生改善程式smell的能力。課程中除了使用Windows Forms還會使用單元測試，使學生寫程式不再只是追求功能，更注重程式的可修改性及可讀性。</p>
+                        <div class="icon">
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="course chinese">
+                        <img src="../../img/course/security.jpeg" class="img-responsive">
+                        <h4>資訊安全</h4>
+                        <p>隨著資訊便利而來的是令人擔憂的資訊安全問題，唯有在確保資訊安全之前提下享受資訊便利，才是面對資訊世紀來臨的正確態度，進而迎接未來更大的挑戰與衝擊。</p>
+                        <div class="icon">
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
+                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+            </div><! --/row -->
+        </div><! --/container -->
+    </div>
+
+   
+    <div id="social">
+        <div class="container">
+            <div class="row centered chinese login">
+
+            </div><! --/row -->
+        </div><! --/container -->
+    </div><! --/social -->
+
+    <div id="footerwrap">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-4">
+                    <p><b>ASSIGNMENT SUBMIT & CURSE DETAIL</b></p>
+                </div>
+                <div class="col-lg-4">
+                    <p>G5 小教室 © 2017 William Chiang.</p>
+                </div>
+                <div class="col-lg-4">
+                    <p>a912686931work@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div><! --/footerwrap -->
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+@*<table class="curse">
+    <tr class="default">
+        <td >
+            學生姓名
+        </td>
+        <td>
+            教室名稱
+        </td>
+        <td>
+            學校名稱
+        </td>
+        <td>
+            教師姓名
+        </td>
+        <td>
+            進入
+        </td>
+    </tr>
+    <tr>
+        <td>
+            江紀武
+        </td>
+        <td>
+            注意注意醫生來了
+        </td>
+        <td>
+            學店
+        </td>
+        <td>
+            凱哥
+        </td>
+        <td>
+            <button>進入</button>
+        </td>
+    </tr>
+</table>*@

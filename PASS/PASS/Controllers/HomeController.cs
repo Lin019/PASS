@@ -15,7 +15,7 @@ namespace PASS.Controllers
             return View();
         }
 
-        public ActionResult Curse()
+        public ActionResult Course()
         {
             ViewBag.Title = "我的課程";
             return View();

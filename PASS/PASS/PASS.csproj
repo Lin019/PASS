@@ -250,6 +250,7 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\animate.css" />
+    <Content Include="Content\assignmentStyle.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -268,7 +269,21 @@
     <Content Include="img\background\background.png" />
     <Content Include="img\background\background2.png" />
     <Content Include="img\background\library.jpeg" />
+    <Content Include="img\background\line.png" />
     <Content Include="img\background\nature-grass-leaf-green.jpg" />
+    <Content Include="img\background\software.png" />
+    <Content Include="img\course\security.jpeg" />
+    <Content Include="img\course\icon_enter.png" />
+    <Content Include="img\course\icon_enter_hover.png" />
+    <Content Include="img\course\icon_information.png" />
+    <Content Include="img\course\icon_more.png" />
+    <Content Include="img\course\window.jpeg" />
+    <Content Include="img\course\web.jpeg" />
+    <Content Include="img\course\software.jpg" />
+    <Content Include="img\course\web.jpg" />
+    <Content Include="img\demo\profile.png" />
+    <Content Include="img\demo\profile2.png" />
+    <Content Include="img\demo\task.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -322,7 +337,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Curse.cshtml" />
+    <Content Include="Views\Home\Course.cshtml" />
     <Content Include="Views\Home\Assignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
