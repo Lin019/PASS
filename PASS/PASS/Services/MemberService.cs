@@ -10,7 +10,7 @@ namespace PASS.Services
     //會員系統服務
     public class MemberService
     {
-        public MemberDao _memberDao;
+        private MemberDao _memberDao;
         public MemberService()
         {
             _memberDao = new MemberDao();
@@ -31,6 +31,14 @@ namespace PASS.Services
             _memberDao.SetOneMemberInfo(id, password, name, email);
             return;
         }
-        
+        //登入
+        public void Login(int id,int account, string password)
+        {
+            Member loginMember = GetOneMemberInfo(id);
+            if (loginMember._memberPassword != password) throw new Exception("Incorrect Password");
+            HttpContext.Current.Session.Add("account",account);
+            HttpContext.Current.Session.Add("isLogin",true);
+        }
+
     }
 }

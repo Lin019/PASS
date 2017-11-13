@@ -1,1 +1,3 @@
-新增取得單一會員資料、修改會員資料、單元測試
+web.config 新增session設定
+memeberService新增login功能
+//login無法單元測試

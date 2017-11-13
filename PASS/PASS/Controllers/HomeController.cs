@@ -35,16 +35,19 @@ namespace PASS.Controllers
         }
         //取得會員資料
         [HttpPost]
-        public JsonResult GetOneMemberInfo(int id)
+        public JsonResult GetOneMemberInfo()
         {
+            
             try
             {
-                return Json(_memberService.GetOneMemberInfo(id));
+                _memberService.Login(23, 103590023, "103590038");
+                return Json(_memberService.GetOneMemberInfo(5));
             }
             catch (Exception e)
             {
                 return Json(e.Message.ToString());
             }
+            //return Json("nothing");
         }
     }
 }
