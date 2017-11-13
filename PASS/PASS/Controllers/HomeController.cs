@@ -21,15 +21,14 @@ namespace PASS.Controllers
         {
             return View();
         }
-
         //設置會員資料
         [HttpPost]
-        public JsonResult SetOneMemberInfo(int id, string password, string name, string email)
+        public JsonResult SetOneMemberInfo(string id, string password, string name, string email)
         {
             try { _memberService.SetOneMemberInfo(id, password, name, email); }
             catch (Exception e)
             {
-                return Json(e.Message.ToString());
+                return Json(e.Message);
             }
             return Json("true");
         }
@@ -37,17 +36,14 @@ namespace PASS.Controllers
         [HttpPost]
         public JsonResult GetOneMemberInfo()
         {
-            
             try
             {
-                _memberService.Login(23, 103590023, "103590038");
-                return Json(_memberService.GetOneMemberInfo(5));
+                return Json(_memberService.GetOneMemberInfo());
             }
             catch (Exception e)
             {
                 return Json(e.Message.ToString());
             }
-            //return Json("nothing");
         }
     }
 }

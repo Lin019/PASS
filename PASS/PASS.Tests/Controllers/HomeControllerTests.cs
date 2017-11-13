@@ -20,7 +20,7 @@ namespace PASS.Controllers.Tests
         {
             try
             {
-                _homeControllerTest.SetOneMemberInfo(6, "321", "id5", "id5@gmail.com");
+                _homeControllerTest.SetOneMemberInfo("6", "id5","name", "id5@gmail.com");
             }
             catch (Exception e)
             {
@@ -28,14 +28,14 @@ namespace PASS.Controllers.Tests
             }
             try
             {
-                JsonResult b = _homeControllerTest.GetOneMemberInfo(6);
+                JsonResult b = _homeControllerTest.GetOneMemberInfo();
             }
             catch (Exception e)
             {
                 Assert.AreEqual(e.Message, "ID not found");
             }
-            _homeControllerTest.SetOneMemberInfo(5, "321", "id5", "id5@gmail.com");
-            JsonResult a = _homeControllerTest.GetOneMemberInfo(5);
+            _homeControllerTest.SetOneMemberInfo("5", "321", "id5", "id5@gmail.com");
+            JsonResult a = _homeControllerTest.GetOneMemberInfo();
             Member m = a.Data as Member;
             Assert.AreEqual(m._id, 5);
             Assert.AreEqual(m._memberPassword, "321");
@@ -48,14 +48,14 @@ namespace PASS.Controllers.Tests
         {
             try
             {
-                JsonResult b = _homeControllerTest.GetOneMemberInfo(6);
+                JsonResult b = _homeControllerTest.GetOneMemberInfo();
             }
             catch (Exception e)
             {
                 Assert.AreEqual(e.Message, "ID not found");
             }
-            _homeControllerTest.SetOneMemberInfo(5, "321", "id5", "id5@gmail.com");
-            JsonResult a = _homeControllerTest.GetOneMemberInfo(5);
+            _homeControllerTest.SetOneMemberInfo("5", "321", "id5", "id5@gmail.com");
+            JsonResult a = _homeControllerTest.GetOneMemberInfo();
             Member m = a.Data as Member;
             Assert.AreEqual(m._id, 5);
             Assert.AreEqual(m._memberPassword, "321");

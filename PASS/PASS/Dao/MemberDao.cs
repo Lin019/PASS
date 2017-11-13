@@ -22,7 +22,7 @@ namespace PASS.Dao
             return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
         //從資料庫取會員資訊
-        public List<Member> GetMemberInfo()
+        /*public List<Member> GetMemberInfo()
         {
             string sql = @"SELECT memberID AS ID,
 	                              memberAccount AS Account,
@@ -50,19 +50,18 @@ namespace PASS.Dao
                 }
                 return result;
             }
-        }
+        }*/
 
         //取得單一會員資料
-        public Member GetOneMemberInfo(int oneMemberID)
+        public Member GetOneMemberInfo(string memberID)
         {
-           string sql = @"SELECT memberID AS ID,
-	                              memberAccount AS Account,
-	                              memberPassword as Password,
-                                  memberName as Name,
-                                  memberEmail as Email,
-                                  memberType as Type
-                        FROM member
-                        WHERE memberID=" + oneMemberID.ToString();
+           string sql = @"SELECT  User_ID AS ID,
+	                              User_Password as Password,
+                                  User_Name as Name,
+                                  User_Email as Email,
+                                  User_Authority as Type
+                        FROM user
+                        WHERE User_ID=" + memberID;
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
@@ -73,22 +72,21 @@ namespace PASS.Dao
                 Member member = null;
                 while (reader.Read())
                 {
-                    int id = reader.GetInt16(0);
-                    string account = reader.GetString(1);
-                    string password = reader.GetString(2);
-                    string name = reader.GetString(3);
-                    string email = reader.GetString(4);
-                    int type = reader.GetInt16(5);
-                    member = new Member(id, account, password, name, email, type);
+                    string id = reader.GetString(0);
+                    string password = reader.GetString(1);
+                    string name = reader.GetString(2);
+                    string email = reader.GetString(3);
+                    int type = reader.GetInt16(4);
+                    member = new Member(id, password, name, email, type);
                 }
                 return member;
             }
         }
 
         //設定單一會員個人資訊
-        public void SetOneMemberInfo(int id, string password, string name, string email)
+        public void SetOneMemberInfo(String id, string password, string name, string email)
         {
-            string sql = "UPDATE member SET memberPassword=@password, memberName=@name, memberEmail=@email WHERE memberID=@ID;";
+            string sql = "UPDATE user SET User_Password=@password, User_Name=@name, User_Email=@email WHERE User_ID=@ID;";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();

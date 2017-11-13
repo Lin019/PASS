@@ -286,7 +286,6 @@ C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\Microsoft.AI.Web.xml
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\Microsoft.ApplicationInsights.xml
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\MySql.Data.xml
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\Newtonsoft.Json.xml
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\System.Net.Http.Formatting.xml
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\System.Web.Helpers.xml
@@ -337,7 +336,6 @@ C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\zh-Hant\Microsoft.Owin.Security.
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\bin\zh-Hant\System.Web.Http.Owin.resources.dll
-C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\obj\Debug\PASS.csprojResolveAssemblyReference.cache
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\obj\Debug\PASS.csproj.CoreCompileInputs.cache
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\obj\Debug\PASS.dll
 C:\Users\monkey\Desktop\Code\PASS\PASS\PASS\obj\Debug\PASS.pdb

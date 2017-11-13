@@ -1,3 +1,4 @@
-web.config 新增session設定
-memeberService新增login功能
-//login無法單元測試
+login 修改 查詢個人資料修改
+程式修改為連接passDB版本
+去除測試用index button
+//此版本無法測試

@@ -16,27 +16,38 @@ namespace PASS.Services
             _memberDao = new MemberDao();
         }
         //取的全部member
-        public List<Member> GetMemberInfo()
+        /*public List<Member> GetMemberInfo()
         {
             return _memberDao.GetMemberInfo();
-        }
+        }*/
         //取得指定member
-        public Member GetOneMemberInfo(int memberID)
+        public Member GetOneMemberInfo()
         {
+            if (HttpContext.Current.Session["userID"] == null) throw new Exception("Not login yet");
+            string memberID = HttpContext.Current.Session["account"].ToString();
             return _memberDao.GetOneMemberInfo(memberID);
         }
         //修改個人資料
-        public void SetOneMemberInfo(int id, string password, string name, string email)
+        public void SetOneMemberInfo(string id, string password, string name, string email)
         {
             _memberDao.SetOneMemberInfo(id, password, name, email);
             return;
         }
         //登入
-        public void Login(int id,int account, string password)
+        public void Login(string id, string password)
         {
-            Member loginMember = GetOneMemberInfo(id);
-            if (loginMember._memberPassword != password) throw new Exception("Incorrect Password");
-            HttpContext.Current.Session.Add("account",account);
+            HttpContext.Current.Session.Add("userID", id);
+            try
+            {
+                Member loginMember = GetOneMemberInfo();
+                if (loginMember._memberPassword != password)
+                    throw new Exception("Incorrect Password");
+            }
+            catch(Exception e)
+            {
+                HttpContext.Current.Session.Remove("userID");
+                throw e;
+            }
             HttpContext.Current.Session.Add("isLogin",true);
         }
 
