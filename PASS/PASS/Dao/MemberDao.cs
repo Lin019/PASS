@@ -11,15 +11,18 @@ namespace PASS.Dao
     //處理會員資料庫
     public class MemberDao
     {
-        private string _dbConnectionString;
+        //private string _dbConnectionString;
         public MemberDao()
         {
             //取得連接資料庫的string
-            _dbConnectionString = WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
+            //_dbConnectionString = WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
-
+        private string GetDBConnectionString()
+        {
+            return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
+        }
         //從資料庫取會員資訊
-        public List<Member> GetMemberInfo()
+        /*public List<Member> GetMemberInfo()
         {
             string sql = @"SELECT memberID AS ID,
 	                              memberAccount AS Account,
@@ -28,7 +31,7 @@ namespace PASS.Dao
                                   memberEmail as Email,
                                   memberType as Type
                         from member";
-            using (var connection = new MySqlConnection(_dbConnectionString))
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
@@ -47,8 +50,40 @@ namespace PASS.Dao
                 }
                 return result;
             }
+        }*/
+
+        //取得單一會員資料
+        public Member GetOneMemberInfo(string memberID)
+        {
+           string sql = @"SELECT  User_ID AS ID,
+	                              User_Password as Password,
+                                  User_Name as Name,
+                                  User_Email as Email,
+                                  User_Authority as Type
+                        FROM user
+                        WHERE User_ID=" + memberID;
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("ID not found");
+                Member member = null;
+                while (reader.Read())
+                {
+                    string id = reader.GetString(0);
+                    string password = reader.GetString(1);
+                    string name = reader.GetString(2);
+                    string email = reader.GetString(3);
+                    int type = reader.GetInt16(4);
+                    member = new Member(id, password, name, email, type);
+                }
+                return member;
+            }
         }
 
+<<<<<<< HEAD
         //新增帳號
         public string  CreateUser(string id,string account,string password,string name ,string email ,int type)
         {
@@ -82,6 +117,26 @@ namespace PASS.Dao
         }
 
 
+=======
+        //設定單一會員個人資訊
+        public void SetOneMemberInfo(String id, string password, string name, string email)
+        {
+            string sql = "UPDATE user SET User_Password=@password, User_Name=@name, User_Email=@email WHERE User_ID=@ID;";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@ID", id);
+                if (cmd.ExecuteNonQuery() == 0) throw new Exception("ID not exist");
+                return;
+            }
+        }
+
+>>>>>>> Lai
     }
 
 }
