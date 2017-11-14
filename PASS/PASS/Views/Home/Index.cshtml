@@ -38,7 +38,6 @@
             </div><!--/.nav-collapse -->
         </div>
     </div>
-<<<<<<< HEAD
 
     <div id="headerwrap">
         <div class="container">
@@ -127,54 +126,44 @@
         </div>
     </div><! --/footerwrap -->
 
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="../../Scripts/bootstrap.min.js"></script>
-=======
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
     <div class="col-md-4">
         <h2>Web Hosting</h2>
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
     </div>
 
-    <button id="test">取得會員資料</button>
-    <button id="createUser">新增會員</button>
+<button id="test">取得會員資料</button>
+<button id="createUser">新增會員</button>
 
-    <text>  </text>
-    <script>
-        $("#test").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "GetMemberInfo",
-                dataType: "json",
-                success: function (response) {
+<text>  </text>
+<script>
+    $("#test").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "GetMemberInfo",
+            dataType: "json",
+            success: function (response) {
 
-                }
-            });
+            }
         });
-        //新增會員測試
-        $("#createUser").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "CreateUser",
-                dataType: "json",
-                success: function (response) {
+    });
+    //新增會員測試
+    $("#createUser").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "CreateUser",
+            dataType: "json",
+            success: function (response) {
 
-                }
-            });
+            }
         });
-
+    });
     </script>
->>>>>>> 54a66c37b625e9f97fe300895684fb95e332c762
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
 </body>
 </html>
-

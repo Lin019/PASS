@@ -82,15 +82,32 @@ namespace PASS.Dao
                 return member;
             }
         }
-
-<<<<<<< HEAD
+        
+        //設定單一會員個人資訊
+        public void SetOneMemberInfo(String id, string password, string name, string email)
+        {
+            string sql = "UPDATE user SET User_Password=@password, User_Name=@name, User_Email=@email WHERE User_ID=@ID;";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@ID", id);
+                if (cmd.ExecuteNonQuery() == 0) throw new Exception("ID not exist");
+                return;
+            }
+        }
+        
         //新增帳號
         public string  CreateUser(string id,string account,string password,string name ,string email ,int type)
         {
             MySqlCommand cmd;
             //string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
             string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
-            using (var connection = new MySqlConnection(_dbConnectionString))
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
@@ -115,28 +132,7 @@ namespace PASS.Dao
             }
             
         }
-
-
-=======
-        //設定單一會員個人資訊
-        public void SetOneMemberInfo(String id, string password, string name, string email)
-        {
-            string sql = "UPDATE user SET User_Password=@password, User_Name=@name, User_Email=@email WHERE User_ID=@ID;";
-            using (var connection = new MySqlConnection(GetDBConnectionString()))
-            {
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                MySqlCommand cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.Parameters.AddWithValue("@ID", id);
-                if (cmd.ExecuteNonQuery() == 0) throw new Exception("ID not exist");
-                return;
-            }
-        }
-
->>>>>>> Lai
+        
     }
 
 }

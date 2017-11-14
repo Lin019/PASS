@@ -7,14 +7,18 @@ using System.Web.Mvc;
 using PASS.Services;
 
 
+
 namespace PASS.Controllers
 {
     public class HomeController : Controller
     {
-        public MemberService _memberService = new MemberService();
+        public MemberService _memberService;
+        public HomeController()
+        {
+            _memberService = new MemberService();
+        }
         public ActionResult Index()
         {
-<<<<<<< HEAD
             ViewBag.Title = "登入";
 
             return View();
@@ -26,14 +30,24 @@ namespace PASS.Controllers
             return View();
         }
         public ActionResult Assignment()
-=======
+        {
             return View();
+        }
+        //設置會員資料
+        [HttpPost]
+        public JsonResult SetOneMemberInfo(string id, string password, string name, string email)
+        {
+            try { _memberService.SetOneMemberInfo(id, password, name, email); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
         }
 
         //新增帳號
         [HttpPost]
         public JsonResult CreateUser(string id, string account, string password, string name, string email, int type)
->>>>>>> 54a66c37b625e9f97fe300895684fb95e332c762
         {
             /*string id, string account, string password, string name, string email, int type*/
             /*string  id = "998";
@@ -44,12 +58,19 @@ namespace PASS.Controllers
             int type = 1;*/
             return Json(_memberService.CreateUser(id, account, password, name, email, type));
         }
-        //測試 取得會員資料
-        [HttpPost]
-        public JsonResult GetMemberInfo()
-        {
 
-            return Json(_memberService.GetMemberInfo());
+        //取得會員資料
+        [HttpPost]
+        public JsonResult GetOneMemberInfo()
+        {
+            try
+            {
+                return Json(_memberService.GetOneMemberInfo());
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
         }
     }
 }

@@ -27,12 +27,7 @@ namespace PASS.Services
             string memberID = HttpContext.Current.Session["account"].ToString();
             return _memberDao.GetOneMemberInfo(memberID);
         }
-<<<<<<< HEAD
-        public string  CreateUser(string id, string account, string password, string name, string email, int type)
-        {
-            return _memberDao.CreateUser(id, account, password, name, email, type);
-        }
-=======
+
         //修改個人資料
         public void SetOneMemberInfo(string id, string password, string name, string email)
         {
@@ -56,7 +51,10 @@ namespace PASS.Services
             }
             HttpContext.Current.Session.Add("isLogin",true);
         }
-
->>>>>>> Lai
+        
+        public string  CreateUser(string id, string account, string password, string name, string email, int type)
+        {
+            return _memberDao.CreateUser(id, account, password, name, email, type);
+        }
     }
 }
