@@ -1,3 +1,0 @@
-index新增會員資料測試按鈕，呼叫homecontroller的GetMemberInfo
-Web.config裡面有database連線設定
-PASS-Views-Shared-_Layout.cshtml 第10行新增<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
