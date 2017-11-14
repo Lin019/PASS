@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
-using PASS.Services;
-
 
 
 namespace PASS.Controllers
 {
     public class HomeController : Controller
     {
+<<<<<<< HEAD
         public MemberService _memberService;
         public HomeController()
         {
             _memberService = new MemberService();
         }
+=======
+>>>>>>> 503610ed64b1b35ebbefba93eb4d4231ea2d38b4
         public ActionResult Index()
         {
             ViewBag.Title = "登入";
@@ -30,6 +30,7 @@ namespace PASS.Controllers
             return View();
         }
         public ActionResult Assignment()
+<<<<<<< HEAD
         {
             return View();
         }
@@ -71,6 +72,10 @@ namespace PASS.Controllers
             {
                 return Json(e.Message.ToString());
             }
+=======
+        {
+            return View();
+>>>>>>> 503610ed64b1b35ebbefba93eb4d4231ea2d38b4
         }
     }
 }
