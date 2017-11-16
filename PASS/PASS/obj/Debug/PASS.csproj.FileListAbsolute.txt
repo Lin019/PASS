@@ -1,4 +1,3 @@
-C:\Users\voyag\Documents\PASS\PASS\PASS\obj\Debug\PASS.csprojResolveAssemblyReference.cache
 C:\Users\voyag\Documents\PASS\PASS\PASS\bin\ApplicationInsights.config
 C:\Users\voyag\Documents\PASS\PASS\PASS\bin\roslyn\csc.exe
 C:\Users\voyag\Documents\PASS\PASS\PASS\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -147,3 +146,6 @@ C:\Users\voyag\Documents\PASS\PASS\PASS\bin\zh-Hant\Microsoft.Owin.Security.Micr
 C:\Users\voyag\Documents\PASS\PASS\PASS\bin\zh-Hant\System.Web.Http.Owin.resources.dll
 C:\Users\voyag\Documents\PASS\PASS\PASS\obj\Debug\PASS.dll
 C:\Users\voyag\Documents\PASS\PASS\PASS\obj\Debug\PASS.pdb
+C:\Users\voyag\Documents\PASS\PASS\PASS\bin\MySql.Data.dll
+C:\Users\voyag\Documents\PASS\PASS\PASS\bin\MySql.Data.xml
+C:\Users\voyag\Documents\PASS\PASS\PASS\obj\Debug\PASS.csprojResolveAssemblyReference.cache
