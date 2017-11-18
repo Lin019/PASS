@@ -61,15 +61,6 @@
                 <img src="../../img/demo/profile2.png" class="img-responsive">
                 <button class="" onclick="location.href = 'http://localhost:50714/Home/Course'">修改</button>
             </div>
-            @*<div class="col-lg-4 col-md-4 col-sm-4">
-                <p>1</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <p>2</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <p>3</p>
-            </div>*@
         </div><! --/row -->
     </div><! --/container -->
 
@@ -81,52 +72,10 @@
                 <div class="title">
                     <h1>我的課程</h1>
                 </div>
+
                 <div id="course-card">
                 </div>
-                @*@<div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/web.jpeg" class="img-responsive">
-                        <h4>網頁設計</h4>
-                        <p>隨著行動裝置的興起，前端工程已經是業界重要的顯學。俞老師教學團隊致力於前端工程與行動裝置的教學與討論，希望能培養學生前端工程與行動裝置開發的能力。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/software.jpg" class="img-responsive">
-                        <h4>軟體工程</h4>
-                        <p>軟體工程包括兩方面內容：軟體開發技術和軟體專案管理，軟體開發技術包括軟體開發方法學、軟體工具和軟體工程環境，軟體專案管理包括項目估算、項目計畫等。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/window.jpeg" class="img-responsive">
-                        <h4>視窗程式設計</h4>
-                        <p>強調程式MVC架構，培養學生改善程式smell的能力。課程中除了使用Windows Forms還會使用單元測試，使學生寫程式不再只是追求功能，更注重程式的可修改性及可讀性。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/security.jpeg" class="img-responsive">
-                        <h4>資訊安全</h4>
-                        <p>隨著資訊便利而來的是令人擔憂的資訊安全問題，唯有在確保資訊安全之前提下享受資訊便利，才是面對資訊世紀來臨的正確態度，進而迎接未來更大的挑戰與衝擊。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>*@
+                
             </div><! --/row -->
         </div><! --/container -->
     </div>
@@ -168,9 +117,9 @@
 
         //頁面載入
         $(function () {
-            
+            GetCourses();
             $(".logout").click(DirectToIndex);
-
+            $(document).on('click', 'a.course-page', DirectToCoursePage);
         });
 
         //重新導向到首頁
@@ -190,26 +139,37 @@
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("QueryInstructorCourses", "Home")',
-                data: "",
+                data: {"instructorID": "000590087"},
                 success: function (response) {
-                    SetCourseCard(response.count); //根據回傳的課程數決定要顯示幾張卡
+                    console.log(response);
+                    for (i = 0; i < response.length; i++) {
+                        //設定課程卡片
+                        SetCourseCard(response[i]._courseID, response[i]._courseName, response[i]._courseDescription);
+                    }
                 }
             });
         }
 
         //設定課程卡片
-        function SetCourseCard(count) {
-            for (var i = 0; i < count; i++) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetCourseCard", "Home")',
-                    data: "",
-                    success: function (response) {
-                        $("#course-card").append(response);
-                    }
-                });
-            }
+        function SetCourseCard(id, name, description) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("_CourseCard", "Home")',
+                data: "",
+                success: function (partialHtml) {
+                    $("#course-card").append(partialHtml);
+                    $(".id:last").text(id);
+                    $(".name:last").text(name);
+                    $(".description:last").text(description);
+                }
+            });
         }
+
+        //跳到該課程頁面
+        function DirectToCoursePage() {
+            window.location.href = "/Home/Course/ID=" + $(this).children(".id").first().text();
+        }
+
     </script>
 </body>
 </html>

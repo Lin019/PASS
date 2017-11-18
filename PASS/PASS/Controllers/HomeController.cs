@@ -43,7 +43,7 @@ namespace PASS.Controllers
             return Json(new { result = "Redirect", url = Url.Action(data, "Home") }, JsonRequestBehavior.AllowGet);
         }
 
-        //取得該教授所有的課程 (WIP: 2維Json)
+        //取得該教授所有的課程
         public JsonResult QueryInstructorCourses(string instructorID)
         {
             List<Course> courses;
@@ -51,15 +51,15 @@ namespace PASS.Controllers
             catch (Exception e)
             {
                 return Json(e.Message);
-            }
-            
-            return Json(new { } );
+            } 
+
+            return Json(courses);
         }
 
-        //取得課程卡片partial view (不確定要不要留)
-        public PartialViewResult GetCourseCard()
+        //取得課程卡片partial view
+        public ActionResult _CourseCard()
         {
-            return PartialView("_CourseCard");
+            return PartialView();
         }
 
         //設置會員資料
