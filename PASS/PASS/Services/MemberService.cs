@@ -51,10 +51,11 @@ namespace PASS.Services
             }
             HttpContext.Current.Session.Add("isLogin",true);
         }
-        
-        public string  CreateUser(string id, string account, string password, string name, string email, int type)
+
+        //新增帳號 service
+        public string CreateUser(string id, string password, string name, string email, int authority)
         {
-            return _memberDao.CreateUser(id, account, password, name, email, type);
+            return _memberDao.CreateUser(id, password, name, email, authority);
         }
     }
 }

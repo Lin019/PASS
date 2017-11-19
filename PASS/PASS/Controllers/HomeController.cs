@@ -74,18 +74,23 @@ namespace PASS.Controllers
             return Json("true");
         }
 
-        //新增帳號
+        /// <summary>
+        /// 新增帳號
+        /// </summary>
+        /// <param name="id">學號</param>
+        /// <param name="password">密碼</param>
+        /// <param name="name">姓名</param>
+        /// <param name="email">電子郵件</param>
+        /// <param name="type">身分</param>
+        /// <returns>
+        /// 成功回傳 json檔 "success"字串
+        /// 失敗回傳 json檔 "fail" 字串 +拋例外
+        /// </returns>
         [HttpPost]
-        public JsonResult CreateUser(string id, string account, string password, string name, string email, int type)
+        public JsonResult CreateUser(string id, string password, string name, string email, int authority)
         {
-            /*string id, string account, string password, string name, string email, int type*/
-            /*string  id = "998";
-            string account = "FUCK";
-            string password = "123";
-            string  name = "55";
-            string email = "123@456";
-            int type = 1;*/
-            return Json(_memberService.CreateUser(id, account, password, name, email, type));
+
+            return Json(_memberService.CreateUser(id, password, name, email, authority));
         }
 
         //取得會員資料
