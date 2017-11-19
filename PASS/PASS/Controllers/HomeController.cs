@@ -6,6 +6,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using PASS.Services;
 using PASS.Models;
+using System.Collections;
 
 namespace PASS.Controllers
 {
@@ -62,6 +63,26 @@ namespace PASS.Controllers
             return PartialView("_CourseCard");
         }
 
+        //取得課程資料
+        public JsonResult GetCourse(string courseId)
+        {
+            Course course;
+            try { course = _courseService.GetOneCourse(courseId); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+
+            ArrayList courseData = new ArrayList();
+            courseData.Add(course);
+            try { courseData.Add(_courseService.GetOneCourseTA(courseId)); }
+            catch (Exception e)
+            {
+            }
+
+            return Json(courseData);
+        }
+
         //設置會員資料
         [HttpPost]
         public JsonResult SetOneMemberInfo(string id, string password, string name, string email)
@@ -73,7 +94,7 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
-
+        
         //新增帳號
         [HttpPost]
         public JsonResult CreateUser(string id, string account, string password, string name, string email, int type)

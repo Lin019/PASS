@@ -43,9 +43,9 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
-                    <h1>軟體工程</h1>
-                    <h3>歡迎，你的身分是學生</h3>
-                    <h3 class="eng">Welcome,you are student</h3>
+                    <h1 class="course-name">軟體工程</h1>
+                    <h3 class="teacher">歡迎，你的身分是學生</h3>
+                    <h3 class="ta">目前還沒有TA喔！</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
@@ -72,16 +72,16 @@
                 <h1>作業</h1>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-                
+
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-               
+
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-                
+
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-                
+
             </div>
         </div><! --/row -->
     </div><! --/container -->
@@ -116,6 +116,65 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script>
+
+        //頁面載入
+        $(function () {
+            var ID = getUrlParameter('ID');
+            SetCourseInfo(ID);
+            $(".logout").click(DirectToIndex);
+        });
+
+        //設定課程資訊
+        function SetCourseInfo(ID)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCourse", "Home")',
+                data: { "courseId": ID },
+                success: function (response) {
+                    $(".course-name").text(response[0]._courseName);
+                    $(".teacher").text("指導教授：" + response[0]._instructorID);
+
+                    //如果有TA
+                    if (response.length > 0) {
+                        $(".ta").text(response[1]);
+                    }
+                }
+            });
+        }
+
+        //重新導向到首頁
+        function DirectToIndex() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RedirectPage", "Home")',
+                data: { "data": "Index" },
+                success: function (response) {
+                    window.location.href = response.url;
+                }
+            });
+        };
+
+        //取得url GET變數
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+
+    </script>
+
 </body>
 </html>
 
