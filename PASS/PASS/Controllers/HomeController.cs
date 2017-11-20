@@ -5,34 +5,63 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using PASS.Services;
-
-
+using PASS.Models;
 
 namespace PASS.Controllers
 {
     public class HomeController : Controller
     {
         public MemberService _memberService;
+        public CourseService _courseService;
+
         public HomeController()
         {
             _memberService = new MemberService();
+            _courseService = new CourseService();
         }
+
         public ActionResult Index()
         {
             ViewBag.Title = "登入";
+            return View();
+        }
 
+        public ActionResult Site()
+        {
+            ViewBag.Title = "我的課程";
             return View();
         }
 
         public ActionResult Course()
         {
-            ViewBag.Title = "我的課程";
             return View();
         }
-        public ActionResult Assignment()
+
+        //重新導向指定頁面
+        public JsonResult RedirectPage(string data)
         {
-            return View();
+            return Json(new { result = "Redirect", url = Url.Action(data, "Home") }, JsonRequestBehavior.AllowGet);
         }
+
+        //取得該教授所有的課程 (WIP: 2維Json)
+        public JsonResult QueryInstructorCourses(string instructorID)
+        {
+            List<Course> courses;
+            try { courses = _courseService.GetOneInstructorCourse(instructorID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            
+            return Json(new { } );
+        }
+
+        //取得課程卡片partial view (不確定要不要留)
+        public PartialViewResult GetCourseCard()
+        {
+            return PartialView("_CourseCard");
+        }
+
         //設置會員資料
         [HttpPost]
         public JsonResult SetOneMemberInfo(string id, string password, string name, string email)
