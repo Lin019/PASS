@@ -178,5 +178,21 @@ namespace PASS.Dao
                 if (cmd.ExecuteNonQuery() == 0) throw new Exception("TA not exists");
             }
         }
+        //課程test用
+        public void CreateOneCourseforTEST(string id,string courseName, string courseDescription, string instructorID)
+        {
+            string sql = "INSERT INTO course(course_ID, course_Name, course_Description, instructor_ID) VALUES(@courseID,@courseName, @courseDescription, @instructorID)";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@courseID", id);
+                cmd.Parameters.AddWithValue("@courseName", courseName);
+                cmd.Parameters.AddWithValue("@courseDescription", courseDescription);
+                cmd.Parameters.AddWithValue("@instructorID", instructorID);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
