@@ -98,6 +98,7 @@ namespace PASS.Dao
                 cmd.Parameters.AddWithValue("@ID", id);
                 if (cmd.ExecuteNonQuery() == 0) throw new Exception("User not exist");
                 return;
+
             }
         }
         

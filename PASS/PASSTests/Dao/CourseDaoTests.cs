@@ -17,10 +17,10 @@ namespace PASS.Dao.Tests
         public void GetOneCourseTATest()
         {
             _courseDaoTest.CreateOneCourseforTEST("1", "軟公", "軟體老公公", "000590087");
-            List<string> TAs = new List<string>();
+            List<TA> TAs = new List<TA>();
             TAs = _courseDaoTest.GetOneCourseTA("1");
-            Assert.AreEqual("103590023 LAI", TAs[0]);
-            Assert.AreEqual("103590038 SM", TAs[1]);
+            Assert.AreEqual("103590023", TAs[0]._id);
+            Assert.AreEqual("SM", TAs[1]._memberName);
             _courseDaoTest.DeleteOneCourse("1");
         }
 
@@ -54,7 +54,7 @@ namespace PASS.Dao.Tests
             Assert.AreEqual(course._courseName, "軟體工學");
             Assert.AreEqual(course._instructorID, "103590019");
             _courseDaoTest.DeleteOneCourse("1");
-            try { course = _courseDaoTest.GetOneCourse("1");}
+            try { course = _courseDaoTest.GetOneCourse("1"); }
             catch (Exception e)
             {
                 Assert.AreEqual("Course not found", e.Message.ToString());
@@ -90,5 +90,8 @@ namespace PASS.Dao.Tests
                 Assert.AreEqual("TA not exists", e.Message.ToString());
             }
         }
+
+       
+       
     }
 }

@@ -15,6 +15,7 @@ namespace PASS.Services
         {
             _courseDao = new CourseDao();
         }
+     
         //取得一教授授課課程
         public List<Course> GetOneInstructorCourse(string instructorID)
         {
@@ -46,7 +47,7 @@ namespace PASS.Services
             _courseDao.SetOneCourseTA(courseID, taID);
         }
         //取得一課程TA
-        public List<String> GetOneCourseTA(string courseID)
+        public List<TA> GetOneCourseTA(string courseID)
         {
             return _courseDao.GetOneCourseTA(courseID);
         }

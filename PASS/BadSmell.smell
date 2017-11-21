@@ -375,6 +375,11 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Dao\MemberDao.cs</RelativePath>
+                <ProjectName>PASS</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Global.asax.cs</RelativePath>
                 <ProjectName>PASS</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -395,6 +400,11 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Models\Member.cs</RelativePath>
+                <ProjectName>PASS</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
                 <ProjectName>PASS</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -410,24 +420,29 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Services\MemberService.cs</RelativePath>
+                <ProjectName>PASS</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Startup.cs</RelativePath>
                 <ProjectName>PASS</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
-                <RelativePath>Controllers\HomeControllerTest.cs</RelativePath>
-                <ProjectName>PASS.Tests</ProjectName>
-                <AnalysisFileType>Test</AnalysisFileType>
+                <RelativePath>Controllers\HomeControllerTests.cs</RelativePath>
+                <ProjectName>PASSTests</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
-                <RelativePath>Controllers\ValuesControllerTest.cs</RelativePath>
-                <ProjectName>PASS.Tests</ProjectName>
-                <AnalysisFileType>Test</AnalysisFileType>
+                <RelativePath>Dao\CourseDaoTests.cs</RelativePath>
+                <ProjectName>PASSTests</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
-                <ProjectName>PASS.Tests</ProjectName>
-                <AnalysisFileType>Model</AnalysisFileType>
+                <ProjectName>PASSTests</ProjectName>
+                <AnalysisFileType>Unknown</AnalysisFileType>
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>

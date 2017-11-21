@@ -6,26 +6,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web.Mvc;
 namespace PASS.Controllers.Tests
 {
     [TestClass()]
     public class HomeControllerTests
     {
-      /*  [TestMethod()]
-        public void CreateUserTest()
+        HomeController _homeController =new HomeController();
+        [TestMethod()]
+        public void PackageTest()
         {
-           
-            string id = "9";
-            string account = "FUCK";
-            string password = "123";
-            string name = "55";
-            string email = "123@456";
-            int type = 1;
-             MemberService _memberService = new MemberService();
-            _memberService.CreateUser(id, account, password, name, email, type);
-            Assert.AreEqual(_memberService.CreateUser(id, account, password, name, email, type), "success");
+            //arrage
+            string courseId = "2";
+            //act
+             JsonResult actual = _homeController.Package(courseId);
+            //assert
+            
+        }
+        /*  [TestMethod()]
+ public void CreateUserTest()
+ {
 
-    }*/
+     string id = "9";
+     string account = "FUCK";
+     string password = "123";
+     string name = "55";
+     string email = "123@456";
+     int type = 1;
+      MemberService _memberService = new MemberService();
+     _memberService.CreateUser(id, account, password, name, email, type);
+     Assert.AreEqual(_memberService.CreateUser(id, account, password, name, email, type), "success");
+
+}*/
     }
 }
