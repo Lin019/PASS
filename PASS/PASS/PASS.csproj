@@ -273,6 +273,9 @@
     <Content Include="img\about\grade_hover.png" />
     <Content Include="img\about\track.png" />
     <Content Include="img\about\track_hover.png" />
+    <Content Include="img\assignment\computer.png" />
+    <Content Include="img\assignment\paper.png" />
+    <Content Include="img\assignment\pink.png" />
     <Content Include="img\background\back.jpg" />
     <Content Include="img\background\background.png" />
     <Content Include="img\background\background2.png" />
@@ -292,6 +295,13 @@
     <Content Include="img\demo\profile.png" />
     <Content Include="img\demo\profile2.png" />
     <Content Include="img\demo\task.png" />
+    <Content Include="img\icon\icon_download.png" />
+    <Content Include="img\icon\icon_edit.png" />
+    <Content Include="img\icon\icon_new.png" />
+    <Content Include="img\icon\icon_next.png" />
+    <Content Include="img\icon\icon_score.png" />
+    <Content Include="img\icon\icon_table.png" />
+    <Content Include="img\icon\icon_upload.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -320,6 +330,7 @@
     </Content>
     <Content Include="fonts\SourceHanSerifTC-ExtraLight.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\course.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
