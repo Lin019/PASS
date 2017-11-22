@@ -38,6 +38,11 @@ namespace PASS.Controllers
             return View();
         }
 
+        public ActionResult CourseStudents()
+        {
+            return View();
+        }
+
         //重新導向指定頁面
         public JsonResult RedirectPage(string data)
         {

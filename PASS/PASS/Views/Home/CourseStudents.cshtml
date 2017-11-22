@@ -9,11 +9,12 @@
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
     <title>G5 classroom</title>
     <!-- Bootstrap core CSS -->
-    <link href="../../Content/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="../../Content/IndexStyle.css" rel="stylesheet">
-    <link href="../../Content/font-awesome.min.css" rel="stylesheet">
-    <link href="../../Content/assignmentStyle.css" rel="stylesheet">
+    <link href="~/Content/IndexStyle.css" rel="stylesheet">
+    <link href="~/Content/CourseStudents.css" rel="stylesheet">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/assignmentStyle.css" rel="stylesheet">
 </head>
 <body>
     <!-- Static navbar -->
@@ -56,36 +57,25 @@
         <div class="container">
             <div class="row centered mt mb chinese">
                 <div class="title">
-                    <h1>公告</h1>
+                    <h1>所有修課學生</h1>
                 </div>
-                <div class="col-lg-12 demo">
-                    <img src="~/img/demo/task.png" class="img-responsive">
+                
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>學號</th>
+                                <th>姓名</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <button class="students">顯示所有修課學生</button>
+
             </div><! --/row -->
         </div><! --/container -->
     </div>
 
-    <section id="works"></section>
-    <div class="container">
-        <div class="row centered mt mb chinese">
-            <div class="title">
-                <h1>作業</h1>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-        </div><! --/row -->
-    </div><! --/container -->
+    
 
     <div id="social">
         <div class="container">
@@ -119,19 +109,33 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
 
     <script>
-
         //頁面載入
         $(function () {
             var ID = getUrlParameter('ID');
             SetCourseInfo(ID);
             $(".logout").click(DirectToIndex);
-            var btnStudents = $("button.students");
-            btnStudents.click(DirectToStudents(ID, btnStudents));
+            //ShowAllStudents(ID);
         });
+        
+        //顯示學生表格
+        function SetCourseInfo(ID) {
+            var html = "<tr><td class=\"id\"></td><td class=\"name\"></td></tr>"
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAllStudents", "Home")',
+                data: { "courseId": ID },
+                success: function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        $("table").append(html);
+                        $("td.id").last().text(response[i]._id);
+                        $("td.name").last().text(response[i]._memberName);
+                    }
+                }
+            });
+        }
 
         //設定課程資訊
-        function SetCourseInfo(ID)
-        {
+        function SetCourseInfo(ID) {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetCourse", "Home")',
@@ -146,12 +150,6 @@
                     }
                 }
             });
-        }
-
-        function DirectToStudents(ID, sourse) {
-            return function () {
-                window.location.href = "/Home/Course/Students/?ID=" + ID;
-            }
         }
 
         //重新導向到首頁
@@ -181,11 +179,8 @@
                 }
             }
         };
-
     </script>
 
 </body>
 </html>
-
-
 
