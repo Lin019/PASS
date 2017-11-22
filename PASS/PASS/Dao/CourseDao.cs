@@ -143,7 +143,7 @@ namespace PASS.Dao
             }
         }
         //取得單一課程TA
-        public List<TA> GetOneCourseTA(string courseID)
+        public List<IdAndName> GetOneCourseTA(string courseID)
         {
             string sql = "SELECT user_ID, user_Name FROM user WHERE user_ID in (SELECT ta_ID FROM ta WHERE course_ID=@courseID)";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
@@ -154,10 +154,10 @@ namespace PASS.Dao
                 cmd.Parameters.AddWithValue("@courseID", courseID);
                 MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
                 if (!reader.HasRows) throw new Exception("TA not found");
-                List<TA> TAs = new List<TA>();
+                List<IdAndName> TAs = new List<IdAndName>();
                 while (reader.Read())
                 {
-                    TA ta = new TA(reader.GetString(0), reader.GetString(1));
+                    IdAndName ta = new IdAndName(reader.GetString(0), reader.GetString(1));
                     //string ta = reader.GetString(0),reader.GetString(1);
                     TAs.Add(ta);
                 }

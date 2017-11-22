@@ -109,14 +109,15 @@ namespace PASS.Controllers
         /// </summary>
         /// <param name="Course">課程ID</param>
         /// <returns>
-        /// 回傳 課程描述 教授名字 TA學號和名字的Json檔
+        /// 回傳 課程物件 教授姓名 ID  TA學號和名字的 List Json檔
         /// 失敗回傳 FAIL
         /// </returns>
         public JsonResult Package(string CourseID)
         {
             Course course;
             Member instructor;
-            List<TA> TA;
+            IdAndName instructorIdName;
+            List <IdAndName> TA;
             try
             {
                  course = _courseService.GetOneCourse(CourseID);//用課程ID找教授ID
@@ -127,7 +128,9 @@ namespace PASS.Controllers
             }
             try
             {
-                 instructor = _memberService.GetOneMemberInfo(course._instructorID);//教授ID找教授名字
+
+                 instructor = _memberService.GetOneMemberInfo(course._instructorID);//教授ID找教授名字 
+                instructorIdName = new IdAndName(instructor._id, instructor._memberName);
             }
             catch
             {
@@ -143,7 +146,7 @@ namespace PASS.Controllers
             }
             ArrayList arrayList = new ArrayList();
             arrayList.Add(course);
-            arrayList.Add(instructor);
+            arrayList.Add(instructorIdName);
             arrayList.Add(TA);
             return Json(arrayList);
         }

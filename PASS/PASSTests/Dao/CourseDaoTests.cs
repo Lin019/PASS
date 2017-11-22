@@ -17,7 +17,7 @@ namespace PASS.Dao.Tests
         public void GetOneCourseTATest()
         {
             _courseDaoTest.CreateOneCourseforTEST("1", "軟公", "軟體老公公", "000590087");
-            List<TA> TAs = new List<TA>();
+            List<IdAndName> TAs = new List<IdAndName>();
             TAs = _courseDaoTest.GetOneCourseTA("1");
             Assert.AreEqual("103590023", TAs[0]._id);
             Assert.AreEqual("SM", TAs[1]._memberName);

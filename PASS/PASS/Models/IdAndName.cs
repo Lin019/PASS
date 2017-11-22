@@ -5,14 +5,16 @@ using System.Web;
 
 namespace PASS.Models
 {
-    public class TA
+    public class IdAndName
     {
-        public TA(string id ,string name)
+        public IdAndName(string id ,string name)
         {
             _id = id;
             _memberName = name;
         }
-        public string _id { get; set; }
+        
+        public  string _id { get; set; }
         public string _memberName { get; set; }
     }
+    
 }
