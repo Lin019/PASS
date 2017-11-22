@@ -9,7 +9,11 @@
 *.dll.config
 *.cache
 *.suo
+<<<<<<< HEAD
 # Include dlls if they¡¦re in the NuGet packages directory
+=======
+# Include dlls if theyâ€™re in the NuGet packages directory
+>>>>>>> cf94e6246cc0362958b13d3883b0c2b7bd0295a6
 !/packages/*/lib/*.dll
 !/packages/*/lib/*/*.dll
 # Include dlls if they're in the CommonReferences directory
@@ -38,7 +42,86 @@ TestResults/
 ############
 # Packages #
 ############
+<<<<<<< HEAD
 # it¡¦s better to unpack these files and commit the raw source
+=======
+# itâ€™s better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+######################
+# Logs and databases #
+######################
+*.log
+*.sqlite
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+[Bb]in
+[Oo]bj
+[Tt]est[Rr]esults
+*.suo
+*.user
+*.[Cc]ache
+*[Rr]esharper*
+packages
+NuGet.exe
+_[Ss]cripts
+*.exe
+*.dll
+*.nupkg
+*.ncrunchsolution
+*.dot[Cc]over###################
+# compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+*.suo
+# Include dlls if theyâ€™re in the NuGet packages directory
+!/packages/*/lib/*.dll
+!/packages/*/lib/*/*.dll
+# Include dlls if they're in the CommonReferences directory
+!*CommonReferences/*.dll
+####################
+# VS Upgrade stuff #
+####################
+UpgradeLog.XML
+_UpgradeReport_Files/
+###############
+# Directories #
+###############
+.vs/
+bin/
+obj/
+TestResults/
+###################
+# Web publish log #
+###################
+*.Publish.xml
+#############
+# Resharper #
+#############
+/_ReSharper.*
+*.ReSharper.*
+############
+# Packages #
+############
+# itâ€™s better to unpack these files and commit the raw source
+>>>>>>> cf94e6246cc0362958b13d3883b0c2b7bd0295a6
 # git has its own built in compression methods
 *.7z
 *.dmg
