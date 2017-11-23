@@ -12,3 +12,8 @@ $("#send").click(function () {
     $("#add").show();
     $("#send").hide();
 });
+
+$("#info").click(function () {
+    $("#hw").toggle();
+    $("#score").toggle();
+});
