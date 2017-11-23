@@ -13,7 +13,7 @@ $("#send").click(function () {
     $("#send").hide();
 });
 
-$("#info").click(function () {
+$("#icon_info").click(function () {
     $("#hw").toggle();
     $("#score").toggle();
 });
