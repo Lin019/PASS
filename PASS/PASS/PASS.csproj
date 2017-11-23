@@ -261,6 +261,7 @@
     <Content Include="Content\assignmentStyle.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CourseStudents.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\IndexStyle.css" />
     <Content Include="favicon.ico" />
@@ -360,6 +361,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Site.cshtml" />
     <Content Include="Views\Home\Course.cshtml" />
+    <Content Include="Views\Home\CourseStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

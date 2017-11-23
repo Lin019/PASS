@@ -9,13 +9,12 @@
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
     <title>G5 classroom</title>
     <!-- Bootstrap core CSS -->
-    <link href="../../Content/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="../../Content/IndexStyle.css" rel="stylesheet">
-    <link href="../../Content/style.css" rel="stylesheet">
-    <link href="../../Content/font-awesome.min.css" rel="stylesheet">
-    <link href="../../Content/assignmentStyle.css" rel="stylesheet">
-    <link href="../../Content/animate.css" rel="stylesheet">
+    <link href="~/Content/IndexStyle.css" rel="stylesheet">
+    <link href="~/Content/CourseStudents.css" rel="stylesheet">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/assignmentStyle.css" rel="stylesheet">
 </head>
 <body>
     <!-- Static navbar -->
@@ -31,7 +30,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="http://localhost:50714/Home/Site">個人頁面</a></li>
+                    <li class="active"><a href="http://localhost:50714/Home/Course">個人頁面</a></li>
                     <li><a href="#about">公告</a></li>
                     <li><a href="#works">作業</a></li>
                     <li class="logout"><a href="http://localhost:50714/Home/Index">登出</a></li>
@@ -45,9 +44,9 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
-                    <h1>軟體工程</h1>
-                    <h3>歡迎，你的身分是學生</h3>
-                    <h3 class="eng">Welcome,you are student</h3>
+                    <h1 class="course-name">軟體工程</h1>
+                    <h3 class="teacher">歡迎，你的身分是學生</h3>
+                    <h3 class="ta">目前還沒有TA喔！</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
@@ -58,62 +57,25 @@
         <div class="container">
             <div class="row centered mt mb chinese">
                 <div class="title">
-                    <h1>公告</h1>
+                    <h1>所有修課學生</h1>
                 </div>
-                <div class="col-lg-12 demo">
-                    <img src="~/img/demo/task.png" class="img-responsive">
+                
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>學號</th>
+                                <th>姓名</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <button class="students">顯示所有修課學生</button>
+
             </div><! --/row -->
         </div><! --/container -->
     </div>
 
-    <section id="works"></section>
-    <div class="container">
-        <div class="row centered mt mb chinese">
-            <div class="title">
-                <h1>作業</h1>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="course chinese">
-                    <img src="../../img/assignment/computer.png" class="img-responsive">
-                    <h4>作業一 PASS</h4>
-                    <p>作業內容:</p>
-                    <p>繳交時間:</p>
-                    <p>允許遲交:</p>
-                    <p>檔案格式:</p>
-                    <div class="icon">
-                        <a href="http://localhost:50714/Home/Assignment"><img src="../../img/icon/icon_table.png" class="img-responsive"></a>
-                        <a href="http://localhost:50714/Home/Assignment"><img src="../../img/icon/icon_upload.png" class="img-responsive"></a>
-                        <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="course chinese">
-                    <img src="../../img/assignment/paper.png" class="img-responsive">
-                    <h1 id="assign">指派作業</h1>
-                    <div id="info">
-                        <p>作業名稱:<input name="assignmentName" placeholder=""></p>
-                        <p>作業內容:<input name="assignmentContent" placeholder=""></p>
-                        <p>繳交時間:<input name="submit" placeholder=""></p>
-                        <p>允許遲交:<input name="delay" placeholder=""></p>
-                        <p>檔案格式:<input name="file" placeholder=""></p>
-                    </div>
-                    <div class="icon">
-                        <a id="add"><img src="../../img/icon/icon_new.png" class="img-responsive"></a>
-                        <a id="send"><img src="../../img/icon/icon_next.png" class="img-responsive"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-        </div><! --/row -->
-    </div><! --/container -->
+    
 
     <div id="social">
         <div class="container">
@@ -145,24 +107,35 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-<<<<<<< HEAD
-    <script src="~/Scripts/course.js"></script>
-=======
 
     <script>
-
         //頁面載入
         $(function () {
             var ID = getUrlParameter('ID');
             SetCourseInfo(ID);
             $(".logout").click(DirectToIndex);
-            var btnStudents = $("button.students");
-            btnStudents.click(DirectToStudents(ID, btnStudents));
+            //ShowAllStudents(ID);
         });
+        
+        //顯示學生表格
+        function SetCourseInfo(ID) {
+            var html = "<tr><td class=\"id\"></td><td class=\"name\"></td></tr>"
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAllStudents", "Home")',
+                data: { "courseId": ID },
+                success: function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        $("table").append(html);
+                        $("td.id").last().text(response[i]._id);
+                        $("td.name").last().text(response[i]._memberName);
+                    }
+                }
+            });
+        }
 
         //設定課程資訊
-        function SetCourseInfo(ID)
-        {
+        function SetCourseInfo(ID) {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetCourse", "Home")',
@@ -177,12 +150,6 @@
                     }
                 }
             });
-        }
-
-        function DirectToStudents(ID, sourse) {
-            return function () {
-                window.location.href = "/Home/Course/Students/?ID=" + ID;
-            }
         }
 
         //重新導向到首頁
@@ -212,12 +179,8 @@
                 }
             }
         };
-
     </script>
 
->>>>>>> a7f03a958be229034d3a249b0f4415b37c25879d
 </body>
 </html>
-
-
 
