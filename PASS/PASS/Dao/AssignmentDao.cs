@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using MySql.Data.MySqlClient;
 using System.Web.Configuration;
-using PASS.Models;
 
 namespace PASS.Dao
 {
@@ -41,6 +37,27 @@ namespace PASS.Dao
                
             }
 
+        }
+
+        public string DeleteAssignment(int assignmentId)
+        {
+            using (MySqlConnection connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    connection.Open();
+                    cmd.CommandText = "DELETE FROM assignment WHERE assignment_ID = " + assignmentId;
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return "success";
+                    }
+                    catch (Exception e)
+                    {
+                        return "fail(" + e.Message + ")";
+                    }
+                }
+            }
         }
     }
 }

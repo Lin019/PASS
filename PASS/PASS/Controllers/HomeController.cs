@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using PASS.Services;
 
@@ -13,6 +9,7 @@ namespace PASS.Controllers
     public class HomeController : Controller
     {
         public MemberService _memberService;
+        public AssignmentService _assignmentService;
         public HomeController()
         {
             _memberService = new MemberService();
@@ -71,6 +68,21 @@ namespace PASS.Controllers
             {
                 return Json(e.Message.ToString());
             }
+        }
+
+        //刪除作業
+        [HttpPost]
+        public JsonResult DeleteAssignment(string id)
+        {
+            try
+            {
+                _assignmentService.DeleteAssignment(int.Parse(id));
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
+            return Json("true");
         }
     }
 }
