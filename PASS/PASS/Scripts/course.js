@@ -1,19 +1,22 @@
-﻿$("#add").click(function () {
-    $("#info").toggle();
-    $("#assign").toggle();
-    $("#add").hide();
-    $("#send").css("display", "inline-block");
-    $("#send").show();
+﻿$(".add").click(function () {
+    $(".info").last().toggle();
+    $(".assign").last().toggle();
+    $(".add").last().hide();
+    $(".send").last().css("display", "inline-block");
+    $(".send").last().show();
 });
 
-$("#send").click(function () {
-    $("#info").toggle();
-    $("#assign").toggle();
-    $("#add").show();
-    $("#send").hide();
+$(".send").click(function () {
+    $("div.info").toggle();
+    $(".assign").toggle();
+    $(".add").show();
+    $(".send").hide();
 });
 
-$("#info").click(function () {
-    $("#hw").toggle();
-    $("#score").toggle();
+$("a.info").click(function () {
+    $(".hw").toggle();
+    $(".score").toggle();
 });
+
+
+

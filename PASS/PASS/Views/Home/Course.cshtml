@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cache-control" content="no-store">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Personal Web">
     <meta name="author" content="Chi Wu William Chiang">
@@ -45,13 +46,34 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
-                    <h1>軟體工程</h1>
+                    <h1 class="course-name">軟體工程</h1>
                     <h3>歡迎，你的身分是學生</h3>
                     <h3 class="eng">Welcome,you are student</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
     </div><! --/headerwrap -->
+
+    <section id="course-information"></section>
+    <div id="information">
+        <div class="container">
+            <div class="row centered mt mb chinese">
+                <div class="title">
+                    <h1>課程資訊</h1>
+                </div>
+                <p class="teacher"></p>
+
+                <div class="description-area"><p class="description"></p></div>
+            <button id="description-update">修改</button><button id="description-confirm" style="display: none">確定修改</button>
+
+                <ul id="ta-list" type="none">
+                </ul>
+                <div class="new-ta-area"></div>
+                <button class="confirm" style="display: none">確定</button>
+                <button class="create-ta">新增TA</button>
+            </div><! --/row -->
+        </div><! --/container -->
+    </div>
 
     <section id="about"></section>
     <div id="about">
@@ -76,32 +98,32 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="course chinese">
-                    <img src="../../img/assignment/computer.png" class="img-responsive">
+                    <img src="~/img/assignment/computer.png" class="img-responsive">
                     <h4>作業一 PASS</h4>
-                    <div id="hw">
+                    <div class="hw">
                         <p>作業內容:</p>
                         <p>繳交時間:</p>
                         <p>允許遲交:</p>
                         <p>檔案格式:</p>
                     </div>
-                    <div id="score">
+                    <div class="score">
                         @*放分數*@
                         <h1>未輸入</h1>
                         @*放評語*@
                         <h4>評語:未輸入</h4>
                     </div>
                     <div class="icon">
-                        <a href="http://localhost:50714/Home/Assignment"><img src="../../img/icon/icon_table.png" class="img-responsive"></a>
-                        <a href="http://localhost:50714/Home/Assignment"><img src="../../img/icon/icon_upload.png" class="img-responsive"></a>
-                        <a id="icon_info"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
+                        <a><img src="~/img/icon/icon_table.png" class="img-responsive"></a>
+                        <a><img src="~/img/icon/icon_upload.png" class="img-responsive"></a>
+                        <a class="info"><img src="~/img/course/icon_information.png" class="img-responsive"></a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="course chinese">
-                    <img src="../../img/assignment/paper.png" class="img-responsive">
-                    <h1 id="assign">指派作業</h1>
-                    <div id="info">
+                    <img src="~/img/assignment/paper.png" class="img-responsive">
+                    <h1 class="assign">指派作業</h1>
+                    <div class="info">
                         <p>作業名稱:<input name="assignmentName" placeholder=""></p>
                         <p>作業內容:<input name="assignmentContent" placeholder=""></p>
                         <p>繳交時間:<input name="submit" placeholder=""></p>
@@ -109,8 +131,8 @@
                         <p>檔案格式:<input name="file" placeholder=""></p>
                     </div>
                     <div class="icon">
-                        <a id="add"><img src="../../img/icon/icon_new.png" class="img-responsive"></a>
-                        <a id="send"><img src="../../img/icon/icon_next.png" class="img-responsive"></a>
+                        <a class="add"><img src="~/img/icon/icon_new.png" class="img-responsive"></a>
+                        <a class="send"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
                     </div>
                 </div>
             </div>
@@ -153,9 +175,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-<<<<<<< HEAD
     <script src="~/Scripts/course.js"></script>
-=======
 
     <script>
 
@@ -166,11 +186,16 @@
             $(".logout").click(DirectToIndex);
             var btnStudents = $("button.students");
             btnStudents.click(DirectToStudents(ID, btnStudents));
+            $("#description-update").click(UpdateDescription(ID));
+            $(document).on('click', '.create-ta', NewTa(ID, $(".create-ta")));
+            $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
+            $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
         });
 
         //設定課程資訊
         function SetCourseInfo(ID)
         {
+            $(".new-ta-area").html("");
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetCourse", "Home")',
@@ -178,18 +203,111 @@
                 success: function (response) {
                     $(".course-name").text(response[0]._courseName);
                     $(".teacher").text("指導教授：" + response[0]._instructorID);
-
+                    $(".description").text(response[0]._courseDescription);
+                    var listHtml = "<li><div class=\"ta-id\" style=\"display: inline-block\"><p class=\"ta\"></p></div><button class=\"delete-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
                     //如果有TA
-                    if (response.length > 0) {
-                        $(".ta").text(response[1]);
+                    if (response.length > 1) {
+                        for (var i = 0; i < response[1].length; i++)
+                        {
+                            $("ul#ta-list").append(listHtml);
+                            $(".ta").last().text(response[1][i]);
+                        }
+                    }
+                    else {
+                        $(".ta").text("目前還沒有TA喔！");
                     }
                 }
             });
         }
 
+        function UpdateDescription(ID, description)
+        {
+            return function () {
+                var description = $("p.description").text();
+                $("div.description-area").html("<input type=\"text\" class=\"description-input\"><br>");
+                $(".description-input").val(description);
+                $("button#description-update").hide();
+                $("button#description-confirm").show();
+                $("#description-confirm").click(ConfirmDescription(ID));
+                
+            }
+        }
+
+        function ConfirmDescription(ID)
+        {
+            return function () {
+                var description = $(".description-input").val();
+                $("div.description-area").html("<p class=\"description\"></p>");
+                $("button#description-update").show();
+                $("button#description-confirm").hide();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateCourseDescription", "Home")',
+                    data: { "ID": ID, "description": description },
+                    success: function (response) {
+                        alert(response);
+                        SetCourseInfo(ID);
+                    }
+                });
+                
+            }
+        }
+
+        function SubmitTa(ID, Ta_ID, instr, sourse)
+        {
+            return function () {
+                
+                $(".create-ta").show();
+                $(".confirm").hide();
+                $("ul#ta-list").html("");
+                var functionUrl;
+                if (instr == "new") functionUrl = '@Url.Action("NewCourseTA", "Home")'
+                else if (instr == "update") functionUrl = '@Url.Action("UpdateCourseTA", "Home")'
+                else if (instr == "delete") functionUrl = '@Url.Action("DeleteCourseTA", "Home")'
+                Ta_ID = $(".new-ta").val();
+                 $.ajax({
+                    type: 'POST',
+                    url: functionUrl,
+                    data: { "courseID": ID, "TAID": Ta_ID },
+                    success: function (response) {
+                        alert(response);
+                    }
+                });
+                SetCourseInfo(ID);
+            }
+        }
+
         function DirectToStudents(ID, sourse) {
             return function () {
                 window.location.href = "/Home/Course/Students/?ID=" + ID;
+            }
+        }
+
+        function UpdateTa(sourse) {
+
+            var ID = getUrlParameter('ID');
+            $(".ta-id").html("<input type=\"text\" class=\"new-ta\"><br>");
+            sourse.siblings("button").hide();
+            sourse.hide();
+            sourse.siblings(".confirm-ta").show();
+            sourse.siblings(".confirm-ta").click(SubmitTa(ID, sourse.siblings(".new-ta").val(), "update", sourse.siblings(".confirm-ta")));
+
+        }
+
+        function DeleteTa(sourse) {
+            var ID = getUrlParameter('ID');
+            sourse.siblings("button").hide();
+            sourse.hide();
+            sourse.siblings(".confirm-ta").show();
+            sourse.siblings(".confirm-ta").click(SubmitTa(ID, sourse.siblings(".ta").val(), "delete", sourse.siblings(".confirm-ta")));
+        }
+
+        function NewTa(ID, sourse) {
+            return function () {
+                $(".new-ta-area").append("<input type=\"text\" class=\"new-ta\"><br>");
+                $(".create-ta").hide();
+                $(".confirm").show();
+                $(".confirm").click(SubmitTa(ID, $("input.new-ta").val(), "new", $(".confirm")));
             }
         }
 
@@ -222,10 +340,5 @@
         };
 
     </script>
-
->>>>>>> a7f03a958be229034d3a249b0f4415b37c25879d
 </body>
 </html>
-
-
-

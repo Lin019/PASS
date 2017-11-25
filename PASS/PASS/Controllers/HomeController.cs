@@ -62,6 +62,57 @@ namespace PASS.Controllers
             return Json(new { } );
         }
 
+        public JsonResult UpdateCourseDescription(string ID, string description)
+        {
+            Course course;
+            try { course = _courseService.GetOneCourse(ID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            try { _courseService.UpdateOneCourse(ID, course._courseName, description, course._instructorID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+
+            return Json("成功");
+        }
+
+        //新增TA
+        public JsonResult NewCourseTA(string courseID, string TAID)
+        {
+            try { _courseService.SetOneCourseTA(courseID, TAID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("成功！");
+        }
+
+        //刪除TA
+        public JsonResult DeleteCourseTA(string courseID, string TAID)
+        {
+            try { _courseService.DeleteCourseTA(courseID, TAID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("成功！");
+        }
+
+        //編輯TA
+        public JsonResult UpdateCourseTA(string courseID, string TAID)
+        {
+            DeleteCourseTA(courseID, TAID);
+            try { _courseService.SetOneCourseTA(courseID, TAID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("成功！");
+        }
+
         //取得課程卡片partial view (不確定要不要留)
         public PartialViewResult GetCourseCard()
         {
