@@ -13,10 +13,7 @@ $(".send").click(function () {
     $(".send").hide();
 });
 
-$("a.info").click(function () {
+$(".icon_info").click(function () {
     $(".hw").toggle();
     $(".score").toggle();
 });
-
-
-
