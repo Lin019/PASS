@@ -91,7 +91,14 @@ namespace PASS.Dao.Tests
             }
         }
 
-       
-       
+        [TestMethod()]
+        public void GetOneCourseStudentsTest()
+        {
+            List<IdAndName> idName = _courseDaoTest.GetOneCourseStudents("1");
+            Assert.AreEqual("103590023", idName[0]._id);
+            Assert.AreEqual("LAI", idName[0]._memberName);
+            Assert.AreEqual("103590034", idName[1]._id);
+            Assert.AreEqual("BONIS", idName[1]._memberName);
+        }
     }
 }

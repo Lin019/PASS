@@ -195,5 +195,25 @@ namespace PASS.Dao
                 cmd.ExecuteNonQuery();
             }
         }
+        //取得一課程之所有修課學生
+        public List<IdAndName> GetOneCourseStudents(string coruseID)
+        {
+            string sql = "SELECT user_ID, user_Name FROM user WHERE user_ID in (SELECT student_ID FROM elective WHERE course_ID=@courseID)";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                List<IdAndName> result = new List<IdAndName>();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@courseID", coruseID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                while (reader.Read())
+                {
+                    result.Add(new IdAndName(reader.GetString(0), reader.GetString(1)));
+                }
+                return result;
+            }
+        }
+
     }
 }
