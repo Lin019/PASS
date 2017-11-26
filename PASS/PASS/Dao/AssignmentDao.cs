@@ -11,6 +11,21 @@ namespace PASS.Dao
         {
             return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
+
+        /// <summary>
+        ///  新增作業
+        /// </summary>
+        /// <param name="assignmentId"> 課程id</param>
+        /// <param name="assignmentName"> 課程名子</param>
+        /// <param name="assignmentDescription">課程敘述</param>
+        /// <param name="assignmentFormat">課程格式</param>
+        /// <param name="assignmentDeadline">作業期限</param>
+        /// <param name="assignmentLate">作業缺交</param>
+        /// <param name="courseId">課程ID</param>
+        /// <returns>
+        /// 成功回傳 success
+        /// 失敗 fail
+        /// </returns>
         public string CreateAssignment(int assignmentId, string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline,bool assignmentLate, string courseId)
         {
             string sql = @"INSERT INTO assignment (assignment_ID , assignment_Name,assignment_Description, assignment_Format,  assignment_Deadline,assignment_Late,course_ID) VALUES (@assignmentID , @assignmentName,@assignmentDescription, @assignmentFormat, @assignmentDeadline,@assignmentLate,@courseId)";
@@ -40,6 +55,7 @@ namespace PASS.Dao
 
         }
 
+        //刪除作業
         public string DeleteAssignment(int assignmentId)
         {
             using (MySqlConnection connection = new MySqlConnection(GetDBConnectionString()))
@@ -60,6 +76,7 @@ namespace PASS.Dao
                 }
             }
         }
+
         //讀取指定作業資訊
         public Assignment GetOneAssignment(int assignmentID)
         {

@@ -70,6 +70,20 @@ namespace PASS.Controllers
             }
         }
 
+        //新增作業
+        [HttpPost]
+        public JsonResult CreatAssignment(int assignmentId, string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline, bool assignmentLate, string courseId)
+        {
+            try
+            {
+                _assignmentService.CreateAssignment( assignmentId, assignmentName, assignmentDescription, assignmentFormat, assignmentDeadline,assignmentLate, courseId);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
+            return Json("true");
+        }
         //刪除作業
         [HttpPost]
         public JsonResult DeleteAssignment(string id)

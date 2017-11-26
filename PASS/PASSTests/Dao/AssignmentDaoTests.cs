@@ -12,7 +12,29 @@ namespace PASS.Dao.Tests
         [TestMethod()]
         public void CreateUserTest()
         {
-            _assignmentDao.CreateAssignment(2, "作業系統_HW1", "排班計算", "ZIP", DateTime.Now, false, "1");
+            //arrange
+            int assignmentId = 2;
+            string name = "作業系統_HW1";
+            string fileFeatures = "教訓金刀";
+            string fileFormat = "Zip;";
+            DateTime dateTime = DateTime.Now;
+            bool assignmentLate = false;
+            string courseId = "1";
+
+            //act
+            string actual = _assignmentDao.CreateAssignment(assignmentId, name, fileFeatures, fileFormat, dateTime, assignmentLate, courseId);
+
+            //assert
+            Assert.AreEqual(actual, "success");
+
+            //act
+            actual = _assignmentDao.CreateAssignment(assignmentId, name, fileFeatures, fileFormat, dateTime, assignmentLate, courseId);
+
+            //assert
+            Assert.AreEqual(actual, "fail");
+
+            _assignmentDao.DeleteAssignment(2);
+
 
         }
 
