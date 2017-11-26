@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using PASS.Dao;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using PASS.Models;
 
 namespace PASS.Dao.Tests
 {
@@ -21,6 +23,19 @@ namespace PASS.Dao.Tests
             _assignmentDao.CreateAssignment(999, "UnitTest-Delete", "UnitTest-Delete", "UnitTest-Delete", DateTime.Now, false, "1");
             string actual = _assignmentDao.DeleteAssignment(999);
             Assert.AreEqual("success", actual);
+        }
+
+        [TestMethod()]
+        public void GetOneAssignmentTest()
+        {
+            
+            Assignment result = _assignmentDao.GetOneAssignment(1);
+            Assert.AreEqual("軟工_HW1", result._assignmentName);
+            Assert.AreEqual("要你命作業一", result._assignmentDescription);
+            Assert.AreEqual("PDF", result._assignmentFormat);
+            Assert.AreEqual(Convert.ToDateTime("2017/11/29 23:59:59"), result._assignmentDeadline);
+            Assert.AreEqual(false, result._assignmentLate);
+            Assert.AreEqual("2", result._courseId);
         }
     }
 }

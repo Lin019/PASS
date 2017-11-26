@@ -18,7 +18,7 @@ namespace PASS.Models
         public Assignment(int assignmentId, string assignmentName, string assignmentDescription,string assignmentFormat,DateTime assignmentDeadline, bool assignmentLate, string courseId)
         {
             _assignmentId = assignmentId;
-            _assignmentName = _assignmentName;
+            _assignmentName = assignmentName;
             _assignmentDescription = assignmentDescription;
             _assignmentFormat = assignmentFormat;
             _assignmentDeadline = assignmentDeadline;

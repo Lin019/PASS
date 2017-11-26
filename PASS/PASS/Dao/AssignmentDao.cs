@@ -1,6 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using System.Web.Configuration;
+using PASS.Models;
 
 namespace PASS.Dao
 {
@@ -58,6 +59,32 @@ namespace PASS.Dao
                     }
                 }
             }
+        }
+        //讀取指定作業資訊
+        public Assignment GetOneAssignment(int assignmentID)
+        {
+            string sql = "SELECT assignment_ID , assignment_Name,assignment_Description, assignment_Format, assignment_Deadline, assignment_Late, course_ID FROM assignment WHERE assignment_ID=@assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                Assignment result = null;
+                while (reader.Read())
+                {
+                    int id = reader.GetInt16(0);
+                    string name = reader.GetString(1);
+                    string description = reader.GetString(2);
+                    string format = reader.GetString(3);
+                    DateTime deadline = reader.GetDateTime(4);
+                    bool late = reader.GetBoolean(5);
+                    string courseID = reader.GetString(6);
+                    result= new Assignment(id, name, description, format, deadline, late, courseID);
+                }
+                return result;
+            }
+
         }
     }
 }
