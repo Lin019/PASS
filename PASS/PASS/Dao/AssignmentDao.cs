@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System.Web.Configuration;
 using PASS.Models;
+using System.Collections.Generic;
 
 namespace PASS.Dao
 {
@@ -102,6 +103,41 @@ namespace PASS.Dao
                 return result;
             }
 
+        }
+
+        /// <summary>
+        /// 讀取這門課程所有作業
+        /// </summary>
+        /// <param name="courseID">課程ID</param>
+        /// <returns>
+        /// 成功回傳資料
+        /// 失敗回傳 Course not found
+        /// </returns>
+
+        public List <Assignment> GetOneCourseAssignment(string courseID)
+        {
+            string sql = "SELECT * FROM assignment WHERE course_ID=@courseID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@courseID", courseID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("Course not found");
+                List<Assignment> assignment = new List<Assignment>() ;
+                while (reader.Read())
+                {
+                    int assignmentId = reader.GetInt16(0);
+                    string name = reader.GetString(1);
+                    string description = reader.GetString(2);
+                    string format = reader.GetString(3);
+                    DateTime deadline = reader.GetDateTime(4);
+                    bool IsLate = reader.GetBoolean(5);
+                    assignment.Add( new Assignment(assignmentId ,name, description, format, deadline, IsLate,courseID));
+                }
+                return assignment;
+            }
         }
     }
 }
