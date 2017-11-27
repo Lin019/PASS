@@ -50,7 +50,7 @@ namespace PASS.Dao.Tests
         [TestMethod()]
         public void GetOneAssignmentTest()
         {
-            
+
             Assignment result = _assignmentDao.GetOneAssignment(1);
             Assert.AreEqual("軟工_HW1", result._assignmentName);
             Assert.AreEqual("要你命作業一", result._assignmentDescription);
@@ -58,6 +58,20 @@ namespace PASS.Dao.Tests
             Assert.AreEqual(Convert.ToDateTime("2017/11/29 23:59:59"), result._assignmentDeadline);
             Assert.AreEqual(false, result._assignmentLate);
             Assert.AreEqual("2", result._courseId);
+        }
+
+        [TestMethod()]
+        public void UpdateOneAssignmentTest()
+        {
+            _assignmentDao.UpdateOneAssignment(1, "軟工_HW2", "要你命作業二", "RAR", Convert.ToDateTime("2017/12/25 23:59:59"), true, "2");
+            Assignment result = _assignmentDao.GetOneAssignment(1);
+            Assert.AreEqual("軟工_HW2", result._assignmentName);
+            Assert.AreEqual("要你命作業二", result._assignmentDescription);
+            Assert.AreEqual("RAR", result._assignmentFormat);
+            Assert.AreEqual(Convert.ToDateTime("2017/12/25 23:59:59"), result._assignmentDeadline);
+            Assert.AreEqual(true, result._assignmentLate);
+            Assert.AreEqual("2", result._courseId);
+            _assignmentDao.UpdateOneAssignment(1, "軟工_HW1", "要你命作業一", "PDF", Convert.ToDateTime("2017/11/29 23:59:59"), false, "2");
         }
     }
 }
