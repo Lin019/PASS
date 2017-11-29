@@ -27,14 +27,13 @@ namespace PASS.Dao
         /// 成功回傳 success
         /// 失敗 fail
         /// </returns>
-        public string CreateAssignment(int assignmentId, string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline,bool assignmentLate, string courseId)
+        public string CreateAssignment( string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline,bool assignmentLate, string courseId)
         {
-            string sql = @"INSERT INTO assignment (assignment_ID , assignment_Name,assignment_Description, assignment_Format,  assignment_Deadline,assignment_Late,course_ID) VALUES (@assignmentID , @assignmentName,@assignmentDescription, @assignmentFormat, @assignmentDeadline,@assignmentLate,@courseId)";
+            string sql = @"INSERT INTO assignment (assignment_Name,assignment_Description, assignment_Format,  assignment_Deadline,assignment_Late,course_ID) VALUES ( @assignmentName,@assignmentDescription, @assignmentFormat, @assignmentDeadline,@assignmentLate,@courseId)";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@assignmentID", assignmentId);
                 cmd.Parameters.AddWithValue("@assignmentName", assignmentName);
                 cmd.Parameters.AddWithValue("@assignmentDescription", assignmentDescription);
                 cmd.Parameters.AddWithValue("@assignmentFormat", assignmentFormat);
@@ -55,7 +54,29 @@ namespace PASS.Dao
             }
 
         }
-
+        //刪除作業 測試用
+        public string DeleteAssignment(string assignmentName)
+        {
+            using (MySqlConnection connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    connection.Open();
+                    cmd.CommandText = "DELETE FROM assignment WHERE assignment_Name = @assignmentName";
+                  
+                    cmd.Parameters.AddWithValue("@assignmentName", assignmentName);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return "success";
+                    }
+                    catch (Exception e)
+                    {
+                        return "fail(" + e.Message + ")";
+                    }
+                }
+            }
+        }
         //刪除作業
         public string DeleteAssignment(int assignmentId)
         {
