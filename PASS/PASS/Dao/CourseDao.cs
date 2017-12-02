@@ -15,7 +15,7 @@ namespace PASS.Dao
         {
             return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
-
+       
         //取得一位教授授課課程
         public List<Course> GetOneInstructorCourse(string instructorID)
         {
@@ -143,7 +143,7 @@ namespace PASS.Dao
             }
         }
         //取得單一課程TA
-        public List<string> GetOneCourseTA(string courseID)
+        public List<IdAndName> GetOneCourseTA(string courseID)
         {
             string sql = "SELECT user_ID, user_Name FROM user WHERE user_ID in (SELECT ta_ID FROM ta WHERE course_ID=@courseID)";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
@@ -154,10 +154,11 @@ namespace PASS.Dao
                 cmd.Parameters.AddWithValue("@courseID", courseID);
                 MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
                 if (!reader.HasRows) throw new Exception("TA not found");
-                List<string> TAs = new List<string>();
+                List<IdAndName> TAs = new List<IdAndName>();
                 while (reader.Read())
                 {
-                    string ta = reader.GetString(0)+" "+ reader.GetString(1);
+                    IdAndName ta = new IdAndName(reader.GetString(0), reader.GetString(1));
+                    //string ta = reader.GetString(0),reader.GetString(1);
                     TAs.Add(ta);
                 }
                 return TAs;
@@ -178,5 +179,41 @@ namespace PASS.Dao
                 if (cmd.ExecuteNonQuery() == 0) throw new Exception("TA not exists");
             }
         }
+        //課程test用
+        public void CreateOneCourseforTEST(string id,string courseName, string courseDescription, string instructorID)
+        {
+            string sql = "INSERT INTO course(course_ID, course_Name, course_Description, instructor_ID) VALUES(@courseID,@courseName, @courseDescription, @instructorID)";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@courseID", id);
+                cmd.Parameters.AddWithValue("@courseName", courseName);
+                cmd.Parameters.AddWithValue("@courseDescription", courseDescription);
+                cmd.Parameters.AddWithValue("@instructorID", instructorID);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        //取得一課程之所有修課學生
+        public List<IdAndName> GetOneCourseStudents(string coruseID)
+        {
+            string sql = "SELECT user_ID, user_Name FROM user WHERE user_ID in (SELECT student_ID FROM elective WHERE course_ID=@courseID)";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                List<IdAndName> result = new List<IdAndName>();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@courseID", coruseID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                while (reader.Read())
+                {
+                    result.Add(new IdAndName(reader.GetString(0), reader.GetString(1)));
+                }
+                return result;
+            }
+        }
+
     }
 }
