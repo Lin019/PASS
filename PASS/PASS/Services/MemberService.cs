@@ -48,6 +48,7 @@ namespace PASS.Services
                 Member loginMember = GetOneMemberInfo();
                 if (loginMember._memberPassword != password)
                     throw new Exception("Incorrect Password");
+                HttpContext.Current.Session.Add("userAuthority", loginMember._memberType);
             }
             catch(Exception e)
             {
@@ -55,8 +56,10 @@ namespace PASS.Services
                 throw e;
             }
             HttpContext.Current.Session.Add("isLogin",true);
+
+
         }
-        
+
         public string  CreateUser(string id, string account, string password, string name, string email, int type)
         {
             return _memberDao.CreateUser(id, account, password, name, email, type);
