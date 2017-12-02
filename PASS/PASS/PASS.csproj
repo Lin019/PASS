@@ -280,6 +280,7 @@
     <Content Include="img\background\line.png" />
     <Content Include="img\background\nature-grass-leaf-green.jpg" />
     <Content Include="img\background\software.png" />
+    <Content Include="img\course\profile.png" />
     <Content Include="img\course\security.jpeg" />
     <Content Include="img\course\icon_enter.png" />
     <Content Include="img\course\icon_enter_hover.png" />
@@ -330,6 +331,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

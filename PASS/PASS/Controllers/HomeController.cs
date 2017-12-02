@@ -89,7 +89,6 @@ namespace PASS.Controllers
         [HttpPost]
         public JsonResult CreateUser(string id, string password, string name, string email, int authority)
         {
-
             return Json(_memberService.CreateUser(id, password, name, email, authority));
         }
 
@@ -97,6 +96,8 @@ namespace PASS.Controllers
         [HttpPost]
         public JsonResult GetOneMemberInfo()
         {
+            //Member member = new Member("103590013","william6931","test","a912686931@gmail.com",1);
+            //return Json(member);
             try
             {
                 return Json(_memberService.GetOneMemberInfo());
