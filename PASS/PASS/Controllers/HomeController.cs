@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using PASS.Services;
-
-
+using System.IO;
 
 namespace PASS.Controllers
 {
@@ -71,6 +70,15 @@ namespace PASS.Controllers
             {
                 return Json(e.Message.ToString());
             }
+        }
+
+        //上傳作業
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file,int assignmentID)
+        {
+            AssignmentUploadService assignmentUpload = new AssignmentUploadService();
+            assignmentUpload.UploadAssignment(assignmentID, file, Server);
+            return RedirectToAction("Index");
         }
     }
 }

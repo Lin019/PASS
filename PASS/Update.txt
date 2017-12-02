@@ -1,4 +1,2 @@
-login 修改 查詢個人資料修改
-程式修改為連接passDB版本
-去除測試用index button
-//此版本無法測試
+新增上傳作業
+home controller跟view-index有新增上傳作業的東西，方便實測
