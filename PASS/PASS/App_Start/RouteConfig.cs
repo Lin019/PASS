@@ -11,6 +11,13 @@ namespace PASS
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+
+            routes.MapRoute(
+                name: "Course_Students",
+                url: "Home/Course/Students/{id}",
+                defaults: new { controller = "Home", action = "CourseStudents", id = UrlParameter.Optional }
+            );
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(

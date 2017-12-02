@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -237,17 +238,20 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Dao\CourseDao.cs" />
     <Compile Include="Dao\MemberDao.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\MemberService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -257,6 +261,7 @@
     <Content Include="Content\assignmentStyle.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CourseStudents.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\IndexStyle.css" />
     <Content Include="favicon.ico" />
@@ -269,6 +274,9 @@
     <Content Include="img\about\grade_hover.png" />
     <Content Include="img\about\track.png" />
     <Content Include="img\about\track_hover.png" />
+    <Content Include="img\assignment\computer.png" />
+    <Content Include="img\assignment\paper.png" />
+    <Content Include="img\assignment\pink.png" />
     <Content Include="img\background\back.jpg" />
     <Content Include="img\background\background.png" />
     <Content Include="img\background\background2.png" />
@@ -288,6 +296,13 @@
     <Content Include="img\demo\profile.png" />
     <Content Include="img\demo\profile2.png" />
     <Content Include="img\demo\task.png" />
+    <Content Include="img\icon\icon_download.png" />
+    <Content Include="img\icon\icon_edit.png" />
+    <Content Include="img\icon\icon_new.png" />
+    <Content Include="img\icon\icon_next.png" />
+    <Content Include="img\icon\icon_score.png" />
+    <Content Include="img\icon\icon_table.png" />
+    <Content Include="img\icon\icon_upload.png" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -314,8 +329,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\Deploy.pubxml" />
+    <Content Include="fonts\SourceHanSerifTC-ExtraLight.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\course.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -343,8 +359,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Site.cshtml" />
     <Content Include="Views\Home\Course.cshtml" />
-    <Content Include="Views\Home\Assignment.cshtml" />
+    <Content Include="Views\Home\CourseStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
