@@ -56,5 +56,11 @@ namespace PASS.Services
         {
             _courseDao.DeleteCourseTA(courseID, taID);
         }
+
+        //取得一課程所有學生
+        public List<IdAndName> GetOneCourseStudents(string courseID)
+        {
+            return _courseDao.GetOneCourseStudents(courseID);
+        }
     }
 }

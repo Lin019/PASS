@@ -50,7 +50,7 @@ namespace PASS.Controllers
             return Json(new { result = "Redirect", url = Url.Action(data, "Home") }, JsonRequestBehavior.AllowGet);
         }
 
-        //取得該教授所有的課程 (WIP: 2維Json)
+        //取得該教授所有的課程
         public JsonResult QueryInstructorCourses(string instructorID)
         {
             List<Course> courses;
@@ -63,6 +63,19 @@ namespace PASS.Controllers
             return Json(new { } );
         }
 
+        public JsonResult GetOneCourseStudents(string courseID)
+        {
+            List<IdAndName> students;
+            try { students = _courseService.GetOneCourseStudents(courseID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+
+            return Json(students);
+        }
+
+        //更新課程資訊
         public JsonResult UpdateCourseDescription(string ID, string description)
         {
             Course course;
@@ -86,9 +99,9 @@ namespace PASS.Controllers
             try { _courseService.SetOneCourseTA(courseID, TAID); }
             catch (Exception e)
             {
-                return Json(e.Message);
+                return Json("新增失敗，原因：" + e.Message + "\n課程ID：" + courseID + "，TA ID：" + TAID);
             }
-            return Json("成功！");
+            return Json("新增成功！");
         }
 
         //刪除TA
@@ -97,24 +110,28 @@ namespace PASS.Controllers
             try { _courseService.DeleteCourseTA(courseID, TAID); }
             catch (Exception e)
             {
-                return Json(e.Message);
+                return Json("刪除失敗，原因：" + e.Message + "\n課程ID：" + courseID + "，TA ID：" + TAID);
             }
-            return Json("成功！");
+            return Json("刪除成功！");
         }
 
         //編輯TA
-        public JsonResult UpdateCourseTA(string courseID, string TAID)
+        public JsonResult UpdateCourseTA(string courseID, string TAID1, string TAID2)
         {
-            DeleteCourseTA(courseID, TAID);
-            try { _courseService.SetOneCourseTA(courseID, TAID); }
+            try { _courseService.DeleteCourseTA(courseID, TAID1); }
             catch (Exception e)
             {
-                return Json(e.Message);
+                return Json("刪除失敗，原因：" + e.Message + "\n課程ID：" + courseID + "，TA ID：" + TAID1);
             }
-            return Json("成功！");
+            try { _courseService.SetOneCourseTA(courseID, TAID2); }
+            catch (Exception e)
+            {
+                return Json("新增失敗，原因：" + e.Message + "\n課程ID：" + courseID + "，TA ID：" + TAID2);
+            }
+            return Json("編輯成功！");
         }
 
-        //取得課程卡片partial view (不確定要不要留)
+        //取得課程卡片partial view
         public PartialViewResult GetCourseCard()
         {
             return PartialView("_CourseCard");

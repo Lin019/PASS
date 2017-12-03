@@ -114,16 +114,16 @@
             var ID = getUrlParameter('ID');
             SetCourseInfo(ID);
             $(".logout").click(DirectToIndex);
-            //ShowAllStudents(ID);
+            ShowAllStudents(ID);
         });
         
         //顯示學生表格
-        function SetCourseInfo(ID) {
+        function ShowAllStudents(ID) {
             var html = "<tr><td class=\"id\"></td><td class=\"name\"></td></tr>"
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("GetAllStudents", "Home")',
-                data: { "courseId": ID },
+                url: '@Url.Action("GetOneCourseStudents", "Home")',
+                data: { "courseID": ID },
                 success: function (response) {
                     for (var i = 0; i < response.length; i++) {
                         $("table").append(html);

@@ -114,6 +114,8 @@ namespace PASS.Dao
         //設定一課程TA
         public void SetOneCourseTA(string courseID, string taID)
         {
+            if (taID == null || taID == "") throw new Exception("TA ID can not be null");
+
             string sql = "INSERT INTO ta(ta_ID, course_ID) VALUES(@taID,@courseID)";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {

@@ -64,7 +64,7 @@
                 <p class="teacher"></p>
 
                 <div class="description-area"><p class="description"></p></div>
-            <button id="description-update">修改</button><button id="description-confirm" style="display: none">確定修改</button>
+            <button id="description-update">修改課程資訊</button><button id="description-confirm" style="display: none">確定修改</button>
 
                 <ul id="ta-list" type="none">
                 </ul>
@@ -204,13 +204,15 @@
                     $(".course-name").text(response[0]._courseName);
                     $(".teacher").text("指導教授：" + response[0]._instructorID);
                     $(".description").text(response[0]._courseDescription);
-                    var listHtml = "<li><div class=\"ta-id\" style=\"display: inline-block\"><p class=\"ta\"></p></div><button class=\"delete-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
+                    var listHtml = "<li><div class=\"ta\" style=\"display: inline-block\"><p class=\"ta-id\" style=\"display: inline-block\"></p><p class=\"ta-name\" style=\"display: inline-block\"></p></div><button class=\"update-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
+
                     //如果有TA
                     if (response.length > 1) {
                         for (var i = 0; i < response[1].length; i++)
                         {
                             $("ul#ta-list").append(listHtml);
-                            $(".ta").last().text(response[1][i]);
+                            $(".ta-id").last().text(response[1][i]._id);
+                            $(".ta-name").last().text(response[1][i]._memberName);
                         }
                     }
                     else {
@@ -229,7 +231,7 @@
                 $("button#description-update").hide();
                 $("button#description-confirm").show();
                 $("#description-confirm").click(ConfirmDescription(ID));
-                
+
             }
         }
 
@@ -249,59 +251,82 @@
                         SetCourseInfo(ID);
                     }
                 });
-                
             }
         }
 
         function SubmitTa(ID, Ta_ID, instr, sourse)
         {
             return function () {
-                
+                var functionUrl;
+                if (instr == "new") {
+                    functionUrl = '@Url.Action("NewCourseTA", "Home")';
+                    Ta_ID = $(".new-ta").val();
+                }
+                else if (instr == "delete") functionUrl = '@Url.Action("DeleteCourseTA", "Home")'
                 $(".create-ta").show();
                 $(".confirm").hide();
                 $("ul#ta-list").html("");
-                var functionUrl;
-                if (instr == "new") functionUrl = '@Url.Action("NewCourseTA", "Home")'
-                else if (instr == "update") functionUrl = '@Url.Action("UpdateCourseTA", "Home")'
-                else if (instr == "delete") functionUrl = '@Url.Action("DeleteCourseTA", "Home")'
-                Ta_ID = $(".new-ta").val();
                  $.ajax({
                     type: 'POST',
                     url: functionUrl,
                     data: { "courseID": ID, "TAID": Ta_ID },
                     success: function (response) {
                         alert(response);
+                        SetCourseInfo(ID);
                     }
-                });
-                SetCourseInfo(ID);
+                 });
             }
         }
 
+        function SubmitUpdateTa(ID, Ta_ID1, Ta_ID2, sourse)
+        {
+            return function () {
+                Ta_ID2 = $(".new-ta").val();
+
+                $(".create-ta").show();
+                $(".confirm").hide();
+                $("ul#ta-list").html("");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateCourseTA", "Home")',
+                    data: { "courseID": ID, "TAID1": Ta_ID1, "TAID2": Ta_ID2 },
+                    success: function (response) {
+                        alert(response);
+                        SetCourseInfo(ID);
+                    }
+                });
+            }
+        }
+
+        //跳轉到修課學生頁面
         function DirectToStudents(ID, sourse) {
             return function () {
                 window.location.href = "/Home/Course/Students/?ID=" + ID;
             }
         }
 
+        //修改TA
         function UpdateTa(sourse) {
-
             var ID = getUrlParameter('ID');
-            $(".ta-id").html("<input type=\"text\" class=\"new-ta\"><br>");
+            var ta_ID1 = sourse.siblings(".ta").find("p.ta-id").text();
+            sourse.siblings(".ta").html("<input type=\"text\" class=\"new-ta\"><br>");
             sourse.siblings("button").hide();
             sourse.hide();
             sourse.siblings(".confirm-ta").show();
-            sourse.siblings(".confirm-ta").click(SubmitTa(ID, sourse.siblings(".new-ta").val(), "update", sourse.siblings(".confirm-ta")));
+            sourse.siblings(".confirm-ta").click(SubmitUpdateTa(ID, ta_ID1, $(".new-ta").val() , sourse.siblings(".confirm-ta")));
 
         }
 
+        //刪除TA
         function DeleteTa(sourse) {
             var ID = getUrlParameter('ID');
             sourse.siblings("button").hide();
             sourse.hide();
             sourse.siblings(".confirm-ta").show();
-            sourse.siblings(".confirm-ta").click(SubmitTa(ID, sourse.siblings(".ta").val(), "delete", sourse.siblings(".confirm-ta")));
+            sourse.siblings(".confirm-ta").click(SubmitTa(ID, sourse.siblings(".ta").find("p.ta-id").text(), "delete", sourse.siblings(".confirm-ta")));
         }
 
+        //新增TA
         function NewTa(ID, sourse) {
             return function () {
                 $(".new-ta-area").append("<input type=\"text\" class=\"new-ta\"><br>");
