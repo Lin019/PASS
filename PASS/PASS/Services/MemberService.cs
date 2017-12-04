@@ -24,7 +24,7 @@ namespace PASS.Services
         public Member GetOneMemberInfo()
         {
             if (HttpContext.Current.Session["userID"] == null) throw new Exception("Not login yet");
-            string memberID = HttpContext.Current.Session["account"].ToString();
+            string memberID = HttpContext.Current.Session["userID"].ToString();
             return _memberDao.GetOneMemberInfo(memberID);
         }
 
@@ -40,7 +40,7 @@ namespace PASS.Services
             HttpContext.Current.Session.Add("userID", id);
             try
             {
-                Member loginMember = GetOneMemberInfo();
+                Member loginMember =  GetOneMemberInfo();
                 if (loginMember._memberPassword != password)
                     throw new Exception("Incorrect Password");
             }

@@ -93,20 +93,24 @@
     
     <div id="social">
         <div class="container">
-            <div class="row centered chinese login">
+            <form id="login" class="row centered chinese login">
                 <h3>登入</h3>
                 <ul>
                     <li>
-                        <h5>請輸入您的帳號：<input type="text" name="YourAccount" placeholder="1035900xx"></h5>
+                        <h5>請輸入您的帳號：<input type="text" name="id" placeholder="未輸入"></h5>
                     </li>
                     <li>
-                        <h5>請輸入您的密碼：<input type="password" name="YourPassword" placeholder="password"></h5>
-                    </li>
-                    <li>
-                        <h5><a>忘記帳號或密碼?</a><button class="" onclick="location.href = 'http://localhost:50714/Home/Site'">登入</button></h5>
+                        <h5>請輸入您的密碼：<input type="text" name="password" placeholder="未輸入"></h5>
                     </li>
                 </ul>
-            </div><! --/row -->
+            </form>
+            <div class="row centered chinese login">
+                <ul>
+                    <li>
+                        <h5><a>忘記帳號或密碼?</a><button id="submit">登入</button></h5>
+                    </li>
+                </ul>   
+            </div><! --/row --> 
         </div><! --/container -->
     </div><! --/social -->
 
@@ -129,7 +133,7 @@
     <div class="col-md-4">
         <h2>Web Hosting</h2>
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="http://localhost:50714/Home/Site">Learn more &raquo;</a></p>
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -137,5 +141,56 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="../../Scripts/bootstrap.min.js"></script>
+    @*<script src="../../Scripts/index.js"></script>*@
+    <script>
+           //序列化
+    (function ($) {
+        $.fn.serializeFormJSON = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    })(jQuery);
+
+    $("#submit").click(function () {
+        Login();
+    });
+
+    //導向個人頁面
+    function DirectToSite() {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("RedirectPage", "Home")',
+            data: { "data": "Site" },
+            success: function (response) {
+                window.location.href = response.url;
+            }
+        });
+    };
+
+    //登入
+    function Login() {
+        var loginData = $("#login").serializeFormJSON();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Login", "Home")',
+            data: loginData,
+            success: function (response) {
+                console.log(response);
+                DirectToSite();
+            }
+        });
+    };
+    </script>
 </body>
 </html>

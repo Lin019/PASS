@@ -44,8 +44,8 @@
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
                     <h3>歡迎來到我的個人頁面，我是</h3>
-                        <h1 id="user-name">江紀武</h1>
-                        <h3 class="eng">Welcome , you are student</h3>
+                        <h1 id="user-name">載入中</h1>
+                        <h3 id="authority" class="eng">Loading...</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
@@ -64,10 +64,11 @@
                     </div>
 
                     <form class="detail" id="detail-form">
-                        <p>帳號: <input type="text" name="id" placeholder="未填入"></p><br />
-                        <p>密碼: <input type="text" name="password" placeholder="未填入"></p><br />
-                        <p>信箱: <input type="text" name="email" placeholder="未填入"></p>
+                        <p id="student-id"></p><br />
+                        <p>密碼:<input type="text" name="password" placeholder="未填入"></p><br />
+                        <p>信箱:<input type="text" name="email" placeholder="未填入"></p>
                         <input id="name" type="hidden" name="name" />
+                        <input id="student-id-hide" type="hidden" name="id" />
                     </form>
                     <button id="modify">修改</button>
                     <button id="submit">送出</button>

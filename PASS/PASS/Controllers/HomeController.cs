@@ -107,5 +107,18 @@ namespace PASS.Controllers
                 return Json(e.Message.ToString());
             }
         }
+
+        //登入
+        [HttpPost]
+        public JsonResult Login(string id , string password)
+        {
+            //_memberService.CreateUser("103590098","william6931","test","4545",1);
+            try { _memberService.Login(id, password); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
+        }
     }
 }
