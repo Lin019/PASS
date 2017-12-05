@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using PASS.Services;
 using PASS.Models;
 using Newtonsoft.Json;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace PASS.Controllers
 {
@@ -15,7 +12,7 @@ namespace PASS.Controllers
     {
         public MemberService _memberService;
         public CourseService _courseService;
-
+        public AssignmentService _assignmentService;
         public HomeController()
         {
             _memberService = new MemberService();
@@ -210,10 +207,10 @@ namespace PASS.Controllers
             Course course;
             Member instructor;
             IdAndName instructorIdName;
-            List <IdAndName> TA;
+            List<IdAndName> TA;
             try
             {
-                 course = _courseService.GetOneCourse(CourseID);//用課程ID找教授ID
+                course = _courseService.GetOneCourse(CourseID);//用課程ID找教授ID
             }
             catch
             {
@@ -222,7 +219,7 @@ namespace PASS.Controllers
             try
             {
 
-                 instructor = _memberService.GetOneMemberInfo(course._instructorID);//教授ID找教授名字 
+                instructor = _memberService.GetOneMemberInfo(course._instructorID);//教授ID找教授名字 
                 instructorIdName = new IdAndName(instructor._id, instructor._memberName);
             }
             catch
@@ -242,6 +239,35 @@ namespace PASS.Controllers
             arrayList.Add(instructorIdName);
             arrayList.Add(TA);
             return Json(arrayList);
+        }
+
+        //新增作業
+        [HttpPost]
+        public JsonResult CreatAssignment(int assignmentId, string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline, bool assignmentLate, string courseId)
+        {
+            try
+            {
+                _assignmentService.CreateAssignment( assignmentId, assignmentName, assignmentDescription, assignmentFormat, assignmentDeadline,assignmentLate, courseId);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
+            return Json("true");
+        }
+        //刪除作業
+        [HttpPost]
+        public JsonResult DeleteAssignment(string id)
+        {
+            try
+            {
+                _assignmentService.DeleteAssignment(int.Parse(id));
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
+            return Json("true");
         }
     }
 }
