@@ -84,7 +84,7 @@ namespace PASS.Dao
         }
         
         //設定單一會員個人資訊
-        public void SetOneMemberInfo(String id, string password, string name, string email)
+        public void SetOneMemberInfo(string id, string password, string name, string email)
         {
             string sql = "UPDATE user SET User_Password=@password, User_Name=@name, User_Email=@email WHERE User_ID=@ID;";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
@@ -96,8 +96,9 @@ namespace PASS.Dao
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@ID", id);
-                if (cmd.ExecuteNonQuery() == 0) throw new Exception("ID not exist");
+                if (cmd.ExecuteNonQuery() == 0) throw new Exception("User not exist");
                 return;
+
             }
         }
         
@@ -105,7 +106,6 @@ namespace PASS.Dao
         public string  CreateUser(string id,string account,string password,string name ,string email ,int type)
         {
             MySqlCommand cmd;
-            //string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
             string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {

@@ -131,41 +131,6 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
     </div>
-    <h2>Upload</h2>
-    <hr />
-
-    <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
-        <label for="file">Filename:</label>
-        <input type="file" name="file" id="file" />
-        <input type="submit" />
-    </form>
-<button id="test">取得會員資料</button>
-<button id="createUser">新增會員</button>
-
-<text>  </text>
-<script>
-    $("#test").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "GetMemberInfo",
-            dataType: "json",
-            success: function (response) {
-
-            }
-        });
-    });
-    //新增會員測試
-    $("#createUser").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "CreateUser",
-            dataType: "json",
-            success: function (response) {
-
-            }
-        });
-    });
-    </script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

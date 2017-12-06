@@ -9,3 +9,29 @@
     width:500px;
     margin:5% auto;
 }
+
+/*新增作業資訊*/
+#info
+{
+    margin-top:15px;
+    display:none;
+}
+
+#info input
+{
+    margin-left:2px;
+    width:150px;
+    height:18px;
+}
+
+/*確認送出icon*/
+#send
+{
+    display:none;
+}
+
+/*現有作業資訊*/
+#hw
+{
+    display:none;
+}

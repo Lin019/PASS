@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 新增上傳作業
 home controller跟view-index有新增上傳作業的東西，方便實測
+=======
+新增教授ID查詢授課課程
+新增課程CRUD
+新增TA CRD
+>>>>>>> develop

@@ -11,7 +11,7 @@
     background-color:#f2f2f2;
     opacity:0.8;
 }
-.course h4 /*課程名稱*/
+.course h4,h1 /*課程名稱*/
 {
     color:darkgray;
     text-align:center;
@@ -29,7 +29,7 @@
     opacity:1;
 }
 
-.course:hover h4
+.course:hover h4,.course:hover h1
 {
     transition:1s;
     color:black;

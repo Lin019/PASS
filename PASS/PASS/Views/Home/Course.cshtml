@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cache-control" content="no-store">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Personal Web">
     <meta name="author" content="Chi Wu William Chiang">
@@ -12,9 +13,10 @@
     <link href="../../Content/bootstrap.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../../Content/IndexStyle.css" rel="stylesheet">
+    <link href="../../Content/style.css" rel="stylesheet">
     <link href="../../Content/font-awesome.min.css" rel="stylesheet">
-    <link href="~/Content/animate.css" rel="stylesheet" />
-    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="../../Content/assignmentStyle.css" rel="stylesheet">
+    <link href="../../Content/animate.css" rel="stylesheet">
 </head>
 <body>
     <!-- Static navbar -->
@@ -30,9 +32,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#about">關於我</a></li>
-                    <li><a href="#course">我的課程</a></li>
-                    <li><a href="http://localhost:50714/">登出</a></li>
+                    <li class="active"><a href="http://localhost:50714/Home/Site">個人頁面</a></li>
+                    <li><a href="#about">公告</a></li>
+                    <li><a href="#works">作業</a></li>
+                    <li class="logout"><a href="http://localhost:50714/Home/Index">登出</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -43,97 +46,108 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
-                    <h3>歡迎來到我的個人頁面，我是</h3>
-                        <h1>江紀武</h1>
-                        <h3 class="eng">Welcome , you are student</h3>
+                    <h1 class="course-name">軟體工程</h1>
+                    <h3>歡迎，你的身分是學生</h3>
+                    <h3 class="eng">Welcome,you are student</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
     </div><! --/headerwrap -->
 
-    <section id="about"></section>
-    <div class="container">
-        <div class="row centered mt mb chinese  ">
-            <div class="title">
-                <h1>關於我</h1>
-            </div>
-            <div class="col-lg-12 profile">
-                <img src="../../img/demo/profile2.png" class="img-responsive">
-                <button class="" onclick="location.href = 'http://localhost:50714/Home/Course'">修改</button>
-            </div>
-            @*<div class="col-lg-4 col-md-4 col-sm-4">
-                <p>1</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <p>2</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <p>3</p>
-            </div>*@
-        </div><! --/row -->
-    </div><! --/container -->
-
-
-    <section id="course"></section>
-    <div id="about">
+    <section id="course-information"></section>
+    <div id="information">
         <div class="container">
             <div class="row centered mt mb chinese">
                 <div class="title">
-                    <h1>我的課程</h1>
+                    <h1>課程資訊</h1>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/web.jpeg" class="img-responsive">
-                        <h4>網頁設計</h4>
-                        <p>隨著行動裝置的興起，前端工程已經是業界重要的顯學。俞老師教學團隊致力於前端工程與行動裝置的教學與討論，希望能培養學生前端工程與行動裝置開發的能力。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/software.jpg" class="img-responsive">
-                        <h4>軟體工程</h4>
-                        <p>軟體工程包括兩方面內容：軟體開發技術和軟體專案管理，軟體開發技術包括軟體開發方法學、軟體工具和軟體工程環境，軟體專案管理包括項目估算、項目計畫等。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/window.jpeg" class="img-responsive">
-                        <h4>視窗程式設計</h4>
-                        <p>強調程式MVC架構，培養學生改善程式smell的能力。課程中除了使用Windows Forms還會使用單元測試，使學生寫程式不再只是追求功能，更注重程式的可修改性及可讀性。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="course chinese">
-                        <img src="../../img/course/security.jpeg" class="img-responsive">
-                        <h4>資訊安全</h4>
-                        <p>隨著資訊便利而來的是令人擔憂的資訊安全問題，唯有在確保資訊安全之前提下享受資訊便利，才是面對資訊世紀來臨的正確態度，進而迎接未來更大的挑戰與衝擊。</p>
-                        <div class="icon">
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_information.png" class="img-responsive"></a>
-                            <a href="http://localhost:50714/Home/Assignment"><img src="../../img/course/icon_enter.png" class="img-responsive"></a>
-                        </div>
-                    </div>
-                </div>
+                <p class="teacher"></p>
+
+                <div class="description-area"><p class="description"></p></div>
+            <button id="description-update">修改課程資訊</button><button id="description-confirm" style="display: none">確定修改</button>
+
+                <ul id="ta-list" type="none">
+                </ul>
+                <div class="new-ta-area"></div>
+                <button class="confirm" style="display: none">確定</button>
+                <button class="create-ta">新增TA</button>
             </div><! --/row -->
         </div><! --/container -->
     </div>
 
-   
+    <section id="about"></section>
+    <div id="about">
+        <div class="container">
+            <div class="row centered mt mb chinese">
+                <div class="title">
+                    <h1>公告</h1>
+                </div>
+                <div class="col-lg-12 demo">
+                    <img src="~/img/demo/task.png" class="img-responsive">
+                </div>
+                <button class="students">顯示所有修課學生</button>
+            </div><! --/row -->
+        </div><! --/container -->
+    </div>
+
+    <section id="works"></section>
+    <div class="container">
+        <div class="row centered mt mb chinese">
+            <div class="title">
+                <h1>作業</h1>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="course chinese">
+                    <img src="~/img/assignment/computer.png" class="img-responsive">
+                    <h4>作業一 PASS</h4>
+                    <div class="hw">
+                        <p>作業內容:</p>
+                        <p>繳交時間:</p>
+                        <p>允許遲交:</p>
+                        <p>檔案格式:</p>
+                    </div>
+                    <div class="score">
+                        @*放分數*@
+                        <h1>未輸入</h1>
+                        @*放評語*@
+                        <h4>評語:未輸入</h4>
+                    </div>
+                    <div class="icon">
+                        <a><img src="~/img/icon/icon_table.png" class="img-responsive"></a>
+                        <a><img src="~/img/icon/icon_upload.png" class="img-responsive"></a>
+                        <a class="icon_info"><img src="~/img/course/icon_information.png" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="course chinese">
+                    <img src="~/img/assignment/paper.png" class="img-responsive">
+                    <h1 class="assign">指派作業</h1>
+                    <div class="info">
+                        <p>作業名稱:<input name="assignmentName" placeholder=""></p>
+                        <p>作業內容:<input name="assignmentContent" placeholder=""></p>
+                        <p>繳交時間:<input name="submit" placeholder=""></p>
+                        <p>允許遲交:<input name="delay" placeholder=""></p>
+                        <p>檔案格式:<input name="file" placeholder=""></p>
+                    </div>
+                    <div class="icon">
+                        <a class="add"><img src="~/img/icon/icon_new.png" class="img-responsive"></a>
+                        <a class="send"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+
+            </div>
+        </div><! --/row -->
+    </div><! --/container -->
+
     <div id="social">
         <div class="container">
             <div class="row centered chinese login">
-
             </div><! --/row -->
         </div><! --/container -->
     </div><! --/social -->
@@ -160,44 +174,196 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/course.js"></script>
+
+    <script>
+
+        //頁面載入
+        $(function () {
+            var ID = getUrlParameter('ID');
+            SetCourseInfo(ID);
+            $(".logout").click(DirectToIndex);
+            var btnStudents = $("button.students");
+            btnStudents.click(DirectToStudents(ID, btnStudents));
+            $("#description-update").click(UpdateDescription(ID));
+            $(document).on('click', '.create-ta', NewTa(ID, $(".create-ta")));
+            $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
+            $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
+        });
+
+        //設定課程資訊
+        function SetCourseInfo(ID)
+        {
+            $(".new-ta-area").html("");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCourse", "Home")',
+                data: { "courseId": ID },
+                success: function (response) {
+                    $(".course-name").text(response[0]._courseName);
+                    $(".teacher").text("指導教授：" + response[0]._instructorID);
+                    $(".description").text(response[0]._courseDescription);
+                    var listHtml = "<li><div class=\"ta\" style=\"display: inline-block\"><p class=\"ta-id\" style=\"display: inline-block\"></p><p class=\"ta-name\" style=\"display: inline-block\"></p></div><button class=\"update-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
+
+                    //如果有TA
+                    if (response.length > 1) {
+                        for (var i = 0; i < response[1].length; i++)
+                        {
+                            $("ul#ta-list").append(listHtml);
+                            $(".ta-id").last().text(response[1][i]._id);
+                            $(".ta-name").last().text(response[1][i]._memberName);
+                        }
+                    }
+                    else {
+                        $(".ta").text("目前還沒有TA喔！");
+                    }
+                }
+            });
+        }
+
+        function UpdateDescription(ID, description)
+        {
+            return function () {
+                var description = $("p.description").text();
+                $("div.description-area").html("<input type=\"text\" class=\"description-input\"><br>");
+                $(".description-input").val(description);
+                $("button#description-update").hide();
+                $("button#description-confirm").show();
+                $("#description-confirm").click(ConfirmDescription(ID));
+
+            }
+        }
+
+        function ConfirmDescription(ID)
+        {
+            return function () {
+                var description = $(".description-input").val();
+                $("div.description-area").html("<p class=\"description\"></p>");
+                $("button#description-update").show();
+                $("button#description-confirm").hide();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateCourseDescription", "Home")',
+                    data: { "ID": ID, "description": description },
+                    success: function (response) {
+                        alert(response);
+                        SetCourseInfo(ID);
+                    }
+                });
+            }
+        }
+
+        function SubmitTa(ID, Ta_ID, instr, sourse)
+        {
+            return function () {
+                var functionUrl;
+                if (instr == "new") {
+                    functionUrl = '@Url.Action("NewCourseTA", "Home")';
+                    Ta_ID = $(".new-ta").val();
+                }
+                else if (instr == "delete") functionUrl = '@Url.Action("DeleteCourseTA", "Home")'
+                $(".create-ta").show();
+                $(".confirm").hide();
+                $("ul#ta-list").html("");
+                 $.ajax({
+                    type: 'POST',
+                    url: functionUrl,
+                    data: { "courseID": ID, "TAID": Ta_ID },
+                    success: function (response) {
+                        alert(response);
+                        SetCourseInfo(ID);
+                    }
+                 });
+            }
+        }
+
+        function SubmitUpdateTa(ID, Ta_ID1, Ta_ID2, sourse)
+        {
+            return function () {
+                Ta_ID2 = $(".new-ta").val();
+
+                $(".create-ta").show();
+                $(".confirm").hide();
+                $("ul#ta-list").html("");
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateCourseTA", "Home")',
+                    data: { "courseID": ID, "TAID1": Ta_ID1, "TAID2": Ta_ID2 },
+                    success: function (response) {
+                        alert(response);
+                        SetCourseInfo(ID);
+                    }
+                });
+            }
+        }
+
+        //跳轉到修課學生頁面
+        function DirectToStudents(ID, sourse) {
+            return function () {
+                window.location.href = "/Home/Course/Students/?ID=" + ID;
+            }
+        }
+
+        //修改TA
+        function UpdateTa(sourse) {
+            var ID = getUrlParameter('ID');
+            var ta_ID1 = sourse.siblings(".ta").find("p.ta-id").text();
+            sourse.siblings(".ta").html("<input type=\"text\" class=\"new-ta\"><br>");
+            sourse.siblings("button").hide();
+            sourse.hide();
+            sourse.siblings(".confirm-ta").show();
+            sourse.siblings(".confirm-ta").click(SubmitUpdateTa(ID, ta_ID1, $(".new-ta").val() , sourse.siblings(".confirm-ta")));
+
+        }
+
+        //刪除TA
+        function DeleteTa(sourse) {
+            var ID = getUrlParameter('ID');
+            sourse.siblings("button").hide();
+            sourse.hide();
+            sourse.siblings(".confirm-ta").show();
+            sourse.siblings(".confirm-ta").click(SubmitTa(ID, sourse.siblings(".ta").find("p.ta-id").text(), "delete", sourse.siblings(".confirm-ta")));
+        }
+
+        //新增TA
+        function NewTa(ID, sourse) {
+            return function () {
+                $(".new-ta-area").append("<input type=\"text\" class=\"new-ta\"><br>");
+                $(".create-ta").hide();
+                $(".confirm").show();
+                $(".confirm").click(SubmitTa(ID, $("input.new-ta").val(), "new", $(".confirm")));
+            }
+        }
+
+        //重新導向到首頁
+        function DirectToIndex() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RedirectPage", "Home")',
+                data: { "data": "Index" },
+                success: function (response) {
+                    window.location.href = response.url;
+                }
+            });
+        };
+
+        //取得url GET變數
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+
+    </script>
 </body>
 </html>
-
-
-@*<table class="curse">
-    <tr class="default">
-        <td >
-            學生姓名
-        </td>
-        <td>
-            教室名稱
-        </td>
-        <td>
-            學校名稱
-        </td>
-        <td>
-            教師姓名
-        </td>
-        <td>
-            進入
-        </td>
-    </tr>
-    <tr>
-        <td>
-            江紀武
-        </td>
-        <td>
-            注意注意醫生來了
-        </td>
-        <td>
-            學店
-        </td>
-        <td>
-            凱哥
-        </td>
-        <td>
-            <button>進入</button>
-        </td>
-    </tr>
-</table>*@
