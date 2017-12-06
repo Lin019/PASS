@@ -22,11 +22,11 @@ namespace PASS.Dao.Tests
             string courseId = "2";
 
             //act
-            string actual = _assignmentDao.CreateAssignment( name, fileFeatures, fileFormat, dateTime, assignmentLate, courseId);
+            string actual = _assignmentDao.CreateAssignment(name, fileFeatures, fileFormat, dateTime, assignmentLate, courseId);
 
             //assert
             Assert.AreEqual(actual, "success");
-           
+
             _assignmentDao.DeleteAssignment(name);
 
 
@@ -44,7 +44,7 @@ namespace PASS.Dao.Tests
         [TestMethod()]
         public void GetOneAssignmentTest()
         {
-            
+
             Assignment result = _assignmentDao.GetOneAssignment(1011);
             Assert.AreEqual("作業系統_HW1", result._assignmentName);
             Assert.AreEqual("教訓金刀", result._assignmentDescription);
@@ -78,6 +78,20 @@ namespace PASS.Dao.Tests
             Assert.AreEqual("2", result._courseId);
             _assignmentDao.UpdateOneAssignment(1, "軟工_HW1", "要你命作業一", "PDF", Convert.ToDateTime("2017/11/29 23:59:59"), false, "2");
 
+        }
+
+        [TestMethod()]
+        public void CreateAssignmentTest()
+        {
+            string name = "作業系統_HW2";
+            string fileFeatures = "教訓金刀";
+            string fileFormat = "Zip";
+            DateTime dateTime = DateTime.Now;
+            bool assignmentLate = false;
+            string courseId = "2";
+            //act
+            string actual = _assignmentDao.CreateAssignment(name, fileFeatures, fileFormat, dateTime, assignmentLate, courseId);
+            Assert.Fail();
         }
     }
 }
