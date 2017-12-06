@@ -244,6 +244,7 @@
     <Compile Include="Dao\CourseDao.cs" />
     <Compile Include="Dao\AssignmentDao.cs" />
     <Compile Include="Dao\MemberDao.cs" />
+    <Compile Include="Dao\SubmitDao.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

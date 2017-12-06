@@ -5,6 +5,7 @@ using PASS.Models;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Web;
 
 namespace PASS.Controllers
 {
@@ -13,10 +14,12 @@ namespace PASS.Controllers
         public MemberService _memberService;
         public CourseService _courseService;
         public AssignmentService _assignmentService;
+        public AssignmentUploadService _assignmentUploadService;
         public HomeController()
         {
             _memberService = new MemberService();
             _courseService = new CourseService();
+            _assignmentUploadService = new AssignmentUploadService();
         }
 
         public ActionResult Index()
@@ -269,5 +272,16 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
+        /*上傳作業
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file.ContentLength > 0)
+            {
+                _assignmentUploadService.UploadAssignment("103590038",1024, file, Server);
+            }
+            return RedirectToAction("Index");
+        }*/
+
     }
 }

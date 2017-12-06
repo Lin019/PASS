@@ -12,8 +12,9 @@ namespace PASS.Services
     public class AssignmentUploadService
     {
         private AssignmentDao _assignmentDao = new AssignmentDao();
+        private SubmitDao _submitDao = new SubmitDao();
         //上傳作業
-        public void UploadAssignment(int assignmentID,HttpPostedFileBase file,HttpServerUtilityBase server)
+        public void UploadAssignment(string studentID,int assignmentID, HttpPostedFileBase file, HttpServerUtilityBase server)
         {
             Assignment assignment = _assignmentDao.GetOneAssignment(assignmentID);
             if (assignment._assignmentLate) throw new Exception("Time out");
@@ -21,13 +22,16 @@ namespace PASS.Services
             {
                 if (file.ContentLength > 0)
                 {
-                    var fileName = Path.GetFileName(file.FileName);
-                    string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PASS";
-                    MyDocumentsPath += "\\" + assignment._courseId.ToString() + "\\" + assignment._assignmentName;
+                    if (Path.GetExtension(file.FileName) != "."+assignment._assignmentFormat.ToLower()) throw new Exception("File extension wrong");
+                    var fileName = studentID+"_" + assignment._assignmentName + Path.GetExtension(file.FileName);
+                    string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) ;
+                    string passPath = "\\PASS" + "\\" + assignment._courseId.ToString() + "\\" + assignment._assignmentName;
+                    MyDocumentsPath += passPath;
                     if (!Directory.Exists(MyDocumentsPath))
                         Directory.CreateDirectory(@MyDocumentsPath);
                     var path = Path.Combine(MyDocumentsPath, fileName);
                     file.SaveAs(path);
+                    _submitDao.SubmitAssignment(studentID, fileName, DateTime.Now, passPath, assignment._assignmentId);
                 }
             }
             else
