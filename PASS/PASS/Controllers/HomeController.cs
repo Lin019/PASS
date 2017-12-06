@@ -17,6 +17,7 @@ namespace PASS.Controllers
         {
             _memberService = new MemberService();
             _courseService = new CourseService();
+            _assignmentService = new AssignmentService();
         }
 
         public ActionResult Index()
@@ -239,6 +240,25 @@ namespace PASS.Controllers
             arrayList.Add(instructorIdName);
             arrayList.Add(TA);
             return Json(arrayList);
+        }
+
+        //讀取作業
+        public JsonResult GetOneCourseAssignments(string courseID)
+        {
+            List<Assignment> assignments;
+            try
+            {
+                assignments = _assignmentService.GetOneCourseAssignment(courseID);
+            }
+            catch (Exception e){ return Json(e.Message.ToString()); }
+
+            return Json(assignments);
+        }
+
+        //讀取作業卡片partial view
+        public ActionResult _AssignmentCard()
+        {
+            return PartialView();
         }
 
         //新增作業

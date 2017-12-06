@@ -96,34 +96,14 @@
             <div class="title">
                 <h1>作業</h1>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="course chinese">
-                    <img src="~/img/assignment/computer.png" class="img-responsive">
-                    <h4>作業一 PASS</h4>
-                    <div class="hw">
-                        <p>作業內容:</p>
-                        <p>繳交時間:</p>
-                        <p>允許遲交:</p>
-                        <p>檔案格式:</p>
-                    </div>
-                    <div class="score">
-                        @*放分數*@
-                        <h1>未輸入</h1>
-                        @*放評語*@
-                        <h4>評語:未輸入</h4>
-                    </div>
-                    <div class="icon">
-                        <a><img src="~/img/icon/icon_table.png" class="img-responsive"></a>
-                        <a><img src="~/img/icon/icon_upload.png" class="img-responsive"></a>
-                        <a class="icon_info"><img src="~/img/course/icon_information.png" class="img-responsive"></a>
-                    </div>
-                </div>
+            <div id="assignment-cards">
+
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="course chinese">
                     <img src="~/img/assignment/paper.png" class="img-responsive">
                     <h1 class="assign">指派作業</h1>
-                    <div class="info">
+                    <div class="info" style="display: none;">
                         <p>作業名稱:<input name="assignmentName" placeholder=""></p>
                         <p>作業內容:<input name="assignmentContent" placeholder=""></p>
                         <p>繳交時間:<input name="submit" placeholder=""></p>
@@ -132,7 +112,7 @@
                     </div>
                     <div class="icon">
                         <a class="add"><img src="~/img/icon/icon_new.png" class="img-responsive"></a>
-                        <a class="send"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
+                        <a class="send" style="display: none;"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
                     </div>
                 </div>
             </div>
@@ -183,14 +163,51 @@
         $(function () {
             var ID = getUrlParameter('ID');
             SetCourseInfo(ID);
+            LoadAssignments(ID);
             $(".logout").click(DirectToIndex);
             var btnStudents = $("button.students");
             btnStudents.click(DirectToStudents(ID, btnStudents));
+
             $("#description-update").click(UpdateDescription(ID));
             $(document).on('click', '.create-ta', NewTa(ID, $(".create-ta")));
             $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
             $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
         });
+
+        //讀取作業卡片
+        function LoadAssignments(ID)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneCourseAssignments", "Home")',
+                data: { "courseID": ID },
+                success: function (response) {
+                    console.log(response);
+                    SetCard(response);
+                }
+            });
+        }
+
+        //設定課程卡片
+        function SetCard(response)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("_AssignmentCard", "Home")',
+                data: '',
+                success: function (partialView) {
+                    for (i = 0; i < response.length; i++) {
+
+                        $("#assignment-cards").append(partialView);
+                        $(".hw-description").text("作業描述：" + response[i]._assignmentDescription);
+                        var date = new Date(parseInt(response[i]._assignmentDeadline.substr(6)));
+                        $(".hw-deadline").text("繳交期限：" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
+                        $(".hw-late").text("允許遲交：" + response[i]._assignmentLate);
+                        $(".hw-format").text("檔案格式：" + response[i]._assignmentFormat);
+                    }
+                }
+            });
+        }
 
         //設定課程資訊
         function SetCourseInfo(ID)
