@@ -172,6 +172,7 @@
             $(document).on('click', '.create-ta', NewTa(ID, $(".create-ta")));
             $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
             $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
+            $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
         });
 
         //讀取作業卡片
@@ -182,6 +183,7 @@
                 url: '@Url.Action("GetOneCourseAssignments", "Home")',
                 data: { "courseID": ID },
                 success: function (response) {
+                    $("#assignment-cards").html("");
                     console.log(response);
                     SetCard(response);
                 }
@@ -197,14 +199,28 @@
                 data: '',
                 success: function (partialView) {
                     for (i = 0; i < response.length; i++) {
-
-                        $("#assignment-cards").append(partialView);
-                        $(".hw-description").text("作業描述：" + response[i]._assignmentDescription);
+                        $("#assignment-cards").last().append(partialView);
+                        $(".hw-id").last().text(response[i]._assignmentId);
+                        $(".hw-description").last().text("作業描述：" + response[i]._assignmentDescription);
                         var date = new Date(parseInt(response[i]._assignmentDeadline.substr(6)));
-                        $(".hw-deadline").text("繳交期限：" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
-                        $(".hw-late").text("允許遲交：" + response[i]._assignmentLate);
-                        $(".hw-format").text("檔案格式：" + response[i]._assignmentFormat);
+                        $(".hw-deadline").last().text("繳交期限：" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
+                        $(".hw-late").last().text("允許遲交：" + response[i]._assignmentLate);
+                        $(".hw-format").last().text("檔案格式：" + response[i]._assignmentFormat);
                     }
+                }
+            });
+        }
+
+        //刪除作業按鈕按下
+        function DeleteAssignment(source)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteAssignment", "Home")',
+                data: { "id": source.siblings(".hw-id").text() },
+                success: function (response) {
+                    alert(response);
+                    LoadAssignments(getUrlParameter('ID'));
                 }
             });
         }

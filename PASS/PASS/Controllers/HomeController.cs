@@ -285,9 +285,9 @@ namespace PASS.Controllers
             }
             catch (Exception e)
             {
-                return Json(e.Message.ToString());
+                return Json("作業刪除失敗，原因：" + e.Message.ToString());
             }
-            return Json("true");
+            return Json("作業刪除成功！");
         }
     }
 }
