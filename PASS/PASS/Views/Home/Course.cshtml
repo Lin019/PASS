@@ -104,15 +104,21 @@
                     <img src="~/img/assignment/paper.png" class="img-responsive">
                     <h1 class="assign">指派作業</h1>
                     <div class="info" style="display: none;">
-                        <p>作業名稱:<input name="assignmentName" placeholder=""></p>
-                        <p>作業內容:<input name="assignmentContent" placeholder=""></p>
-                        <p>繳交時間:<input name="submit" placeholder=""></p>
-                        <p>允許遲交:<input name="delay" placeholder=""></p>
-                        <p>檔案格式:<input name="file" placeholder=""></p>
+                        <p>作業名稱:<input class="assignment-name" placeholder=""></p>
+                        <p>作業描述:<input class="assignment-description" placeholder=""></p>
+                        <p>繳交期限:</p>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control assignment-deadline" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <p>允許遲交:<input class="assignment-late" placeholder=""></p>
+                        <p>檔案格式:<input class="assignment-format" placeholder=""></p>
                     </div>
                     <div class="icon">
                         <a class="add"><img src="~/img/icon/icon_new.png" class="img-responsive"></a>
-                        <a class="send" style="display: none;"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
+                        <a class="create-send" style="display: none;"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
                     </div>
                 </div>
             </div>
@@ -155,12 +161,15 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/course.js"></script>
 
     <script>
 
         //頁面載入
         $(function () {
+            $('#datetimepicker1').datetimepicker();
             var ID = getUrlParameter('ID');
             SetCourseInfo(ID);
             LoadAssignments(ID);
@@ -173,6 +182,7 @@
             $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
             $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
             $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
+            $(document).on('click', '.create-send', CreateAssignment(ID));
         });
 
         //讀取作業卡片
@@ -190,7 +200,7 @@
             });
         }
 
-        //設定課程卡片
+        //設定作業卡片
         function SetCard(response)
         {
             $.ajax({
@@ -200,6 +210,7 @@
                 success: function (partialView) {
                     for (i = 0; i < response.length; i++) {
                         $("#assignment-cards").last().append(partialView);
+                        $(".hw-name").last().text(response[i]._assignmentName);
                         $(".hw-id").last().text(response[i]._assignmentId);
                         $(".hw-description").last().text("作業描述：" + response[i]._assignmentDescription);
                         var date = new Date(parseInt(response[i]._assignmentDeadline.substr(6)));
@@ -209,6 +220,28 @@
                     }
                 }
             });
+        }
+
+        //新增作業
+        function CreateAssignment(ID)
+        {
+            return function () {
+                var name = $(".assignment-name").val();
+                var description = $(".assignment-description").val();
+                var deadline = $(".assignment-deadline").val();
+                var late = $(".assignment-late").val();
+                var format = $(".assignment-format").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("CreateAssignment", "Home")',
+                    data: { "name": name, "description": description, "format": format, "deadlineString": deadline, "late": late, "courseID": ID },
+                    success: function (response) {
+                        alert(response);
+                        $("input").val("");
+                        LoadAssignments(ID);
+                    }
+                });
+            }
         }
 
         //刪除作業按鈕按下
