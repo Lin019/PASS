@@ -272,8 +272,8 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
-        /*上傳作業
-        [HttpPost]
+        //上傳作業
+        /*[HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
             if (file.ContentLength > 0)
