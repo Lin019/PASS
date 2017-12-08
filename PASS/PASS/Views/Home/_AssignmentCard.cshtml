@@ -1,12 +1,12 @@
 ﻿<div class="col-lg-3 col-md-3 col-sm-3">
     <div class="course chinese">
         <img src="~/img/assignment/computer.png" class="img-responsive">
-        <h4 class="hw-name">作業一 PASS</h4>
+        <h4 class="hw-name hw-text">作業一 PASS</h4><input class="hw-name-update hw-modify" style="display: none;">
         <div class="hw" style="display: none;">
-            <p class="hw-description">作業內容:</p>
-            <p class="hw-deadline">繳交時間:</p>
-            <p class="hw-late">允許遲交:</p>
-            <p class="hw-format">檔案格式:</p>
+            <p>作業內容:</p><p class="hw-description hw-text"></p><input class="hw-description-update hw-modify" style="display: none;">
+            <p>繳交時間:</p><p class="hw-deadline hw-text"></p><input class="hw-deadline-update hw-modify" style="display: none;">
+            <p>允許遲交:</p><p class="hw-late hw-text"></p><input class="hw-late-update hw-modify" style="display: none;">
+            <p>檔案格式:</p><p class="hw-format hw-text"><p><input class="hw-format-update hw-modify" style="display: none;">
         </div>
         <div class="score" style="display: none;">
             @*放分數*@
@@ -20,6 +20,7 @@
             <a class="icon_info"><img src="~/img/course/icon_information.png" class="img-responsive"></a>
         </div>
         <p class="hw-id" style="display: none;"></p>
+        <button class="update-hw">修改作業</button><button class="confirm-update-hw" style="display:none;">確定修改</button>
         <button class="delete-hw">刪除作業</button>
     </div>
 </div>

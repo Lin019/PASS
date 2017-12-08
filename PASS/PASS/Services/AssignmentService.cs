@@ -21,6 +21,12 @@ namespace PASS.Services
             return _assignmentDao.CreateAssignment(assignmentName, assignmentDescription, assignmentFormat, assignmentDeadline, assignmentLate, courseId);
         }
 
+        //修改作業
+        public void UpdateAssignment(int id, string name, string description, string format, DateTime deadline, bool late)
+        {
+            _assignmentDao.UpdateOneAssignment(id, name, description, format, deadline, late);
+        }
+
         //刪除作業
         public string DeleteAssignment(int assignmentID)
         {

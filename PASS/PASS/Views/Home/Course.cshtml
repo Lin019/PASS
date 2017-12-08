@@ -182,8 +182,62 @@
             $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
             $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
             $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
+            $(document).on('click', '.update-hw', function (event) { UpdateAssignment($(event.target)) });
             $(document).on('click', '.create-send', CreateAssignment(ID));
         });
+
+        function UpdateAssignment(source) {
+            var name = source.siblings(".hw-name").text();
+            var description = source.siblings(".hw").find(".hw-description").text();
+            var deadline = source.siblings(".hw").find(".hw-deadline").text();
+            var late = source.siblings(".hw").find(".hw-late").text();
+            var format = source.siblings(".hw").find(".hw-format").text();
+
+            //修改輸入欄預設原本的資訊
+            source.siblings(".hw-name-update").val(name);
+            source.siblings(".hw").find(".hw-description-update").val(description);
+            source.siblings(".hw").find(".hw-deadline-update").val(deadline);
+            source.siblings(".hw").find(".hw-late-update").val(late);
+            source.siblings(".hw").find(".hw-format-update").val(format);
+
+            //顯示input 隱藏原本的字
+            source.siblings(".hw-modify").show();
+            source.siblings(".hw").find(".hw-modify").show();
+            source.siblings(".hw-text").text("");
+            source.siblings(".hw").find(".hw-text").text("");
+
+            //顯示按鈕
+            source.hide();
+            source.siblings(".confirm-update-hw").show();
+
+            source.siblings(".confirm-update-hw").click(ConfirmUpdateAssignment(source));
+        }
+
+        function ConfirmUpdateAssignment(source)
+        {
+            return function () {
+                var ID = source.siblings(".hw-id").text();
+
+                var name = source.siblings(".hw-name-update").val();
+                var description = source.siblings(".hw").find(".hw-description-update").val();
+                var deadline = source.siblings(".hw").find(".hw-deadline-update").val();
+                var late = source.siblings(".hw").find(".hw-late-update").val();
+                var format = source.siblings(".hw").find(".hw-format-update").val();
+
+                source.siblings(".hw").find(".hw-modify").hide();
+                source.siblings(".hw-modify").hide();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateAssignment", "Home")',
+                    data: { "ID": ID, "name": name, "description": description, "format": format, "deadlineString": deadline, "late": late },
+                    success: function (response) {
+                        alert(response);
+                        LoadAssignments(getUrlParameter('ID'));
+                    }
+                });
+            }
+        }
 
         //讀取作業卡片
         function LoadAssignments(ID)
@@ -212,11 +266,11 @@
                         $("#assignment-cards").last().append(partialView);
                         $(".hw-name").last().text(response[i]._assignmentName);
                         $(".hw-id").last().text(response[i]._assignmentId);
-                        $(".hw-description").last().text("作業描述：" + response[i]._assignmentDescription);
+                        $(".hw-description").last().text(response[i]._assignmentDescription);
                         var date = new Date(parseInt(response[i]._assignmentDeadline.substr(6)));
-                        $(".hw-deadline").last().text("繳交期限：" + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
-                        $(".hw-late").last().text("允許遲交：" + response[i]._assignmentLate);
-                        $(".hw-format").last().text("檔案格式：" + response[i]._assignmentFormat);
+                        $(".hw-deadline").last().text(date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
+                        $(".hw-late").last().text(response[i]._assignmentLate);
+                        $(".hw-format").last().text(response[i]._assignmentFormat);
                     }
                 }
             });

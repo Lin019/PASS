@@ -261,6 +261,20 @@ namespace PASS.Controllers
             return PartialView();
         }
 
+        public JsonResult UpdateAssignment(int ID, string name, string description, string format, string deadlineString, bool late)
+        {
+            DateTime deadline;
+            try
+            {
+                deadline = Convert.ToDateTime(deadlineString);
+            }
+            catch { return Json("時間轉換失敗"); }
+            try { _assignmentService.UpdateAssignment(ID, name, description, format, deadline, late); }
+            catch(Exception e) { return Json(e.Message); }
+
+            return Json("作業修改成功！");
+        }
+
         //新增作業
         public JsonResult CreateAssignment(string name, string description, string format, string deadlineString, bool late, string courseID)
         {

@@ -125,9 +125,9 @@ namespace PASS.Dao
             }
         }
         //更改一作業內容
-        public void UpdateOneAssignment(int id, string name, string description, string format, DateTime deadline, bool late, string courseID)
+        public void UpdateOneAssignment(int id, string name, string description, string format, DateTime deadline, bool late)
         {
-            string sql = "UPDATE assignment SET assignment_Name=@name, assignment_Description=@description, assignment_Format=@format, assignment_Deadline=@deadline, assignment_late=@late, course_ID=@courseID WHERE assignment_ID=@id;";
+            string sql = "UPDATE assignment SET assignment_Name=@name, assignment_Description=@description, assignment_Format=@format, assignment_Deadline=@deadline, assignment_late=@late WHERE assignment_ID=@id;";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
@@ -139,7 +139,7 @@ namespace PASS.Dao
                 cmd.Parameters.AddWithValue("@format", format);
                 cmd.Parameters.AddWithValue("@deadline", deadline);
                 cmd.Parameters.AddWithValue("@late", late);
-                cmd.Parameters.AddWithValue("@courseID", courseID);
+                //cmd.Parameters.AddWithValue("@courseID", courseID);
                 if (cmd.ExecuteNonQuery() == 0) throw new Exception("Assignment not exist");
                 return;
             }
