@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Web.Configuration;
 using PASS.Models;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PASS.Dao
 {
@@ -43,7 +44,6 @@ namespace PASS.Dao
                 try
                 {
                     cmd.ExecuteReader(); //execure the reader
-                    return "success";
                 }
                 catch (Exception e)
                 {
@@ -52,7 +52,12 @@ namespace PASS.Dao
                 }
                
             }
-
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\PASS";
+            MyDocumentsPath += "\\" + courseId.ToString() + "\\" + assignmentName;
+            if (!Directory.Exists(MyDocumentsPath))
+                //新增資料夾
+                Directory.CreateDirectory(@MyDocumentsPath);
+            return "fail";
         }
         //刪除作業 測試用
         public string DeleteAssignment(string assignmentName)
