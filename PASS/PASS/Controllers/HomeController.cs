@@ -264,19 +264,39 @@ namespace PASS.Controllers
             return PartialView();
         }
 
-        //新增作業
-        [HttpPost]
-        public JsonResult CreatAssignment(int assignmentId, string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline, bool assignmentLate, string courseId)
+        public JsonResult UpdateAssignment(int ID, string name, string description, string format, string deadlineString, bool late)
         {
+            DateTime deadline;
             try
             {
-                _assignmentService.CreateAssignment( assignmentId, assignmentName, assignmentDescription, assignmentFormat, assignmentDeadline,assignmentLate, courseId);
+                deadline = Convert.ToDateTime(deadlineString);
+            }
+            catch { return Json("時間轉換失敗"); }
+            try { _assignmentService.UpdateAssignment(ID, name, description, format, deadline, late); }
+            catch(Exception e) { return Json(e.Message); }
+
+            return Json("作業修改成功！");
+        }
+
+        //新增作業
+        public JsonResult CreateAssignment(string name, string description, string format, string deadlineString, bool late, string courseID)
+        {
+            DateTime deadline;
+            try
+            {
+                deadline = Convert.ToDateTime(deadlineString);
+            }
+            catch { return Json("時間轉換失敗"); }
+
+            try
+            {
+                _assignmentService.CreateAssignment(name, description, format, deadline, late, courseID);
             }
             catch (Exception e)
             {
                 return Json(e.Message.ToString());
             }
-            return Json("true");
+            return Json("新增作業：" + name + "成功");
         }
         //刪除作業
         [HttpPost]
