@@ -153,6 +153,7 @@ namespace PASS.Controllers
             try { courseData.Add(_courseService.GetOneCourseTA(courseId)); }
             catch (Exception e)
             {
+                return Json("讀取失敗，原因：" + e.Message);
             }
 
             return Json(courseData);
