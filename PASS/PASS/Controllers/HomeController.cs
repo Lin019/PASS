@@ -29,6 +29,11 @@ namespace PASS.Controllers
             return View();
         }
 
+        public ActionResult Assignment()
+        {
+            return View();
+        }
+
         public ActionResult Site()
         {
             ViewBag.Title = "我的課程";
@@ -136,6 +141,22 @@ namespace PASS.Controllers
         public PartialViewResult GetCourseCard()
         {
             return PartialView("_CourseCard");
+        }
+
+        public JsonResult GetOneAssignmentSubmitInfo(int assignmentID)
+        {
+            Assignment assignment;
+            SubmitInfo submitInfo;
+            try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
+            catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+            try { submitInfo = _assignmentUploadService.GetOneSubmitInfo(_memberService.GetOneMemberInfo()._id, assignmentID); }
+            catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+
+            ArrayList list = new ArrayList();
+            list.Add(assignment);
+            list.Add(submitInfo);
+
+            return Json(list);
         }
 
         //取得課程資料

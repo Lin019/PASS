@@ -15,6 +15,12 @@ namespace PASS.Services
             _assignmentDao = new AssignmentDao();
         }
 
+        //讀取作業
+        public Assignment GetOneAssignment(int assignmentID)
+        {
+            return _assignmentDao.GetOneAssignment(assignmentID);
+        }
+
         //新增作業
         public string CreateAssignment(string assignmentName, string assignmentDescription, string assignmentFormat, DateTime assignmentDeadline,bool assignmentLate, string courseId)
         {

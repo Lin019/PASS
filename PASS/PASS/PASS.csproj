@@ -384,6 +384,7 @@
     <Content Include="Views\Home\Course.cshtml" />
     <Content Include="Views\Home\CourseStudents.cshtml" />
     <Content Include="Views\Home\_AssignmentCard.cshtml" />
+    <Content Include="Views\Home\Assignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

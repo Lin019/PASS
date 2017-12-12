@@ -17,3 +17,7 @@ $(document).on('click', '.icon_info', function () {
     $(".hw").toggle();
     $(".score").toggle();
 });
+
+$(document).on('click', '.icon_showAssignment', function (event) {
+    window.location.href = "/Home/Assignment?ID=" + $(event.target).parent().parent(".icon").siblings(".hw-id").text();
+});
