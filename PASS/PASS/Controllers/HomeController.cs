@@ -59,11 +59,11 @@ namespace PASS.Controllers
             catch (Exception e)
             {
                 return Json(e.Message);
-            }
-            
-            return Json(new { } );
-        }
+            } 
 
+            return Json(courses);
+        }
+        
         public JsonResult GetOneCourseStudents(string courseID)
         {
             List<IdAndName> students;
@@ -131,11 +131,11 @@ namespace PASS.Controllers
             }
             return Json("編輯成功！");
         }
-
+        
         //取得課程卡片partial view
-        public PartialViewResult GetCourseCard()
+        public ActionResult _CourseCard()
         {
-            return PartialView("_CourseCard");
+            return PartialView();
         }
 
         //取得課程資料
@@ -170,25 +170,31 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
-        
-        //新增帳號
+
+        /// <summary>
+        /// 新增帳號
+        /// </summary>
+        /// <param name="id">學號</param>
+        /// <param name="password">密碼</param>
+        /// <param name="name">姓名</param>
+        /// <param name="email">電子郵件</param>
+        /// <param name="type">身分</param>
+        /// <returns>
+        /// 成功回傳 json檔 "success"字串
+        /// 失敗回傳 json檔 "fail" 字串 +拋例外
+        /// </returns>
         [HttpPost]
-        public JsonResult CreateUser(string id, string account, string password, string name, string email, int type)
+        public JsonResult CreateUser(string id, string password, string name, string email, int authority)
         {
-            /*string id, string account, string password, string name, string email, int type*/
-            /*string  id = "998";
-            string account = "FUCK";
-            string password = "123";
-            string  name = "55";
-            string email = "123@456";
-            int type = 1;*/
-            return Json(_memberService.CreateUser(id, account, password, name, email, type));
+            return Json(_memberService.CreateUser(id, password, name, email, authority));
         }
 
         //取得會員資料
         [HttpPost]
         public JsonResult GetOneMemberInfo()
         {
+            //Member member = new Member("103590013","william6931","test","a912686931@gmail.com",1);
+            //return Json(member);
             try
             {
                 return Json(_memberService.GetOneMemberInfo());
@@ -198,7 +204,7 @@ namespace PASS.Controllers
                 return Json(e.Message.ToString());
             }
         }
-
+        
         /// <summary>
         /// [0]是課程物件 [1]是教授物件 [3]是TA物件
         /// </summary>
@@ -324,5 +330,17 @@ namespace PASS.Controllers
             return RedirectToAction("Index");
         }*/
 
+        //登入
+        [HttpPost]
+        public JsonResult Login(string id , string password)
+        {
+            //_memberService.CreateUser("103590098","william6931","test","4545",1);
+            try { _memberService.Login(id, password); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
+        }
     }
 }

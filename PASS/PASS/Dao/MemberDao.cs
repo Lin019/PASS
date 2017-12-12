@@ -101,12 +101,24 @@ namespace PASS.Dao
 
             }
         }
-        
-        //新增帳號
-        public string  CreateUser(string id,string account,string password,string name ,string email ,int type)
+
+        /// <summary>
+        /// 新增帳號
+        /// </summary>
+        /// <param name="id">學號</param>
+        /// <param name="password">密碼</param>
+        /// <param name="name">姓名</param>
+        /// <param name="email">電子郵件</param>
+        /// <param name="type">身分</param>
+        /// <returns>
+        /// 成功回傳 success
+        /// 失敗回傳 fail 拋例外
+        /// </returns>
+
+        public string CreateUser(string id, string password, string name, string email, int authority)
         {
             MySqlCommand cmd;
-            string sql = @"INSERT INTO member (memberID , memberAccount, memberPassword, memberName, memberEmail, memberType) VALUES (@ID,@Account,@Password,@Name,@Email,@Type)";
+            string sql = @"INSERT INTO user (user_ID , user_Password, user_Name, user_Email, user_Authority) VALUES (@ID,@Password,@Name,@Email,@Authority)";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
@@ -114,25 +126,57 @@ namespace PASS.Dao
                 List<Member> result = new List<Member>();
                 cmd = new MySqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@ID", id);
-                cmd.Parameters.AddWithValue("@Account", account);
                 cmd.Parameters.AddWithValue("@Password", password);
                 cmd.Parameters.AddWithValue("@Name", name);
                 cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Type",type);
+                cmd.Parameters.AddWithValue("@Authority", authority);
                 try
                 {
                     cmd.ExecuteReader(); //execure the reader
+                    return "success";
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
-                    return e.Message.ToString();
+                    return "fail";
+                    throw e;
                 }
-                return "success";
+
             }
-            
+
         }
-        
+        /// <summary>
+        /// 刪除帳號 測試用
+        /// </summary>
+        /// <param name="id">學號</param>
+        /// <returns>
+        /// 成功回傳 success
+        /// 失敗回傳 fail 拋例外
+        /// </returns>
+
+        public string DeleteUser(string id)
+        {
+            MySqlCommand cmd;
+            string sql = @"DELETE FROM user WHERE user_ID=@id";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@ID", id);
+                try
+                {
+                    cmd.ExecuteReader(); //execure the reader
+                    return "success";
+                }
+                catch (Exception e)
+                {
+                    return "fail";
+                    throw e;
+                }
+
+            }
+
+        }
+
     }
 
 }

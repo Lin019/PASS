@@ -24,7 +24,7 @@ namespace PASS.Services
         public Member GetOneMemberInfo()
         {
             if (HttpContext.Current.Session["userID"] == null) throw new Exception("Not login yet");
-            string memberID = HttpContext.Current.Session["account"].ToString();
+            string memberID = HttpContext.Current.Session["userID"].ToString();
             return _memberDao.GetOneMemberInfo(memberID);
         }
 
@@ -45,7 +45,7 @@ namespace PASS.Services
             HttpContext.Current.Session.Add("userID", id);
             try
             {
-                Member loginMember = GetOneMemberInfo();
+                Member loginMember =  GetOneMemberInfo();
                 if (loginMember._memberPassword != password)
                     throw new Exception("Incorrect Password");
                 HttpContext.Current.Session.Add("userAuthority", loginMember._memberType);
@@ -60,9 +60,10 @@ namespace PASS.Services
 
         }
 
-        public string  CreateUser(string id, string account, string password, string name, string email, int type)
+        //新增帳號 service
+        public string CreateUser(string id, string password, string name, string email, int authority)
         {
-            return _memberDao.CreateUser(id, account, password, name, email, type);
+            return _memberDao.CreateUser(id, password, name, email, authority);
         }
         
     }
