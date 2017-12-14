@@ -298,18 +298,12 @@ namespace PASS.Controllers
             return File(filePath, mimeString, submit._submitName);
         }
         [HttpGet]
-        public ActionResult UnzipDownload1()
+        public ActionResult UnzipDownload1(int assignmentID)
         {
-            string studentID = "103590038";
-            int assignmentID = 1024;
-            SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
-            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = MyDocumentsPath + submit._submitUrl + "\\" + submit._submitName;
-            var fileStream = new FileStream(filePath, FileMode.Open);
-            var zipInputStream = new ZipInputStream(fileStream);
-            var entry = zipInputStream.GetNextEntry();
-            string mimeString = MimeMapping.GetMimeMapping(entry.Name);
-            return File(zipInputStream, mimeString, Url.Encode(entry.Name));
+            string filePath = _assignmentUploadService.UnzipIntoFolder(assignmentID);
+            string fileName = Path.GetFileName(filePath);
+            string mimeString = MimeMapping.GetMimeMapping(filePath);
+            return File(filePath, mimeString, fileName);
         }
     }
 }

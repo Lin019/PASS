@@ -50,21 +50,38 @@ namespace PASS.Services
         {
             return _submitDao.GetOneSubmitInfo(studentID, assignmentID);
         }
-        //將作業解壓縮到一資料夾
-        public string UnzipIntoFolder(string studentID,int assignmentID)
+        //將一作業所有繳交解壓縮到一資料夾，然後壓縮該資料夾並回傳其URL
+        public string UnzipIntoFolder(int assignmentID)
         {
-            SubmitInfo submit = DownloadAssignmentInfo(studentID, assignmentID);
-            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = MyDocumentsPath + submit._submitUrl + submit._submitName;
-            String assetName = Path.GetFileNameWithoutExtension(submit._submitName);
-            string zipPath = MyDocumentsPath + submit._submitUrl+"Unzip\\" + assetName;
-            //System.IO.Compression.ZipFile.CreateFromDirectory(filePath, zipPath);
-            if (!Directory.Exists(filePath)) throw new Exception("File not found");
-            if (!Directory.Exists(zipPath)) Directory.CreateDirectory(@zipPath);
-            System.IO.Compression.ZipFile.ExtractToDirectory(filePath, zipPath);
-            //↑有可能出現檔案重複Exception
-            return zipPath;
+            List<string> studentID = new List<string>();
+            studentID = _submitDao.GetOneAssignmentSubmitStudentList(assignmentID);
+            string returnString = null;
+            while(studentID.Count()>0)
+            {
+                SubmitInfo submit = DownloadAssignmentInfo(studentID[0], assignmentID);
+                string fileExtension = Path.GetExtension(submit._submitName).ToLower();
+                if (fileExtension != ".zip" && fileExtension != ".rar") throw new Exception("File is not ZIP or RAR");
+                string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string filePath = MyDocumentsPath + submit._submitUrl + submit._submitName;
+                String assetName = Path.GetFileNameWithoutExtension(submit._submitName);
+                string zipPath = MyDocumentsPath + submit._submitUrl + "Unzip\\" + assetName;
+                if (!File.Exists(filePath)) throw new Exception("File not found");
+                if (Directory.Exists(zipPath)) Directory.Delete(@zipPath, true);
+                if (!Directory.Exists(zipPath)) Directory.CreateDirectory(@zipPath);
+                System.IO.Compression.ZipFile.ExtractToDirectory(filePath, zipPath);
+                studentID.RemoveAt(0);
+                if(studentID.Count()==0)
+                {
+                    returnString = MyDocumentsPath + submit._submitUrl + "homework.zip";
+                    if (File.Exists(returnString)) File.Delete(returnString);
+                    System.IO.Compression.ZipFile.CreateFromDirectory(MyDocumentsPath + submit._submitUrl + "Unzip\\", returnString);
+                    string unzipPath = MyDocumentsPath + submit._submitUrl + "Unzip\\";
+                    if (Directory.Exists(unzipPath)) Directory.Delete(@unzipPath, true);
+                }
+            }
+            return returnString;
         }
+
         /// <summary>
         /// 寄確認信
         /// </summary>

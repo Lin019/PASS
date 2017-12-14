@@ -15,7 +15,7 @@ namespace PASS.Services.Tests
         [TestMethod()]
         public void UnzipTest()
         {
-            _assignmentUploadService.UnzipIntoFolder("103590038",1024);
+            _assignmentUploadService.UnzipIntoFolder(1024);
             Assert.Fail();
         }
     }
