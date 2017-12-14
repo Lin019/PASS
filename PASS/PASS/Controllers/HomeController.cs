@@ -6,7 +6,8 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
-
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace PASS.Controllers
 {
@@ -288,7 +289,7 @@ namespace PASS.Controllers
         [HttpGet]
         public virtual ActionResult Download(string studentID, int assignmentID)
         {
-            /*string studentID = "103590038;
+            /*string studentID = "103590038";
             int assignmentID = 1024;*/
             SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
             string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -296,6 +297,19 @@ namespace PASS.Controllers
             string mimeString = MimeMapping.GetMimeMapping(submit._submitName);
             return File(filePath, mimeString, submit._submitName);
         }
-
+        [HttpGet]
+        public ActionResult UnzipDownload1()
+        {
+            string studentID = "103590038";
+            int assignmentID = 1024;
+            SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = MyDocumentsPath + submit._submitUrl + "\\" + submit._submitName;
+            var fileStream = new FileStream(filePath, FileMode.Open);
+            var zipInputStream = new ZipInputStream(fileStream);
+            var entry = zipInputStream.GetNextEntry();
+            string mimeString = MimeMapping.GetMimeMapping(entry.Name);
+            return File(zipInputStream, mimeString, Url.Encode(entry.Name));
+        }
     }
 }

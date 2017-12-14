@@ -41,6 +41,10 @@ namespace PASS.Services
             else
                 throw new Exception("File isn't selected");
         }
-
+        //下載作業資訊
+        public SubmitInfo DownloadAssignmentInfo(string studentID,int assignmentID)
+        {
+            return _submitDao.GetOneSubmitInfo(studentID, assignmentID);
+        }
     }
 }
