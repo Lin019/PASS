@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Web;
 
+
 namespace PASS.Controllers
 {
     public class HomeController : Controller
@@ -282,6 +283,19 @@ namespace PASS.Controllers
             }
             return RedirectToAction("Index");
         }*/
+        //下載作業
+        
+        [HttpGet]
+        public virtual ActionResult Download(string studentID, int assignmentID)
+        {
+            /*string studentID = "103590038;
+            int assignmentID = 1024;*/
+            SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = MyDocumentsPath + submit._submitUrl + "\\" + submit._submitName;
+            string mimeString = MimeMapping.GetMimeMapping(submit._submitName);
+            return File(filePath, mimeString, submit._submitName);
+        }
 
     }
 }

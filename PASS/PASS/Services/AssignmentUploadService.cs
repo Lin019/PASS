@@ -14,10 +14,14 @@ namespace PASS.Services
         private AssignmentDao _assignmentDao = new AssignmentDao();
         private SubmitDao _submitDao = new SubmitDao();
         //上傳作業
-        public void UploadAssignment(string studentID,int assignmentID, HttpPostedFileBase file, HttpServerUtilityBase server)
+        public void UploadAssignment(string studentID,int assignmentID, HttpPostedFileBase file)
         {
             Assignment assignment = _assignmentDao.GetOneAssignment(assignmentID);
-            if (assignment._assignmentLate) throw new Exception("Time out");
+            if(DateTime.Compare(assignment._assignmentDeadline,DateTime.Now)<0)
+            {
+                if (!assignment._assignmentLate) throw new Exception("Time out");
+            }
+            
             if (file != null)
             {
                 if (file.ContentLength > 0)
@@ -37,5 +41,6 @@ namespace PASS.Services
             else
                 throw new Exception("File isn't selected");
         }
+
     }
 }
