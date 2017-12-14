@@ -7,6 +7,9 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using PASS.Dao;
 using PASS.Models;
+using System.Net.Mail;
+using System.Net;
+
 namespace PASS.Services
 {
     public class AssignmentUploadService
@@ -21,7 +24,7 @@ namespace PASS.Services
             {
                 if (!assignment._assignmentLate) throw new Exception("Time out");
             }
-
+            MemberDao member = new MemberDao();
             if (file != null)
             {
                 if (file.ContentLength > 0)
@@ -35,6 +38,7 @@ namespace PASS.Services
                         Directory.CreateDirectory(@MyDocumentsPath);
                     var path = Path.Combine(MyDocumentsPath, fileName);
                     file.SaveAs(path);
+                    SendAssignmentUploadMail(assignment._assignmentName, member.GetOneMemberInfo(studentID)._memberEmail);//寄確認信
                     _submitDao.SubmitAssignment(studentID, fileName, DateTime.Now, passPath, assignment._assignmentId);
                 }
             }
@@ -60,6 +64,29 @@ namespace PASS.Services
             System.IO.Compression.ZipFile.ExtractToDirectory(filePath, zipPath);
             //↑有可能出現檔案重複Exception
             return zipPath;
+        }
+        /// <summary>
+        /// 寄確認信
+        /// </summary>
+        /// <param name="assignmentName">作業名稱</param>
+        /// <param name="studentEmail">學生EMAIL</param>
+        private void SendAssignmentUploadMail(string assignmentName, string studentEmail)
+        {
+            String SenderGmail = "passntut@gmail.com";
+
+            MailMessage Message = new MailMessage();//MailMessage(寄信者, 收信者) 
+            Message.From = new MailAddress(SenderGmail); ;
+            // 新增收件人 
+
+            Message.To.Add(studentEmail);
+            Message.IsBodyHtml = true;
+            Message.BodyEncoding = System.Text.Encoding.UTF8;//E-mail編碼 	 
+            Message.Subject = "您的 " + assignmentName + " 已繳交";//E-mail主旨 
+            Message.Body = "[E]  " + DateTime.Now.ToString() + "您的" + assignmentName + "已繳交";//E-mail內容 
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            client.Credentials = new NetworkCredential(SenderGmail, "esdrevyehvutbvtb");
+            client.EnableSsl = true;
+            client.Send(Message);    
         }
     }
 }
