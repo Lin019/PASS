@@ -377,12 +377,12 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Services\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Site.cshtml" />
-    <Content Include="Views\Home\Course.cshtml" />
-    <Content Include="Views\Home\CourseStudents.cshtml" />
+    <Content Include="Services\Home\Site.cshtml" />
+    <Content Include="Services\Home\Course.cshtml" />
+    <Content Include="Services\Home\CourseStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
