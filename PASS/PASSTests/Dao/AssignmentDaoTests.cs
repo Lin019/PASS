@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using PASS.Models;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 
 namespace PASS.Dao.Tests
 {
@@ -19,19 +20,20 @@ namespace PASS.Dao.Tests
             string fileFormat = "Zip";
             DateTime dateTime = DateTime.Now;
             bool assignmentLate = false;
-            string courseId = "2";
+            string courseId = "999";
 
             //act
             string actual = _assignmentDao.CreateAssignment(name, fileFeatures, fileFormat, dateTime, assignmentLate, courseId);
 
             //assert
             Assert.AreEqual(actual, "success");
-
             _assignmentDao.DeleteAssignment(name);
 
-
         }
+       
 
+        
+       
         [TestMethod()]
         public void DeleteAssignmentTest()
         {
