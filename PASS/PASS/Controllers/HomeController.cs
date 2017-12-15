@@ -297,10 +297,20 @@ namespace PASS.Controllers
             string mimeString = MimeMapping.GetMimeMapping(submit._submitName);
             return File(filePath, mimeString, submit._submitName);
         }
+        //解壓縮全部作業後壓縮成一ZIP下載
         [HttpGet]
         public ActionResult UnzipDownload1(int assignmentID)
         {
             string filePath = _assignmentUploadService.UnzipIntoFolder(assignmentID);
+            string fileName = Path.GetFileName(filePath);
+            string mimeString = MimeMapping.GetMimeMapping(filePath);
+            return File(filePath, mimeString, fileName);
+        }
+        //所有作業壓縮ZIP後下載
+        [HttpGet]
+        public ActionResult ZipDownload1(int assignmentID)
+        {
+            string filePath = _assignmentUploadService.ZipOneAssignmentSubmit(assignmentID);
             string fileName = Path.GetFileName(filePath);
             string mimeString = MimeMapping.GetMimeMapping(filePath);
             return File(filePath, mimeString, fileName);

@@ -32,7 +32,7 @@ namespace PASS.Services
                     if (Path.GetExtension(file.FileName) != "." + assignment._assignmentFormat.ToLower()) throw new Exception("File extension wrong");
                     var fileName = studentID + "_" + assignment._assignmentName + Path.GetExtension(file.FileName);
                     string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string passPath = "\\PASS" + "\\" + assignment._courseId.ToString() + "\\" + assignment._assignmentName+"\\";
+                    string passPath = "\\PASS" + "\\" + assignment._courseId.ToString() + "\\" + assignment._assignmentName + "\\";
                     MyDocumentsPath += passPath;
                     if (!Directory.Exists(MyDocumentsPath))
                         Directory.CreateDirectory(@MyDocumentsPath);
@@ -56,7 +56,7 @@ namespace PASS.Services
             List<string> studentID = new List<string>();
             studentID = _submitDao.GetOneAssignmentSubmitStudentList(assignmentID);
             string returnString = null;
-            while(studentID.Count()>0)
+            while (studentID.Count() > 0)
             {
                 SubmitInfo submit = DownloadAssignmentInfo(studentID[0], assignmentID);
                 string fileExtension = Path.GetExtension(submit._submitName).ToLower();
@@ -70,7 +70,7 @@ namespace PASS.Services
                 if (!Directory.Exists(zipPath)) Directory.CreateDirectory(@zipPath);
                 System.IO.Compression.ZipFile.ExtractToDirectory(filePath, zipPath);
                 studentID.RemoveAt(0);
-                if(studentID.Count()==0)
+                if (studentID.Count() == 0)
                 {
                     returnString = MyDocumentsPath + submit._submitUrl + "homework.zip";
                     if (File.Exists(returnString)) File.Delete(returnString);
@@ -79,6 +79,27 @@ namespace PASS.Services
                     if (Directory.Exists(unzipPath)) Directory.Delete(@unzipPath, true);
                 }
             }
+            return returnString;
+        }
+        //將一非壓縮檔作業壓縮後下載
+        public string ZipOneAssignmentSubmit(int assignmentID)
+        {
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string returnString = null;
+            string zipString = null;
+            Assignment thisAssignment = _assignmentDao.GetOneAssignment(assignmentID);
+            List<string> studentID = new List<string>();
+            studentID = _submitDao.GetOneAssignmentSubmitStudentList(assignmentID);
+            if (studentID.Count() > 0)
+            {
+                zipString = MyDocumentsPath + "\\PASS\\" + thisAssignment._courseId + "\\" + _assignmentDao.GetOneAssignment(assignmentID)._assignmentName;
+                returnString = zipString+ ".zip";
+            }
+            else
+                throw new Exception("No one submit");
+            if (!Directory.Exists(zipString)) throw new Exception("Submit folder not exist");
+            if (File.Exists(returnString)) File.Delete(@returnString);
+            System.IO.Compression.ZipFile.CreateFromDirectory(zipString, returnString);
             return returnString;
         }
 
@@ -103,7 +124,7 @@ namespace PASS.Services
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new NetworkCredential(SenderGmail, "esdrevyehvutbvtb");
             client.EnableSsl = true;
-            client.Send(Message);    
+            client.Send(Message);
         }
     }
 }
