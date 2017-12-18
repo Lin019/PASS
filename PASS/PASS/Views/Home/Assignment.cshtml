@@ -57,7 +57,7 @@
         <div class="container">
             <div class="row centered mt mb chinese">
                 <div class="title">
-                    <h1>作業資訊</h1>
+                    <h1>繳交資訊</h1>
                 </div>
 
                 <div>
@@ -66,7 +66,7 @@
                             <td>學號：</td><td class="student-id"></td>
                         </tr>
                         <tr>
-                            <td>作業名稱：</td>
+                            <td>繳交名稱：</td>
                             <td class="submit-name"></td>
                         </tr>
                         <tr>
@@ -122,18 +122,29 @@
         $(function () {
             var ID = getUrlParameter('ID');
             $(".logout").click(DirectToIndex);
-            ShowAllStudents(ID);
+            ShowSubmitInfo(ID);
         });
 
-        //顯示學生表格
-        function ShowAllStudents(ID) {
+        //顯示繳交資訊
+        function ShowSubmitInfo(ID) {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetOneAssignmentSubmitInfo", "Home")',
                 data: { "assignmentID": ID},
                 success: function (response) {
-                    console.log(response);
-                    //$("td.student-id").text(response[i]._memberName);
+                    try {
+                        $("td.student-id").text(response[1]._studentId);
+                        $("td.submit-name").text(response[1]._submitName);
+                        var date = new Date(parseInt(response[1]._submitTime.substr(6)));
+                        $("td.submit-time").text(date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
+                        if (response[1]._submitScore == -1 || response[1]._submitScore == 0)
+                            $("td.submit-score").text("未輸入");
+                        else
+                            $("td.submit-score").text(response[1]._submitScore);
+                    }
+                    catch (err) {
+                        alert(response);
+                    }   
                 }
             });
         }

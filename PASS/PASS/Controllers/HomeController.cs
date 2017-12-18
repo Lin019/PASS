@@ -147,8 +147,11 @@ namespace PASS.Controllers
         {
             Assignment assignment;
             SubmitInfo submitInfo;
+            string studentID;
             try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
             catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+            try { studentID = _memberService.GetOneMemberInfo()._id; }
+            catch { return Json("請先登入"); }
             try { submitInfo = _assignmentUploadService.GetOneSubmitInfo(_memberService.GetOneMemberInfo()._id, assignmentID); }
             catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
 
