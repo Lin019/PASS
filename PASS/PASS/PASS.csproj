@@ -280,6 +280,7 @@
     <Content Include="img\background\line.png" />
     <Content Include="img\background\nature-grass-leaf-green.jpg" />
     <Content Include="img\background\software.png" />
+    <Content Include="img\course\green.png" />
     <Content Include="img\course\profile.png" />
     <Content Include="img\course\security.jpeg" />
     <Content Include="img\course\icon_enter.png" />
