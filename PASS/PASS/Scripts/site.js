@@ -1,4 +1,16 @@
-﻿//修改資料
+﻿$(function () {
+    showMemberInfo();
+    GetCourses();
+    $(document).on('click', 'a.course-page', DirectToCoursePage);
+    $(document).on('click', 'a.cancle', deleteCourse);
+});
+
+//登出
+$(".logout").click(function () {
+    DirectToIndex();
+});
+
+//修改個人資料
 $("#modify").click(function () {
     $("#detail").hide();
     $("#modify").hide();
@@ -6,10 +18,10 @@ $("#modify").click(function () {
     $("#detail-form").css("display", "block");
     $("#submit").show();
     $("#submit").css("display", "inline-block");
-    $("#student-id").text("帳號: "+id);
+    $("#student-id").text("帳號: " + userId);
 });
 
-//送出資料
+//送出個人資料
 $("#submit").click(function () {
     //$("#detail").show();
     //$("#modify").show();
@@ -18,6 +30,55 @@ $("#submit").click(function () {
     setMemberInfo();
     DirectToSite();
 });
+
+//新增課堂資料
+$("#add").click(function () {
+    $("#add").hide();
+    $("#info").show();
+    $("#send").css("display", "inline-block");
+    $("#send").show();
+});
+
+//刪除課堂資料
+$(".cancle").click(function () {
+    deleteCourse();
+    DirectToSite();
+});
+
+//送出課堂資料
+$("#send").click(function () {
+    setCourse();
+    DirectToSite();
+});
+
+//新增課程
+function setCourse()
+{
+    $("#instructorID").val(userId);
+    console.log(userId);
+    var formData = $("#info").serializeFormJSON();
+    console.log(formData);
+    $.ajax({
+        type: 'POST',
+        url: './SetCourse',
+        data: formData,
+        success: function (response) {
+        }
+    });
+}
+
+//刪除課程
+function deleteCourse()
+{
+    console.log("id =" + $(this).children(".courseId").first().text());
+    $.ajax({
+        type: 'POST',
+        url: './DeleteCourse',
+        data: { "courseID": $(this).children(".courseId").first().text() },
+        success: function (response) {
+        }
+    });
+}
 
 //加密
 function encrypt(password)
@@ -34,7 +95,7 @@ function encrypt(password)
 //設定使用者資訊
 function setMemberInfo() {
     $("#name").val($("#user-name").text());
-    $("#student-id-hide").val(id);
+    $("#student-id-hide").val(userId);
     var formData = $("#detail-form").serializeFormJSON();
     $.ajax({
         type: 'POST',
@@ -46,9 +107,7 @@ function setMemberInfo() {
 }
 
 
-$(function () {
-    showMemberInfo();
-});
+
 
 //顯示使用者資訊
 function showMemberInfo() {
@@ -63,7 +122,7 @@ function showMemberInfo() {
             $("#detail").append(html);
             $("#user-name").text(response["_memberName"]);
             JudgeMemberType(response["_memberType"]);
-            id = response["_id"];
+            userId = response["_id"];
         }
     });
 };
@@ -116,3 +175,55 @@ function DirectToSite() {
         }
     });
 };
+
+//重新導向到首頁
+function DirectToIndex() {
+    $.ajax({
+        type: 'POST',
+        url: './RedirectPage',
+        data: { "data": "Index" },
+        success: function (response) {
+            window.location.href = response.url;
+        }
+    });
+};
+
+//取得所有課程資訊
+function GetCourses() {
+    $.ajax({
+        type: 'POST',
+        url: './QueryInstructorCourses',
+        data: { "instructorID": "103590098" },
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            if (response.length > 0) {
+                for (i = 0; i < response.length; i++) {
+                    //設定課程卡片
+                    SetCourseCard(response[i]._courseID, response[i]._courseName, response[i]._courseDescription);
+                }
+            }
+        }
+    });
+}
+
+//設定課程卡片
+function SetCourseCard(id, name, description) {
+    $.ajax({
+        type: 'POST',
+        url: './_CourseCard',
+        data: "",
+        success: function (partialHtml) {
+            $("#course-card").append(partialHtml);
+            $(".id:last").text(id);
+            $(".courseId:last").text(id);
+            $(".name:last").text(name);
+            $(".description:last").text(description);
+        }
+    });
+}
+
+ //跳到該課程頁面
+function DirectToCoursePage() {
+    window.location.href = "/Home/Course/?ID=" + $(this).children(".id").first().text();
+}

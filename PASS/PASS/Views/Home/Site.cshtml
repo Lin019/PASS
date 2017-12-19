@@ -87,10 +87,16 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="course chinese">
-                        <img src="~/img/course/green.png" class="img-responsive">
-                        <h1 class="name">新增</h1>
-                        <div class="icon">
-                            <a><img src="~/img/course/icon_information.png" class="img-responsive"></a>
+                        <img src="../../img/course/green.png" class="img-responsive">
+                        <h4 id="assign">開課</h4>
+                        <form id="info">
+                            <p>課程名稱:<input name="courseName" placeholder="none"></p>
+                            <p>課程敘述:<input name="courseDescription" placeholder="none"></p>
+                            <input id="instructorID" name="instructorID" type="hidden">
+                        </form>
+                        <div class="icon" id="new">
+                            <a id="add"><img src="../../img/course/icon_new.png" class="img-responsive"></a>
+                            <a id="send"><img src="../../img/course/icon_next.png" class="img-responsive"></a>
                         </div>
                     </div>
                 </div>
@@ -134,63 +140,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="../../Scripts/bootstrap.min.js"></script>
     <script src="../../Scripts/site.js"></script>
-    <script>
-
-        //頁面載入
-        $(function () {
-            GetCourses();
-            $(".logout").click(DirectToIndex);
-            $(document).on('click', 'a.course-page', DirectToCoursePage);
-        });
-
-        //重新導向到首頁
-        function DirectToIndex() {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("RedirectPage", "Home")',
-                data: {"data": "Index"},
-                success: function (response) {
-                    window.location.href = response.url;
-                }
-            });
-        };
-
-        //取得所有課程資訊
-        function GetCourses() {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("QueryInstructorCourses", "Home")',
-                data: {"instructorID": "000590087"},
-                success: function (response) {
-                    console.log(response);
-                    for (i = 0; i < response.length; i++) {
-                        //設定課程卡片
-                        SetCourseCard(response[i]._courseID, response[i]._courseName, response[i]._courseDescription);
-                    }
-                }
-            });
-        }
-
-        //設定課程卡片
-        function SetCourseCard(id, name, description) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("_CourseCard", "Home")',
-                data: "",
-                success: function (partialHtml) {
-                    $("#course-card").append(partialHtml);
-                    $(".id:last").text(id);
-                    $(".name:last").text(name);
-                    $(".description:last").text(description);
-                }
-            });
-        }
-
-        //跳到該課程頁面
-        function DirectToCoursePage() {
-            window.location.href = "/Home/Course/?ID=" + $(this).children(".id").first().text();
-        }
-
-    </script>
 </body>
 </html>

@@ -120,5 +120,28 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
+
+        //新增課程
+        [HttpPost]
+        public JsonResult SetCourse(string courseName, string courseDescription, string instructorID)
+        {
+            try { _courseService.CreateOneCourse(courseName,courseDescription,instructorID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
+        }
+
+        //刪除課程
+        public JsonResult DeleteCourse(string courseID)
+        {
+            try { _courseService.DeleteOneCourse(courseID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
+        }
     }
 }
