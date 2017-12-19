@@ -1,6 +1,6 @@
 ﻿$(function () {
-    showMemberInfo();
-    GetCourses();
+    CreateUser();
+    showMemberInfo();  
     $(document).on('click', 'a.course-page', DirectToCoursePage);
     $(document).on('click', 'a.cancle', deleteCourse);
 });
@@ -31,7 +31,7 @@ $("#submit").click(function () {
     DirectToSite();
 });
 
-//新增課堂資料
+//開課
 $("#add").click(function () {
     $("#add").hide();
     $("#info").show();
@@ -97,17 +97,19 @@ function setMemberInfo() {
     $("#name").val($("#user-name").text());
     $("#student-id-hide").val(userId);
     var formData = $("#detail-form").serializeFormJSON();
-    $.ajax({
-        type: 'POST',
-        url: './SetOneMemberInfo',
-        data: formData,
-        success: function (response) {
-        }
-    });
+    if (formData["password"] == "" || formData["email"] == "") {
+        console.log("錯誤");
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: './SetOneMemberInfo',
+            data: formData,
+            success: function (response) {
+            }
+        });
+    }
 }
-
-
-
 
 //顯示使用者資訊
 function showMemberInfo() {
@@ -121,8 +123,9 @@ function showMemberInfo() {
                        "<p>信箱: " + response["_memberEmail"] + "</p>";
             $("#detail").append(html);
             $("#user-name").text(response["_memberName"]);
+            GetCourses(response["_id"]); //顯示課程
             JudgeMemberType(response["_memberType"]);
-            userId = response["_id"];
+            userId = response["_id"];  
         }
     });
 };
@@ -151,16 +154,19 @@ function JudgeMemberType(code)
 {
     var messsage = "Welcome , you are ";
     if (code == "0") {
-        $("#authority").text(messsage+"developer");
+        $("#authority").text(messsage + "developer");
+        $("#create-course").css("display", "block");
     }
     else if (code == "1") {
         $("#authority").text(messsage + "manager");
+        $("#create-course").css("display", "block");
     }
     else if (code == "2") {
         $("#authority").text(messsage + "student");
     }
     else if (code == "3") {
         $("#authority").text(messsage + "professor");
+        $("#create-course").css("display", "block");
     }
 }
 
@@ -189,11 +195,11 @@ function DirectToIndex() {
 };
 
 //取得所有課程資訊
-function GetCourses() {
+function GetCourses(id) {
     $.ajax({
         type: 'POST',
         url: './QueryInstructorCourses',
-        data: { "instructorID": "103590098" },
+        data: { "instructorID": id },
         success: function (response) {
             console.log(response);
             console.log(response.length);
@@ -226,4 +232,16 @@ function SetCourseCard(id, name, description) {
  //跳到該課程頁面
 function DirectToCoursePage() {
     window.location.href = "/Home/Course/?ID=" + $(this).children(".id").first().text();
+}
+
+//創造使用者
+function CreateUser()
+{
+    $.ajax({
+        type: 'POST',
+        url: './CreateUser',
+        data: {"id":"teststudent","password":"g51014","name":"student","email":"tset","authority":2},
+        success: function (response) { 
+        }
+    });
 }
