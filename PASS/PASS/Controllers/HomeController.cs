@@ -150,10 +150,10 @@ namespace PASS.Controllers
             string studentID;
             try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
             catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
-            try { studentID = _memberService.GetOneMemberInfo()._id; }
-            catch { return Json("請先登入"); }
-            try { submitInfo = _assignmentUploadService.GetOneSubmitInfo(_memberService.GetOneMemberInfo()._id, assignmentID); }
-            catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+            /*try { studentID = _memberService.GetOneMemberInfo()._id; }
+            catch { return Json("請先登入"); }*/
+            try { submitInfo = _assignmentUploadService.GetOneSubmitInfo("103590038" /*studentID*/, assignmentID); }
+            catch (Exception e) { return Json(e.Message); }
 
             ArrayList list = new ArrayList();
             list.Add(assignment);
@@ -336,16 +336,22 @@ namespace PASS.Controllers
             }
             return Json("作業刪除成功！");
         }
-        //上傳作業
-        /*[HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
-        {
-            if (file.ContentLength > 0)
-            {
-                _assignmentUploadService.UploadAssignment("103590038",1024, file, Server);
-            }
-            return RedirectToAction("Index");
-        }*/
 
+        //上傳作業
+        public ActionResult Upload(HttpPostedFileBase file, int assignmentID)
+        {
+            string studentID;
+
+            if (file != null)
+            {
+                /*try { studentID = _memberService.GetOneMemberInfo()._id; }
+                catch { return Json("請先登入"); }*/
+
+                try { _assignmentUploadService.UploadAssignment("103590038" /*studentID*/, assignmentID, file, Server); }
+                catch (Exception e) { return Json("上傳失敗，原因：" + e.Message); }
+            }
+
+            return Redirect("/Home/Assignment?ID=" + assignmentID);
+        }
     }
 }

@@ -80,6 +80,12 @@
                     </table>
                 </div>
 
+                <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" id="file" />
+                    <input type="number" name="assignmentID" id="assignmentID" style="display: none;" />
+                    <input type="submit" />
+                </form>
+
             </div><! --/row -->
         </div><! --/container -->
     </div>
@@ -122,8 +128,14 @@
         $(function () {
             var ID = getUrlParameter('ID');
             $(".logout").click(DirectToIndex);
+            $("#assignmentID").val(ID);
             ShowSubmitInfo(ID);
         });
+
+        function openfileDialog() {
+            $("#fileLoader").click();
+        }
+
 
         //顯示繳交資訊
         function ShowSubmitInfo(ID) {
@@ -143,8 +155,13 @@
                             $("td.submit-score").text(response[1]._submitScore);
                     }
                     catch (err) {
-                        alert(response);
-                    }   
+                        if (response == "Submit not found") {
+                            $("td.submit-name").text("未上傳");
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
                 }
             });
         }
