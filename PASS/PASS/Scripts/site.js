@@ -202,8 +202,7 @@ function GetCourses(id) {
         data: { "instructorID": id },
         success: function (response) {
             console.log(response);
-            console.log(response.length);
-            if (response.length > 0) {
+            if (response != "Course not found") {
                 for (i = 0; i < response.length; i++) {
                     //設定課程卡片
                     SetCourseCard(response[i]._courseID, response[i]._courseName, response[i]._courseDescription);
