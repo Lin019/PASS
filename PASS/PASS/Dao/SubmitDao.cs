@@ -70,6 +70,26 @@ namespace PASS.Dao
                 return submitInfo;
             }
         }
+        //取得一作業所有有交的學生
+        public List<string> GetOneAssignmentSubmitStudentList(int assignmentID)
+        {
+            List<string> result = new List<string>();
+            string sql = "SELECT student_ID FROM submit WHERE assignment_ID=@assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("Assignment not submit yet");
+                while (reader.Read())
+                {
+                    result.Add(reader.GetString(0));
+                }
+                return result;
+            }
+        }
 
     }
 }
