@@ -91,5 +91,36 @@ namespace PASS.Dao
             }
         }
 
+        //取得學生繳交狀態
+        public List<SubmitInfo> GetOneAssignmentSubmitList(int assignmentID)
+        {
+            
+            string sql = "SELECT student_ID, submit_name, submit_Datetime, submit_Url, submit_Score, assignment_ID FROM submit WHERE assignment_ID=@assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("Assignment not student submit ");
+                List<SubmitInfo> submitInfo = new List<SubmitInfo>();
+                
+                while (reader.Read())
+                {
+                    string id = reader.GetString(0);
+                    string name = reader.GetString(1);
+                    DateTime dateTime = reader.GetDateTime(2);
+                    string url = reader.GetString(3);
+                    int score = reader.GetInt16(4);
+                    string assignmentid = reader.GetString(5);
+                    submitInfo.Add(new SubmitInfo(id, name, dateTime, url, score, Convert.ToInt16(assignmentid)));
+                }
+                return submitInfo;
+            }
+        
+
+        
+        }
     }
 }
