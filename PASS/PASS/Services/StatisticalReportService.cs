@@ -14,13 +14,21 @@ namespace PASS.Services
         {
             AverageSubmitAndScore result = new AverageSubmitAndScore();
             AssignmentDao assignmentDao = new AssignmentDao();
-            int courseID =Convert.ToInt16(assignmentDao.GetOneAssignment(assignmentID)._courseId);
+            int courseID = Convert.ToInt16(assignmentDao.GetOneAssignment(assignmentID)._courseId);
             CourseDao courseDao = new CourseDao();
-            int studentCount = courseDao.GetOneCourseStudents(courseID.ToString()).Count();
+            float studentCount = courseDao.GetOneCourseStudents(courseID.ToString()).Count();
             SubmitDao submitDao = new SubmitDao();
-            int submitStudentCount = submitDao.GetOneAssignmentSubmitStudentList(assignmentID).Count();
-            result.submitRate = studentCount / submitStudentCount;
-
+            float submitStudentCount = submitDao.GetOneAssignmentSubmitStudentList(assignmentID).Count();
+            result.submitRate = (submitStudentCount / studentCount) * 100;
+            List<SubmitInfo> submitList = submitDao.GetOneAssignmentSubmitList(assignmentID);
+            int scoreSum = 0;
+            while (submitList.Count() > 0)
+            {
+                scoreSum += submitList[0]._submitScore;
+                submitList.RemoveAt(0);
+            }
+            result.scoreRate = scoreSum / submitStudentCount;
+            return result;
         }
     }
 }

@@ -755,3 +755,4 @@ C:\Users\User\Desktop\軟工專案\PASS\PASS\bin\zh-Hant\System.Web.Http.Owin.re
 C:\Users\User\Desktop\軟工專案\PASS\PASS\obj\Debug\PASS.csprojResolveAssemblyReference.cache
 C:\Users\User\Desktop\軟工專案\PASS\PASS\obj\Debug\PASS.dll
 C:\Users\User\Desktop\軟工專案\PASS\PASS\obj\Debug\PASS.pdb
+C:\Users\Aileen\Desktop\code\PASS\PASS\PASS\obj\Debug\PASS.csprojResolveAssemblyReference.cache
