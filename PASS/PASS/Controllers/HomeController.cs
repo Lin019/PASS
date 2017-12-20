@@ -182,7 +182,7 @@ namespace PASS.Controllers
             string  name = "55";
             string email = "123@456";
             int type = 1;*/
-            return Json(_memberService.CreateUser(id, account, password, name, email, type));
+            return Json(_memberService.CreateUser(id, password, name, email, type));
         }
 
         //取得會員資料
@@ -252,7 +252,7 @@ namespace PASS.Controllers
         {
             try
             {
-                _assignmentService.CreateAssignment( assignmentId, assignmentName, assignmentDescription, assignmentFormat, assignmentDeadline,assignmentLate, courseId);
+                _assignmentService.CreateAssignment( assignmentName, assignmentDescription, assignmentFormat, assignmentDeadline,assignmentLate, courseId);
             }
             catch (Exception e)
             {

@@ -254,6 +254,7 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AverageSubmitAndScore.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IdAndName.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\AssignmentService.cs" />
     <Compile Include="Services\MemberService.cs" />
+    <Compile Include="Services\StatisticalReportService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
