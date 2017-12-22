@@ -10,7 +10,7 @@ namespace PASS.Services
 {
     public class StatisticalReportService
     {
-        //取得一作業報表
+        //取得一作業繳交率平均分數
         public AverageSubmitAndScore GetOneAssignmentReport(int assignmentID)
         {
             AverageSubmitAndScore result = new AverageSubmitAndScore();
@@ -42,6 +42,29 @@ namespace PASS.Services
             {
                 result.Add(GetOneAssignmentReport(assignmentIDs[0]._assignmentId));
                 assignmentIDs.RemoveAt(0);
+            }
+            return result;
+        }
+        //取得作業分數分布
+        public ScoreDistributed GetOneAssignmentScoreDistributed(int assignmentID)
+        {
+            ScoreDistributed result = new ScoreDistributed();
+            SubmitDao submitDao = new SubmitDao();
+            List<SubmitInfo> submitStudentList = submitDao.GetOneAssignmentSubmitList(assignmentID);
+            for(int i=0;i<submitStudentList.Count();i++)
+            {
+                if (submitStudentList[i]._submitScore < 0)
+                    throw new Exception(submitStudentList[i]._submitName + " is not score yet");
+                if (submitStudentList[i]._submitScore < 11) result._score0to10++;
+                else if (submitStudentList[i]._submitScore < 21) result._score11to20++;
+                else if (submitStudentList[i]._submitScore < 31) result._score21to30++;
+                else if (submitStudentList[i]._submitScore < 41) result._score31to40++;
+                else if (submitStudentList[i]._submitScore < 51) result._score41to50++;
+                else if (submitStudentList[i]._submitScore < 61) result._score51to60++;
+                else if (submitStudentList[i]._submitScore < 71) result._score61to70++;
+                else if (submitStudentList[i]._submitScore < 81) result._score71to80++;
+                else if (submitStudentList[i]._submitScore < 91) result._score81to90++;
+                else if (submitStudentList[i]._submitScore < 101) result._score91to100++;
             }
             return result;
         }
