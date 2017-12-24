@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
 using PASS.Dao;
 using PASS.Models;
 using System.Net.Mail;
 using System.Net;
+using System.Web.UI;
 
 namespace PASS.Services
 {
@@ -125,6 +124,33 @@ namespace PASS.Services
             client.Credentials = new NetworkCredential(SenderGmail, "esdrevyehvutbvtb");
             client.EnableSsl = true;
             client.Send(Message);
+        }
+
+        //取得學生個人該課程所有作業繳交狀況
+        public List<Pair> GetOneStudentSubmitStatusList(string studentID, int courseID)
+        {
+            List<Assignment> assignments = _assignmentDao.GetOneCourseAssignment(courseID.ToString());
+            List<Pair> submitStatusList = new List<Pair>();
+            for (int i = 0; i < assignments.Count; i++)
+            {
+                try
+                {
+                    _submitDao.GetOneSubmitInfo(studentID, assignments[i]._assignmentId);
+                    submitStatusList.Add(new Pair(assignments[i]._assignmentId, "已繳交"));
+                }
+                catch(Exception ex)
+                {
+                    if (ex.Message == "Submit not found")
+                    {
+                        submitStatusList.Add(new Pair(assignments[i]._assignmentId, "未繳交"));
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            return submitStatusList;
         }
     }
 }
