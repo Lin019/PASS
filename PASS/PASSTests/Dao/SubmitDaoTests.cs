@@ -12,7 +12,7 @@ namespace PASS.Dao.Tests
     [TestClass()]
     public class SubmitDaoTests
     {
-       
+
         [TestMethod()]
         public void GetOneAssignmentSubmitStudentListTest()
         {
@@ -34,13 +34,26 @@ namespace PASS.Dao.Tests
             int assignmentID = 1027;
             _submitDao.SubmitAssignment(studentID, submitName, sumitDatetime, submitURL, assignmentID);
             //act
-            submitInfo=_submitDao.GetOneAssignmentSubmitList(1027);
+            submitInfo = _submitDao.GetOneAssignmentSubmitList(1027);
             //assert
             Assert.AreEqual(submitInfo[0]._submitUrl, @"\PASS\2\作業系統_HW1");
             Assert.AreEqual(submitInfo[0]._submitName, "計算機概論_HW1");
 
-            
 
+
+        }
+
+        [TestMethod()]
+        public void SetOneStudentAssignmentScoreTest()
+        {
+            int score = 100;
+            SubmitDao _submitDao = new SubmitDao();
+            string studentID = "103590055";
+            int assignmentID = 1027;
+
+            string act =_submitDao.SetOneStudentAssignmentScore(studentID, assignmentID, score);
+
+            Assert.AreEqual(act, "Success");
         }
     }
 }

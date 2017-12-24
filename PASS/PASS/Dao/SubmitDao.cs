@@ -122,5 +122,42 @@ namespace PASS.Dao
 
         
         }
+
+
+        /// <summary>
+        /// 設定一個作業的分數
+        /// </summary>
+        /// <param name="studentID">學生ID</param>
+        /// <param name="assignmentID">作業ID</param>
+        /// <param name="score">成績</param>
+        /// <returns>
+        /// 成功回傳:success
+        /// </returns>
+        public string  SetOneStudentAssignmentScore(string studentID ,int assignmentID,int score)
+        {
+            
+            string sql = "UPDATE submit SET submit_Score=@score WHERE student_ID  = @studentID AND assignment_ID = @assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@score", score);
+                cmd.Parameters.AddWithValue("@studentID", studentID);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                try
+                {
+                    cmd.ExecuteReader();
+                    return "Success";
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+
+                        
+            }
+
+        }
     }
 }
