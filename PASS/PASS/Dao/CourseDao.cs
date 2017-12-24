@@ -41,6 +41,31 @@ namespace PASS.Dao
                 return courses;
             }
         }
+        //取得一學生修所有課程
+        public List<Course> GetOneStudentElective(string studentID)
+        {
+            string sql = "SELECT course_ID, course_Name, course_Description, instructor_ID FROM course WHERE course_ID IN (SELECT course_ID FROM elective WHERE student_ID=@studentID)";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@studentID", studentID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("Student not found");
+                List<Course> courses = new List<Course>();
+                while (reader.Read())
+                {
+                    string courseID = reader.GetString(0);
+                    string name = reader.GetString(1);
+                    string description = reader.GetString(2);
+                    string instructor_ID = reader.GetString(3);
+                    Course oneCourse = new Course(courseID, name, description, instructor_ID);
+                    courses.Add(oneCourse);
+                }
+                return courses;
+            }
+        }
         //取得單一課程
         public Course GetOneCourse(string courseID)
         {

@@ -100,5 +100,12 @@ namespace PASS.Dao.Tests
             Assert.AreEqual("103590034", idName[1]._id);
             Assert.AreEqual("BONIS", idName[1]._memberName);
         }
+
+        [TestMethod()]
+        public void GetOneStudentElectiveTest()
+        {
+            _courseDaoTest.GetOneStudentElective("103590023");
+            Assert.Fail();
+        }
     }
 }

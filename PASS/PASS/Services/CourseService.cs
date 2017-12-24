@@ -21,6 +21,11 @@ namespace PASS.Services
         {
             return _courseDao.GetOneInstructorCourse(instructorID);
         }
+        //取得一學生修課課程
+        public List<Course> GetOneStudentElective(string studentID)
+        {
+            return _courseDao.GetOneStudentElective(studentID);
+        }
         //取得一課程
         public Course GetOneCourse(string courseID)
         {
