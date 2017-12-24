@@ -44,21 +44,28 @@ namespace PASS.Dao
                 try
                 {
                     cmd.ExecuteReader(); //execure the reader
+                    CreatFolder(courseId, assignmentName);
+                    return "success";
                 }
                 catch (Exception e)
                 {
                     return "fail";
                     throw e;
+
                 }
-               
             }
-            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\PASS";
+        }
+        //創造資料夾
+        private string CreatFolder(string courseId ,string assignmentName)
+        {
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PASS";
             MyDocumentsPath += "\\" + courseId.ToString() + "\\" + assignmentName;
             if (!Directory.Exists(MyDocumentsPath))
                 //新增資料夾
                 Directory.CreateDirectory(@MyDocumentsPath);
             return "fail";
         }
+
         //刪除作業 測試用
         public string DeleteAssignment(string assignmentName)
         {
@@ -68,7 +75,7 @@ namespace PASS.Dao
                 {
                     connection.Open();
                     cmd.CommandText = "DELETE FROM assignment WHERE assignment_Name = @assignmentName";
-                  
+
                     cmd.Parameters.AddWithValue("@assignmentName", assignmentName);
                     try
                     {
