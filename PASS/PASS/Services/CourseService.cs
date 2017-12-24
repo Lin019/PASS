@@ -27,7 +27,7 @@ namespace PASS.Services
             return _courseDao.GetOneStudentElective(studentID);
         }
         //取得一課程
-        public Course GetOneCourse(string courseID)
+        public Course GetOneCourse(int courseID)
         {
             return _courseDao.GetOneCourse(courseID);
         }
@@ -37,33 +37,33 @@ namespace PASS.Services
             _courseDao.CreateOneCourse(courseName, courseDescription, instructorID);
         }
         //修改一課程
-        public void UpdateOneCourse(string courseID, string courseName, string courseDescription, string instructorID)
+        public void UpdateOneCourse(int courseID, string courseName, string courseDescription, string instructorID)
         {
             _courseDao.UpdateOneCourse(courseID, courseName, courseDescription, instructorID);
         }
         //刪除一課程
-        public void DeleteOneCourse(string courseID)
+        public void DeleteOneCourse(int courseID)
         {
             _courseDao.DeleteOneCourse(courseID);
         }
         //新增課程TA
-        public void SetOneCourseTA(string courseID, string taID)
+        public void SetOneCourseTA(int courseID, string taID)
         {
             _courseDao.SetOneCourseTA(courseID, taID);
         }
         //取得一課程TA
-        public List<IdAndName> GetOneCourseTA(string courseID)
+        public List<IdAndName> GetOneCourseTA(int courseID)
         {
             return _courseDao.GetOneCourseTA(courseID);
         }
         //刪除一課程TA
-        public void DeleteCourseTA(string courseID, string taID)
+        public void DeleteCourseTA(int courseID, string taID)
         {
             _courseDao.DeleteCourseTA(courseID, taID);
         }
 
         //取得一課程所有學生
-        public List<IdAndName> GetOneCourseStudents(string courseID)
+        public List<IdAndName> GetOneCourseStudents(int courseID)
         {
             return _courseDao.GetOneCourseStudents(courseID);
         }

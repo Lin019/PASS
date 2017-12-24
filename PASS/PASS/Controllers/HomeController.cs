@@ -64,7 +64,7 @@ namespace PASS.Controllers
             return Json(courses);
         }
         
-        public JsonResult GetOneCourseStudents(string courseID)
+        public JsonResult GetOneCourseStudents(int courseID)
         {
             List<IdAndName> students;
             try { students = _courseService.GetOneCourseStudents(courseID); }
@@ -77,15 +77,15 @@ namespace PASS.Controllers
         }
 
         //更新課程資訊
-        public JsonResult UpdateCourseDescription(string ID, string description)
+        public JsonResult UpdateCourseDescription(int courseID, string description)
         {
             Course course;
-            try { course = _courseService.GetOneCourse(ID); }
+            try { course = _courseService.GetOneCourse(courseID); }
             catch (Exception e)
             {
                 return Json(e.Message);
             }
-            try { _courseService.UpdateOneCourse(ID, course._courseName, description, course._instructorID); }
+            try { _courseService.UpdateOneCourse(courseID, course._courseName, description, course._instructorID); }
             catch (Exception e)
             {
                 return Json(e.Message);
@@ -95,7 +95,7 @@ namespace PASS.Controllers
         }
 
         //新增TA
-        public JsonResult NewCourseTA(string courseID, string TAID)
+        public JsonResult NewCourseTA(int courseID, string TAID)
         {
             try { _courseService.SetOneCourseTA(courseID, TAID); }
             catch (Exception e)
@@ -106,7 +106,7 @@ namespace PASS.Controllers
         }
 
         //刪除TA
-        public JsonResult DeleteCourseTA(string courseID, string TAID)
+        public JsonResult DeleteCourseTA(int courseID, string TAID)
         {
             try { _courseService.DeleteCourseTA(courseID, TAID); }
             catch (Exception e)
@@ -117,7 +117,7 @@ namespace PASS.Controllers
         }
 
         //編輯TA
-        public JsonResult UpdateCourseTA(string courseID, string TAID1, string TAID2)
+        public JsonResult UpdateCourseTA(int courseID, string TAID1, string TAID2)
         {
             try { _courseService.DeleteCourseTA(courseID, TAID1); }
             catch (Exception e)
@@ -139,7 +139,7 @@ namespace PASS.Controllers
         }
 
         //取得課程資料
-        public JsonResult GetCourse(string courseId)
+        public JsonResult GetCourse(int courseId)
         {
             Course course;
             try { course = _courseService.GetOneCourse(courseId); }
@@ -213,7 +213,7 @@ namespace PASS.Controllers
         /// 回傳 課程物件 教授姓名 ID  TA學號和名字的 List Json檔
         /// 失敗回傳 FAIL
         /// </returns>
-        public JsonResult Package(string CourseID)
+        public JsonResult Package(int courseID)
         {
             Course course;
             Member instructor;
@@ -221,7 +221,7 @@ namespace PASS.Controllers
             List<IdAndName> TA;
             try
             {
-                course = _courseService.GetOneCourse(CourseID);//用課程ID找教授ID
+                course = _courseService.GetOneCourse(courseID);//用課程ID找教授ID
             }
             catch
             {
@@ -239,7 +239,7 @@ namespace PASS.Controllers
             }
             try
             {
-                TA = _courseService.GetOneCourseTA(CourseID);//用課程找TA_id
+                TA = _courseService.GetOneCourseTA(courseID);//用課程找TA_id
             }
             catch
             {
