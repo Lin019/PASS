@@ -48,6 +48,12 @@ body {
    width:100%;
 }
 
+.course input
+{
+    width:170px;
+    margin-left:10px;
+}
+
 /*icon*/
 .icon  a
 {
@@ -131,20 +137,13 @@ body {
     margin-left:10px;
 }
 
-#submit
-{
-    display:none;
-}
-
 /*新增內容*/
-#info
-{
-    display:none;
+#info, #create-course, #create-professor-info, #create-student-info {
+    display: none;
 }
 /*送出icon*/
-#send
-{
-    display:none;
+#send, #submit ,#send-student , #send-professor{
+    display: none;
 }
 
 /*刪除*/
@@ -156,7 +155,7 @@ body {
     width:10px;
 }
 
-#create-course
-{
-    display:none;
+.create-account {
+    display: none;
+    padding:0 162px;
 }

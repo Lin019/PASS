@@ -31,7 +31,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active"><a href="#about">關於我</a></li>
-                    <li><a href="#course">我的課程</a></li>
+                    <li><a id="section-two" href="#course">我的課程</a></li>
                     <li class="logout"><a>登出</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -83,17 +83,18 @@
         <div class="container">
             <div class="row centered mt mb chinese">
                 <div class="title">
-                    <h1>我的課程</h1>
+                    <h1 id="title-id">我的課程</h1>
                 </div>
                 <div id="course-card">
                 </div>
+
                 <div class="col-lg-3 col-md-3 col-sm-3" id="create-course">
                     <div class="course chinese">
                         <img src="../../img/course/green.png" class="img-responsive">
                         <h1 id="assign">開課</h1>
                         <form id="info">
-                            <p>課程名稱:<input name="courseName" placeholder="none"></p>
-                            <p>課程敘述:<input name="courseDescription" placeholder="none"></p>
+                            <p>名稱:<input name="courseName" placeholder="none"></p>
+                            <p>敘述:<input name="courseDescription" placeholder="none"></p>
                             <input id="instructorID" name="instructorID" type="hidden">
                         </form>
                         <div class="icon" id="new">
@@ -102,6 +103,43 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 create-account">
+                    <div class="course chinese">
+                        <img src="../../img/background/library.jpg" class="img-responsive">
+                        <h1 id="student">學生</h1>
+                        <form id="create-student-info">
+                            <p>姓名:<input name="name" placeholder=""></p>
+                            <p>學號:<input id="id-student" name="id" placeholder=""></p>
+                            <p>信箱:<input name="email" placeholder=""></p>
+                            <input id="password-student" name="password" type="hidden">
+                            <input name="authority" value="2" type="hidden" />
+                        </form>
+                        <div class="icon" id="new">
+                            <a id="add-student"><img src="../../img/course/icon_new.png" class="img-responsive"></a>
+                            <a id="send-student"><img src="../../img/course/icon_next.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 create-account">
+                    <div class="course chinese">
+                        <img src="../../img/background/professor.jpeg" class="img-responsive">
+                        <h1 id="professor">教授</h1>
+                        <form id="create-professor-info">
+                            <p>姓名:<input name="name" placeholder=""></p>
+                            <p>帳號:<input id="id-professor" name="id" placeholder=""></p>
+                            <p>信箱:<input name="email" placeholder=""></p>
+                            <input id="password-professor" name="password" type="hidden">
+                            <input name="authority" value="3" type="hidden" />
+                        </form>
+                        <div class="icon" id="new">
+                            <a id="add-professor"><img src="../../img/course/icon_new.png" class="img-responsive"></a>
+                            <a id="send-professor"><img src="../../img/course/icon_next.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                </div>
+
             </div><! --/row -->
         </div><! --/container -->
     </div>

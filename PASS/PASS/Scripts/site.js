@@ -1,5 +1,4 @@
 ﻿$(function () {
-    CreateUser();
     showMemberInfo();  
     $(document).on('click', 'a.course-page', DirectToCoursePage);
     $(document).on('click', 'a.cancle', deleteCourse);
@@ -155,11 +154,15 @@ function JudgeMemberType(code)
     var messsage = "Welcome , you are ";
     if (code == "0") {
         $("#authority").text(messsage + "developer");
-        $("#create-course").css("display", "block");
+        $(".create-account").css("display", "block");
+        $("#title-id").text("新增帳號");
+        $("#section-two").text("新增帳號");
     }
     else if (code == "1") {
         $("#authority").text(messsage + "manager");
-        $("#create-course").css("display", "block");
+        $(".create-account").css("display", "block");
+        $("#title-id").text("新增帳號");
+        $("#section-two").text("新增帳號");
     }
     else if (code == "2") {
         $("#authority").text(messsage + "student");
@@ -233,14 +236,102 @@ function DirectToCoursePage() {
     window.location.href = "/Home/Course/?ID=" + $(this).children(".id").first().text();
 }
 
-//創造使用者
-function CreateUser()
+//學生新增icon
+$("#add-student").click(function()
 {
-    $.ajax({
-        type: 'POST',
-        url: './CreateUser',
-        data: {"id":"teststudent","password":"g51014","name":"student","email":"tset","authority":2},
-        success: function (response) { 
-        }
-    });
+    EscProfessor();
+    ClickStudent();
+});
+
+//教授新增icon
+$("#add-professor").click(function () {
+    EscStudent();
+    ClickProfessor();
+});
+
+//學生送出icon
+$("#send-student").click(function () {
+    CreateStudent();
+    EscStudent();
+});
+
+//教授送出icon
+$("#send-professor").click(function () {
+    CreateProfessor();
+    EscProfessor();
+});
+
+//展開學生
+function ClickStudent()
+{
+    $("#send-student").css("display", "inline-block");
+    $("#add-student").hide();
+    $("#create-student-info").css("display", "block");
+    $("#student").text("新增");
+}
+
+//展開教授
+function ClickProfessor() {
+    $("#send-professor").css("display", "inline-block");
+    $("#add-professor").hide();
+    $("#create-professor-info").css("display", "block");
+    $("#professor").text("新增");
+}
+
+//收起學生
+function EscStudent()
+{
+    $("#send-student").css("display", "none");
+    $("#add-student").show();
+    $("#create-student-info").css("display", "none");
+    $("#student").text("學生");
+}
+
+//收起教授
+function EscProfessor() {
+    $("#send-professor").css("display", "none");
+    $("#add-professor").show();
+    $("#create-professor-info").css("display", "none");
+    $("#professor").text("教授");
+}
+
+//創造學生
+function CreateStudent()
+{
+    $("#password-student").val($("#id-student").val());
+    var formData = $("#create-student-info").serializeFormJSON();
+    //console.log(formData);
+    if (formData["name"] == "" || formData["id"] == "" || formData["email"] == "") {
+        console.log("error");
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: './CreateUser',
+            data: formData,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
+}
+
+//創造教授
+function CreateProfessor() {
+    $("#password-professor").val($("#id-professor").val());
+    var formData = $("#create-professor-info").serializeFormJSON();
+    //console.log(formData);
+    if (formData["name"] == "" || formData["id"] == "" || formData["email"] == "") {
+        console.log("error");
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: './CreateUser',
+            data: formData,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
 }

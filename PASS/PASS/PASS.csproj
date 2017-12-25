@@ -276,9 +276,10 @@
     <Content Include="img\background\back.jpg" />
     <Content Include="img\background\background.png" />
     <Content Include="img\background\background2.png" />
-    <Content Include="img\background\library.jpeg" />
+    <Content Include="img\background\library.jpg" />
     <Content Include="img\background\line.png" />
     <Content Include="img\background\nature-grass-leaf-green.jpg" />
+    <Content Include="img\background\professor.jpeg" />
     <Content Include="img\background\software.png" />
     <Content Include="img\course\cancle.png" />
     <Content Include="img\course\green.png" />

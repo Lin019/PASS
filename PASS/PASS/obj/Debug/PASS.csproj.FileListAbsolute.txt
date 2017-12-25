@@ -602,3 +602,4 @@ C:\Users\g51014\Documents\PASS\PASS\PASS\bin\zh-Hant\System.Web.Http.Owin.resour
 C:\Users\g51014\Documents\PASS\PASS\PASS\obj\Debug\PASS.csprojResolveAssemblyReference.cache
 C:\Users\g51014\Documents\PASS\PASS\PASS\obj\Debug\PASS.dll
 C:\Users\g51014\Documents\PASS\PASS\PASS\obj\Debug\PASS.pdb
+C:\Users\g51014\Documents\PASS\PASS\PASS\obj\Debug\PASS.csproj.CoreCompileInputs.cache
