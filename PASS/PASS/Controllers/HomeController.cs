@@ -17,12 +17,15 @@ namespace PASS.Controllers
         public CourseService _courseService;
         public AssignmentService _assignmentService;
         public AssignmentUploadService _assignmentUploadService;
+        public StatisticalReportService _statisticalReportService;
+
         public HomeController()
         {
             _memberService = new MemberService();
             _courseService = new CourseService();
             _assignmentService = new AssignmentService();
             _assignmentUploadService = new AssignmentUploadService();
+            _statisticalReportService = new StatisticalReportService();
         }
 
         public ActionResult Index()
@@ -437,6 +440,23 @@ namespace PASS.Controllers
             string fileName = Path.GetFileName(filePath);
             string mimeString = MimeMapping.GetMimeMapping(filePath);
             return File(filePath, mimeString, fileName);
+        }
+
+        public JsonResult GetAssignmnetReport(int assignmentID)
+        {
+            AverageSubmitAndScore firstData;
+            try { firstData = _statisticalReportService.GetOneAssignmentReport(assignmentID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            ScoreDistributed secondData;
+            try { secondData = _statisticalReportService.GetOneAssignmentScoreDistributed(assignmentID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            ArrayList list = new ArrayList();
+            list.Add(firstData);
+            list.Add(secondData);
+
+            return Json(list);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace PASS.Services
             AssignmentDao assignmentDao = new AssignmentDao();
             int courseID = Convert.ToInt16(assignmentDao.GetOneAssignment(assignmentID)._courseId);
             CourseDao courseDao = new CourseDao();
-            float studentCount = courseDao.GetOneCourseStudents(courseID.ToString()).Count();
+            float studentCount = courseDao.GetOneCourseStudents(courseID).Count();
             SubmitDao submitDao = new SubmitDao();
             float submitStudentCount = submitDao.GetOneAssignmentSubmitStudentList(assignmentID).Count();
             result.submitRate = (submitStudentCount / studentCount) * 100;
@@ -31,6 +31,7 @@ namespace PASS.Services
             result.scoreRate = scoreSum / submitStudentCount;
             return result;
         }
+
         //取得一課程的報表
         public List<AverageSubmitAndScore> GetCourseAssignmentsReport(int courseID)
         {
@@ -45,6 +46,7 @@ namespace PASS.Services
             }
             return result;
         }
+
         //取得作業分數分布
         public ScoreDistributed GetOneAssignmentScoreDistributed(int assignmentID)
         {

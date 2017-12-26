@@ -138,10 +138,60 @@
                 var courseID = getUrlParameter('CourseID');
                 ShowStudentAllSubmit(courseID);
             }
+            else if (type == 3) {
+                ShowAssignmentReport(ID);
+            }
         });
 
         function openfileDialog() {
             $("#fileLoader").click();
+        }
+
+        //作業報表
+        function ShowAssignmentReport(ID) {
+
+            $(".submit-info-table").hide();
+            $(".upload-form").hide();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAssignmnetReport", "Home")',
+                data: { "assignmentID": ID },
+                success: function (response) {
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("繳交率：" + response[0].submitRate + "%" + "，平均分數：" + response[0].scoreRate);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("0到10分：" + response[1]._score0to10);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("11到20分：" + response[1]._score11to20);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("21到30分：" + response[1]._score21to30);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("31到40分：" + response[1]._score31to40);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("41到50分：" + response[1]._score41to50);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("51到60分：" + response[1]._score51to60);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("61到70分：" + response[1]._score61to70);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("71到80分：" + response[1]._score71to80);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("81到90分：" + response[1]._score81to90);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("91到100分：" + response[1]._score91to100);
+                }
+            });
         }
 
         //下載全部
