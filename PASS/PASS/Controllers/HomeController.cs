@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace PASS.Controllers
 {
@@ -305,6 +307,7 @@ namespace PASS.Controllers
             }
             return Json("新增作業：" + name + "成功");
         }
+
         //刪除作業
         [HttpPost]
         public JsonResult DeleteAssignment(string id)
@@ -332,7 +335,7 @@ namespace PASS.Controllers
 
         //登入
         [HttpPost]
-        public JsonResult Login(string id , string password)
+        public JsonResult Login(string id, string password)
         {
             //_memberService.CreateUser("103590098","william6931","test","4545",1);
             try { _memberService.Login(id, password); }
@@ -341,6 +344,39 @@ namespace PASS.Controllers
                 return Json(e.Message);
             }
             return Json("true");
+        }
+
+        //下載作業
+        [HttpGet]
+        public virtual ActionResult Download(string studentID, int assignmentID)
+        {
+            /*string studentID = "103590038";
+            int assignmentID = 1024;*/
+            SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = MyDocumentsPath + submit._submitUrl + "\\" + submit._submitName;
+            string mimeString = MimeMapping.GetMimeMapping(submit._submitName);
+            return File(filePath, mimeString, submit._submitName);
+        }
+
+        //解壓縮全部作業後壓縮成一ZIP下載
+        [HttpGet]
+        public ActionResult UnzipDownload1(int assignmentID)
+        {
+            string filePath = _assignmentUploadService.UnzipIntoFolder(assignmentID);
+            string fileName = Path.GetFileName(filePath);
+            string mimeString = MimeMapping.GetMimeMapping(filePath);
+            return File(filePath, mimeString, fileName);
+        }
+
+        //所有作業壓縮ZIP後下載
+        [HttpGet]
+        public ActionResult ZipDownload1(int assignmentID)
+        {
+            string filePath = _assignmentUploadService.ZipOneAssignmentSubmit(assignmentID);
+            string fileName = Path.GetFileName(filePath);
+            string mimeString = MimeMapping.GetMimeMapping(filePath);
+            return File(filePath, mimeString, fileName);
         }
     }
 }

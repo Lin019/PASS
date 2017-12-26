@@ -45,8 +45,8 @@
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
                     @*<h3>歡迎來到我的個人網頁，我是</h3>
-                    <h1>江紀武</h1> 
-                    <h3 class="eng">web designer & game designer</h3>*@
+                        <h1>江紀武</h1>
+                        <h3 class="eng">web designer & game designer</h3>*@
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
@@ -58,7 +58,7 @@
             <div class="row centered mt mb chinese">
                 <div class="title">
                     <h1>簡介</h1>
-                </div> 
+                </div>
                 <h4 class="about">本系統可即時更新各課程作業資訊，並提供學生線上繳交作業，保障自主放假型學生的學習權利，且可於作業批改後查看評語及分數並分析課程成績。</h4>
                 <div class="col-lg-4 col-md-4 col-sm-4 gallery">
                     <img src="../../img/about/assignment_hover.png" class="img-responsive">
@@ -75,7 +75,7 @@
             </div><! --/row -->
         </div><! --/container -->
     </div>
-    
+
     <section id="works"></section>
     <div class="container">
         <div class="row centered mt mb chinese aboutText ">
@@ -90,7 +90,7 @@
             </div>
         </div><! --/row -->
     </div><! --/container -->
-    
+
     <div id="social">
         <div class="container">
             <form id="login" class="row centered chinese login">
@@ -192,5 +192,36 @@
         });
     };
     </script>
+    <!--以下為後端測試用程式碼，請勿刪除-->
+    <!--上傳
+    <!-- <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
+        <label for="file">Filename:</label>
+        <input type="file" name="file" id="file" />
+        <input type="submit" />
+    </form>
+    能動的下載
+    <button id="abc" type="button">Click Me!</button>
+    <script>
+        $('#abc').click(function () {
+            window.location.href = '/Home/ZipDownload1?assignmentID=' + 1024;
+            //window.location.href = '/Home/UnzipDownload1';
+        });
+    </script>
+    <!--不能動的下載
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="call()">下載檔案</button>
+    <script>
+        function call() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DownloadAssignment", "Home")',
+                data: '{ "dataprop1": "test", "dataprop2" : "test2" }',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (returnValue) {
+                    window.location = '/Home/Download?file=' + returnValue;
+                }
+            });
+        }
+    </script>-->
 </body>
 </html>

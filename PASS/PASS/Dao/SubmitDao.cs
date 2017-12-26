@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using MySql.Data.MySqlClient;
 using System.Web.Configuration;
 using PASS.Models;
@@ -70,6 +68,94 @@ namespace PASS.Dao
                 return submitInfo;
             }
         }
+        //取得一作業所有有交的學生
+        public List<string> GetOneAssignmentSubmitStudentList(int assignmentID)
+        {
+            List<string> result = new List<string>();
+            string sql = "SELECT student_ID FROM submit WHERE assignment_ID=@assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("Assignment not submit yet");
+                while (reader.Read())
+                {
+                    result.Add(reader.GetString(0));
+                }
+                return result;
+            }
+        }
 
+        //取得學生繳交狀態
+        public List<SubmitInfo> GetOneAssignmentSubmitList(int assignmentID)
+        {
+            
+            string sql = "SELECT student_ID, submit_name, submit_Datetime, submit_Url, submit_Score, assignment_ID FROM submit WHERE assignment_ID=@assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
+                if (!reader.HasRows) throw new Exception("Assignment not student submit ");
+                List<SubmitInfo> submitInfo = new List<SubmitInfo>();
+                
+                while (reader.Read())
+                {
+                    string id = reader.GetString(0);
+                    string name = reader.GetString(1);
+                    DateTime dateTime = reader.GetDateTime(2);
+                    string url = reader.GetString(3);
+                    int score = reader.GetInt16(4);
+                    string assignmentid = reader.GetString(5);
+                    submitInfo.Add(new SubmitInfo(id, name, dateTime, url, score, Convert.ToInt16(assignmentid)));
+                }
+                return submitInfo;
+            }
+        
+
+        
+        }
+
+
+        /// <summary>
+        /// 設定一個作業的分數
+        /// </summary>
+        /// <param name="studentID">學生ID</param>
+        /// <param name="assignmentID">作業ID</param>
+        /// <param name="score">成績</param>
+        /// <returns>
+        /// 成功回傳:success
+        /// </returns>
+        public string  SetOneStudentAssignmentScore(string studentID ,int assignmentID,int score)
+        {
+            
+            string sql = "UPDATE submit SET submit_Score=@score WHERE student_ID  = @studentID AND assignment_ID = @assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@score", score);
+                cmd.Parameters.AddWithValue("@studentID", studentID);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                try
+                {
+                    cmd.ExecuteReader();
+                    return "Success";
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+
+                        
+            }
+
+        }
     }
 }

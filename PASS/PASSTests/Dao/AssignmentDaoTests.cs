@@ -1,5 +1,4 @@
-﻿using PASS.Dao;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using PASS.Models;
 using System.Collections.Generic;
@@ -65,7 +64,7 @@ namespace PASS.Dao.Tests
             //act 
             List<Assignment> actual = _assignmentDao.GetOneCourseAssignment(courseId);
             //assert
-            Assert.AreEqual(actual[0]._assignmentId.ToString(), "1011");
+            Assert.AreEqual(actual[0]._assignmentId.ToString(), "1032");
         }
         [TestMethod()]
         public void UpdateOneAssignmentTest()
