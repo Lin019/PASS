@@ -60,8 +60,8 @@
                     <h1>繳交資訊</h1>
                 </div>
 
-                <div>
-                    <table>
+                <div class="info-area">
+                    <table class="submit-info-table">
                         <tr>
                             <td>學號：</td><td class="student-id"></td>
                         </tr>
@@ -79,8 +79,9 @@
                         </tr>
                     </table>
                 </div>
+                <button class="download-all" style="display:none; ">全部下載</button>
 
-                <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
+                <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data" class="upload-form">
                     <input type="file" name="file" id="file" />
                     <input type="number" name="assignmentID" id="assignmentID" style="display: none;" />
                     <input type="submit" />
@@ -127,17 +128,89 @@
         //頁面載入
         $(function () {
             var ID = getUrlParameter('ID');
+            var type = getUrlParameter('Type');
             $(".logout").click(DirectToIndex);
+            $(".download-all").click(DownloadAll(ID));
             $("#assignmentID").val(ID);
-            ShowSubmitInfo(ID);
+            if (type == 0) ShowSubmitInfo(ID);
+            else if (type == 1) ShowAllStudentSubmitInfo(ID);
+            else if (type == 2) {
+                var courseID = getUrlParameter('CourseID');
+                ShowStudentAllSubmit(courseID);
+            }
         });
 
         function openfileDialog() {
             $("#fileLoader").click();
         }
 
+        //下載全部
+        function DownloadAll(ID) {
+            return function () {
+                window.location.href = '/Home/ZipDownload1?assignmentID=' + ID;
+            }
+        }
 
-        //顯示繳交資訊
+        //顯示該學生所有繳交狀況
+        function ShowStudentAllSubmit(courseID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetStudentAllSubmitStatus", "Home")',
+                data: { "courseID": courseID },
+                success: function (response) {
+
+                    $(".submit-info-table").hide();
+                    $(".upload-form").hide();
+
+                    try {
+                        for (var i = 0; i < response.length; i++) {
+                            $(".info-area").append("<p></p>");
+                            $(".info-area").find("p").last().text("課號：" + response[i].First + "，上傳情形：" + response[i].Second);
+                        }
+                    }
+                    catch (err) {
+                        if (response == "Submit not found") {
+                            $("td.submit-name").text("未上傳");
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+                }
+            });
+        }
+
+        //顯示所有學生繳交狀況
+        function ShowAllStudentSubmitInfo(ID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneAssignmentAllSubmitInfo", "Home")',
+                data: { "assignmentID": ID },
+                success: function (response) {
+
+                    $(".submit-info-table").hide();
+                    $(".upload-form").hide();
+                    $(".download-all").show();
+
+                    try {
+                        for (var i = 0; i < response.length; i++) {
+                            $(".info-area").append("<p></p>");
+                            $(".info-area").find("p").last().text("學號：" + response[i]._studentId + "，作業名稱：" + response[i]._submitName);
+                        }
+                    }
+                    catch (err) {
+                        if (response == "Submit not found") {
+                            $("td.submit-name").text("未上傳");
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+                }
+            });
+        }
+
+        //顯示學生個人繳交資訊
         function ShowSubmitInfo(ID) {
             $.ajax({
                 type: 'POST',

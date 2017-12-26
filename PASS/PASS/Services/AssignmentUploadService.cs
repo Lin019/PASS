@@ -15,6 +15,7 @@ namespace PASS.Services
     {
         private AssignmentDao _assignmentDao = new AssignmentDao();
         private SubmitDao _submitDao = new SubmitDao();
+
         //上傳作業
         public void UploadAssignment(string studentID, int assignmentID, HttpPostedFileBase file)
         {
@@ -153,6 +154,11 @@ namespace PASS.Services
                 }
             }
             return submitStatusList;
+        }
+
+        public List<SubmitInfo> GetOneAssignmentSubmitList(int assignmentID)
+        {
+            return _submitDao.GetOneAssignmentSubmitList(assignmentID);
         }
     }
 }

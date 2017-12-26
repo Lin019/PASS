@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
-using ICSharpCode.SharpZipLib.Zip;
+using System.Web.UI;
 
 namespace PASS.Controllers
 {
@@ -71,6 +71,7 @@ namespace PASS.Controllers
             return Json(courses);
         }
         
+        //顯示所有修課學生
         public JsonResult GetOneCourseStudents(int courseID)
         {
             List<IdAndName> students;
@@ -145,6 +146,7 @@ namespace PASS.Controllers
             return PartialView();
         }
 
+        //顯示學生個人對該作業的繳交狀況
         public JsonResult GetOneAssignmentSubmitInfo(int assignmentID)
         {
             Assignment assignment;
@@ -162,6 +164,33 @@ namespace PASS.Controllers
             list.Add(submitInfo);
 
             return Json(list);
+        }
+
+        public JsonResult GetStudentAllSubmitStatus(int courseID)
+        {
+            try { return Json(_assignmentUploadService.GetOneStudentSubmitStatusList("103590038", courseID)); }
+            catch (Exception e) { return Json(e.Message); }
+        }
+
+        //顯示該作業所有繳交狀況 (只能列出有交的)
+        public JsonResult GetOneAssignmentAllSubmitInfo(int assignmentID)
+        {
+            Assignment assignment;
+            try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
+            catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+
+            int courseID;
+            courseID = int.Parse(assignment._courseId);
+            
+            List<IdAndName> students;
+            try { students = _courseService.GetOneCourseStudents(courseID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            List<SubmitInfo> submits;
+            try { submits = _assignmentUploadService.GetOneAssignmentSubmitList(assignmentID); }
+            catch (Exception e){ return Json(e.Message); };
+
+            return Json(submits);
         }
 
         //取得課程資料
@@ -357,7 +386,7 @@ namespace PASS.Controllers
                 /*try { studentID = _memberService.GetOneMemberInfo()._id; }
                 catch { return Json("請先登入"); }*/
 
-                try { _assignmentUploadService.UploadAssignment("103590038" /*studentID*/, assignmentID, file, Server); }
+                try { _assignmentUploadService.UploadAssignment("103590038" /*studentID*/, assignmentID, file); }
                 catch (Exception e) { return Json("上傳失敗，原因：" + e.Message); }
             }
 
