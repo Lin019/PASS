@@ -138,13 +138,35 @@
                 var courseID = getUrlParameter('CourseID');
                 ShowStudentAllSubmit(courseID);
             }
-            else if (type == 3) {
-                ShowAssignmentReport(ID);
+            else if (type == 3) { ShowAssignmentReport(ID); }
+            else if (type == 4) {
+                var courseID = getUrlParameter('CourseID');
+                ShowCourseReport(courseID);
             }
         });
 
         function openfileDialog() {
             $("#fileLoader").click();
+        }
+
+        //課程報表
+        function ShowCourseReport(courseID) {
+            $(".submit-info-table").hide();
+            $(".upload-form").hide();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCourseReport", "Home")',
+                data: { "courseID": courseID },
+                success: function (response) {
+                    console.log(response);
+
+                    for (var i = 0; i < response.length; i++) {
+                        $(".info-area").append("<p></p>");
+                        $(".info-area").find("p").last().text("繳交率：" + response[i][0].submitRate + "%" + "，平均分數：" + response[i][0].scoreRate);
+                    }
+                }
+            });
         }
 
         //作業報表

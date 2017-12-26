@@ -169,6 +169,7 @@ namespace PASS.Controllers
             return Json(list);
         }
 
+        //取得所有學生繳交狀況
         public JsonResult GetStudentAllSubmitStatus(int courseID)
         {
             try { return Json(_assignmentUploadService.GetOneStudentSubmitStatusList("103590038", courseID)); }
@@ -329,6 +330,7 @@ namespace PASS.Controllers
             return PartialView();
         }
 
+        //更新作業內容
         public JsonResult UpdateAssignment(int ID, string name, string description, string format, string deadlineString, bool late)
         {
             DateTime deadline;
@@ -442,6 +444,7 @@ namespace PASS.Controllers
             return File(filePath, mimeString, fileName);
         }
 
+        //取得作業報表
         public JsonResult GetAssignmnetReport(int assignmentID)
         {
             AverageSubmitAndScore firstData;
@@ -457,6 +460,13 @@ namespace PASS.Controllers
             list.Add(secondData);
 
             return Json(list);
+        }
+
+        //取得課程報表
+        public JsonResult GetCourseReport(int courseID)
+        {
+            try { return Json(_statisticalReportService.GetCourseAssignmentsReport(courseID)); }
+            catch (Exception e) { return Json(e.Message); }
         }
     }
 }
