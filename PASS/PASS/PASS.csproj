@@ -254,11 +254,13 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AverageSubmitAndScore.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IdAndName.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\ScoreDistributed.cs" />
     <Compile Include="Models\SubmitInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -267,6 +269,7 @@
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\AssignmentService.cs" />
     <Compile Include="Services\MemberService.cs" />
+    <Compile Include="Services\StatisticalReportService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -309,7 +312,6 @@
     <Content Include="img\background\line.png" />
     <Content Include="img\background\nature-grass-leaf-green.jpg" />
     <Content Include="img\background\software.png" />
-    <Content Include="img\course\profile.png" />
     <Content Include="img\course\security.jpeg" />
     <Content Include="img\course\icon_enter.png" />
     <Content Include="img\course\icon_enter_hover.png" />
@@ -358,7 +360,6 @@
     <Content Include="fonts\SourceHanSerifTC-ExtraLight.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\course.js" />
-    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -369,7 +370,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\site.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

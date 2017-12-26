@@ -66,11 +66,11 @@ namespace PASS.Controllers
             catch (Exception e)
             {
                 return Json(e.Message);
-            } 
+            }
 
             return Json(courses);
         }
-        
+
         //顯示所有修課學生
         public JsonResult GetOneCourseStudents(int courseID)
         {
@@ -139,7 +139,7 @@ namespace PASS.Controllers
             }
             return Json("編輯成功！");
         }
-        
+
         //取得課程卡片partial view
         public ActionResult _CourseCard()
         {
@@ -181,14 +181,14 @@ namespace PASS.Controllers
 
             int courseID;
             courseID = int.Parse(assignment._courseId);
-            
+
             List<IdAndName> students;
             try { students = _courseService.GetOneCourseStudents(courseID); }
             catch (Exception e) { return Json(e.Message); }
 
             List<SubmitInfo> submits;
             try { submits = _assignmentUploadService.GetOneAssignmentSubmitList(assignmentID); }
-            catch (Exception e){ return Json(e.Message); };
+            catch (Exception e) { return Json(e.Message); };
 
             return Json(submits);
         }
@@ -259,7 +259,7 @@ namespace PASS.Controllers
                 return Json(e.Message.ToString());
             }
         }
-        
+
         /// <summary>
         /// [0]是課程物件 [1]是教授物件 [3]是TA物件
         /// </summary>
@@ -315,7 +315,7 @@ namespace PASS.Controllers
             {
                 assignments = _assignmentService.GetOneCourseAssignment(courseID);
             }
-            catch (Exception e){ return Json(e.Message.ToString()); }
+            catch (Exception e) { return Json(e.Message.ToString()); }
 
             return Json(assignments);
         }
@@ -335,7 +335,7 @@ namespace PASS.Controllers
             }
             catch { return Json("時間轉換失敗"); }
             try { _assignmentService.UpdateAssignment(ID, name, description, format, deadline, late); }
-            catch(Exception e) { return Json(e.Message); }
+            catch (Exception e) { return Json(e.Message); }
 
             return Json("作業修改成功！");
         }
