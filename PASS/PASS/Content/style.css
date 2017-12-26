@@ -1,6 +1,8 @@
-﻿body {
+﻿/*個人頁面*/
+
+body {
 }
-/*課程*/
+/*課程卡片*/
 .course
 {
     margin-top:40px;
@@ -72,12 +74,27 @@
    margin-top:15px;
 }
 
-/*demo*/
-.profile img
+/*個人資料*/
+.profile 
 {
-    margin:5% auto;  
-    width:360px;
+    margin:5% auto;
+    text-align:center;
 }
+
+.profile img 
+{
+    width:200px;
+    margin:auto;
+}
+
+.profile p 
+{
+    font-size:28px;
+    margin:0 0;
+    font-weight:700;
+    text-align:justify;
+}
+
 .profile button
 {
     width:100px;
@@ -91,4 +108,30 @@
 .profile button:hover
 {
     background-color:darkgray;
+}
+
+/*詳細資料*/
+
+.detail
+{
+    margin:50px auto;
+    margin-left:30%;
+}
+
+#detail-form
+{
+    display:none;
+}
+
+#detail-form input
+{
+    font-size:20px;
+    width:250px;
+    height:30px;
+    margin-left:10px;
+}
+
+#submit
+{
+    display:none;
 }

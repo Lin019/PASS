@@ -7,12 +7,12 @@ namespace PASS.Models
 {
     public class Course
     {
-        public string _courseID { get; set; }
+        public int _courseID { get; set; }
         public string _courseName { get; set; }
         public string _courseDescription { get; set; }
         public string _instructorID { get; set; }
 
-        public Course (string courseID, string courseName, string courseDescription, string instructorID)
+        public Course (int courseID, string courseName, string courseDescription, string instructorID)
         {
             _courseID = courseID;
             _courseName = courseName;

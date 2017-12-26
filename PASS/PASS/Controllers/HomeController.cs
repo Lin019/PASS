@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace PASS.Controllers
 {
@@ -64,12 +66,12 @@ namespace PASS.Controllers
             catch (Exception e)
             {
                 return Json(e.Message);
-            }
-            
-            return Json(new { } );
-        }
+            } 
 
-        public JsonResult GetOneCourseStudents(string courseID)
+            return Json(courses);
+        }
+        
+        public JsonResult GetOneCourseStudents(int courseID)
         {
             List<IdAndName> students;
             try { students = _courseService.GetOneCourseStudents(courseID); }
@@ -82,15 +84,15 @@ namespace PASS.Controllers
         }
 
         //更新課程資訊
-        public JsonResult UpdateCourseDescription(string ID, string description)
+        public JsonResult UpdateCourseDescription(int courseID, string description)
         {
             Course course;
-            try { course = _courseService.GetOneCourse(ID); }
+            try { course = _courseService.GetOneCourse(courseID); }
             catch (Exception e)
             {
                 return Json(e.Message);
             }
-            try { _courseService.UpdateOneCourse(ID, course._courseName, description, course._instructorID); }
+            try { _courseService.UpdateOneCourse(courseID, course._courseName, description, course._instructorID); }
             catch (Exception e)
             {
                 return Json(e.Message);
@@ -100,7 +102,7 @@ namespace PASS.Controllers
         }
 
         //新增TA
-        public JsonResult NewCourseTA(string courseID, string TAID)
+        public JsonResult NewCourseTA(int courseID, string TAID)
         {
             try { _courseService.SetOneCourseTA(courseID, TAID); }
             catch (Exception e)
@@ -111,7 +113,7 @@ namespace PASS.Controllers
         }
 
         //刪除TA
-        public JsonResult DeleteCourseTA(string courseID, string TAID)
+        public JsonResult DeleteCourseTA(int courseID, string TAID)
         {
             try { _courseService.DeleteCourseTA(courseID, TAID); }
             catch (Exception e)
@@ -122,7 +124,7 @@ namespace PASS.Controllers
         }
 
         //編輯TA
-        public JsonResult UpdateCourseTA(string courseID, string TAID1, string TAID2)
+        public JsonResult UpdateCourseTA(int courseID, string TAID1, string TAID2)
         {
             try { _courseService.DeleteCourseTA(courseID, TAID1); }
             catch (Exception e)
@@ -136,11 +138,11 @@ namespace PASS.Controllers
             }
             return Json("編輯成功！");
         }
-
+        
         //取得課程卡片partial view
-        public PartialViewResult GetCourseCard()
+        public ActionResult _CourseCard()
         {
-            return PartialView("_CourseCard");
+            return PartialView();
         }
 
         public JsonResult GetOneAssignmentSubmitInfo(int assignmentID)
@@ -152,7 +154,7 @@ namespace PASS.Controllers
             catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
             /*try { studentID = _memberService.GetOneMemberInfo()._id; }
             catch { return Json("請先登入"); }*/
-            try { submitInfo = _assignmentUploadService.GetOneSubmitInfo("103590038" /*studentID*/, assignmentID); }
+            try { submitInfo = _assignmentUploadService.DownloadAssignmentInfo("103590038" /*studentID*/, assignmentID); }
             catch (Exception e) { return Json(e.Message); }
 
             ArrayList list = new ArrayList();
@@ -163,7 +165,7 @@ namespace PASS.Controllers
         }
 
         //取得課程資料
-        public JsonResult GetCourse(string courseId)
+        public JsonResult GetCourse(int courseId)
         {
             Course course;
             try { course = _courseService.GetOneCourse(courseId); }
@@ -177,6 +179,7 @@ namespace PASS.Controllers
             try { courseData.Add(_courseService.GetOneCourseTA(courseId)); }
             catch (Exception e)
             {
+                return Json("讀取失敗，原因：" + e.Message);
             }
 
             return Json(courseData);
@@ -193,25 +196,31 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
-        
-        //新增帳號
+
+        /// <summary>
+        /// 新增帳號
+        /// </summary>
+        /// <param name="id">學號</param>
+        /// <param name="password">密碼</param>
+        /// <param name="name">姓名</param>
+        /// <param name="email">電子郵件</param>
+        /// <param name="type">身分</param>
+        /// <returns>
+        /// 成功回傳 json檔 "success"字串
+        /// 失敗回傳 json檔 "fail" 字串 +拋例外
+        /// </returns>
         [HttpPost]
-        public JsonResult CreateUser(string id, string account, string password, string name, string email, int type)
+        public JsonResult CreateUser(string id, string password, string name, string email, int authority)
         {
-            /*string id, string account, string password, string name, string email, int type*/
-            /*string  id = "998";
-            string account = "FUCK";
-            string password = "123";
-            string  name = "55";
-            string email = "123@456";
-            int type = 1;*/
-            return Json(_memberService.CreateUser(id, account, password, name, email, type));
+            return Json(_memberService.CreateUser(id, password, name, email, authority));
         }
 
         //取得會員資料
         [HttpPost]
         public JsonResult GetOneMemberInfo()
         {
+            //Member member = new Member("103590013","william6931","test","a912686931@gmail.com",1);
+            //return Json(member);
             try
             {
                 return Json(_memberService.GetOneMemberInfo());
@@ -221,7 +230,7 @@ namespace PASS.Controllers
                 return Json(e.Message.ToString());
             }
         }
-
+        
         /// <summary>
         /// [0]是課程物件 [1]是教授物件 [3]是TA物件
         /// </summary>
@@ -230,7 +239,7 @@ namespace PASS.Controllers
         /// 回傳 課程物件 教授姓名 ID  TA學號和名字的 List Json檔
         /// 失敗回傳 FAIL
         /// </returns>
-        public JsonResult Package(string CourseID)
+        public JsonResult Package(int courseID)
         {
             Course course;
             Member instructor;
@@ -238,7 +247,7 @@ namespace PASS.Controllers
             List<IdAndName> TA;
             try
             {
-                course = _courseService.GetOneCourse(CourseID);//用課程ID找教授ID
+                course = _courseService.GetOneCourse(courseID);//用課程ID找教授ID
             }
             catch
             {
@@ -256,7 +265,7 @@ namespace PASS.Controllers
             }
             try
             {
-                TA = _courseService.GetOneCourseTA(CourseID);//用課程找TA_id
+                TA = _courseService.GetOneCourseTA(courseID);//用課程找TA_id
             }
             catch
             {
@@ -322,6 +331,7 @@ namespace PASS.Controllers
             }
             return Json("新增作業：" + name + "成功");
         }
+
         //刪除作業
         [HttpPost]
         public JsonResult DeleteAssignment(string id)
@@ -352,6 +362,52 @@ namespace PASS.Controllers
             }
 
             return Redirect("/Home/Assignment?ID=" + assignmentID);
+        }
+
+        //登入
+        [HttpPost]
+        public JsonResult Login(string id, string password)
+        {
+            //_memberService.CreateUser("103590098","william6931","test","4545",1);
+            try { _memberService.Login(id, password); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
+        }
+
+        //下載作業
+        [HttpGet]
+        public virtual ActionResult Download(string studentID, int assignmentID)
+        {
+            /*string studentID = "103590038";
+            int assignmentID = 1024;*/
+            SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = MyDocumentsPath + submit._submitUrl + "\\" + submit._submitName;
+            string mimeString = MimeMapping.GetMimeMapping(submit._submitName);
+            return File(filePath, mimeString, submit._submitName);
+        }
+
+        //解壓縮全部作業後壓縮成一ZIP下載
+        [HttpGet]
+        public ActionResult UnzipDownload1(int assignmentID)
+        {
+            string filePath = _assignmentUploadService.UnzipIntoFolder(assignmentID);
+            string fileName = Path.GetFileName(filePath);
+            string mimeString = MimeMapping.GetMimeMapping(filePath);
+            return File(filePath, mimeString, fileName);
+        }
+
+        //所有作業壓縮ZIP後下載
+        [HttpGet]
+        public ActionResult ZipDownload1(int assignmentID)
+        {
+            string filePath = _assignmentUploadService.ZipOneAssignmentSubmit(assignmentID);
+            string fileName = Path.GetFileName(filePath);
+            string mimeString = MimeMapping.GetMimeMapping(filePath);
+            return File(filePath, mimeString, fileName);
         }
     }
 }
