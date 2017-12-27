@@ -82,13 +82,14 @@ function deleteCourse()
 //加密
 function encrypt(password)
 {
+    /*
     //將密碼第一個字分離出來
-    var passwordTemp = password.split("",1); 
-    for (var i = 0; i < password.length-1; i++)
+    var passwordTemp = password; 
+    for (var i = 0; i < password.length - 1; i++)
     {
         passwordTemp = passwordTemp + "*";
-    }
-    return passwordTemp;
+    }*/
+    return "**********";
 }
 
 //設定使用者資訊
@@ -205,7 +206,7 @@ function GetCourses(id) {
         data: { "instructorID": id },
         success: function (response) {
             console.log(response);
-            if (response != "Course not found") {
+            if (response != "Student not found") {
                 for (i = 0; i < response.length; i++) {
                     //設定課程卡片
                     SetCourseCard(response[i]._courseID, response[i]._courseName, response[i]._courseDescription);

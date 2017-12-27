@@ -259,15 +259,17 @@
                 url: '@Url.Action("GetOneAssignmentAllSubmitInfo", "Home")',
                 data: { "assignmentID": ID },
                 success: function (response) {
-
+                    console.log(response);
                     $(".submit-info-table").hide();
                     $(".upload-form").hide();
                     $(".download-all").show();
 
                     try {
-                        for (var i = 0; i < response.length; i++) {
-                            $(".info-area").append("<p></p>");
-                            $(".info-area").find("p").last().text("學號：" + response[i]._studentId + "，作業名稱：" + response[i]._submitName);
+                        if (response != "Assignment not student submit ") {
+                            for (var i = 0; i < response.length; i++) {
+                                $(".info-area").append("<p></p>");
+                                $(".info-area").find("p").last().text("學號：" + response[i]._studentId + "，作業名稱：" + response[i]._submitName);
+                            }
                         }
                     }
                     catch (err) {

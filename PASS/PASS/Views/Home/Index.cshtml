@@ -94,13 +94,13 @@
                 <h3>登入</h3>
                 <ul>
                     <li>
-                        <h5>請輸入您的帳號：<input type="text" name="YourAccount" placeholder="1035900xx"></h5>
+                        <h5>請輸入您的帳號：<input id="user-id" type="text" name="YourAccount" placeholder="1035900xx"></h5>
                     </li>
                     <li>
-                        <h5>請輸入您的密碼：<input type="password" name="password" placeholder="未輸入"></h5>
+                        <h5>請輸入您的密碼：<input id="user-password" type="password" name="password" placeholder="未輸入"></h5>
                     </li>
                     <li>
-                        <h5><a>忘記帳號或密碼?</a><button class="" onclick="location.href = 'http://localhost:50714/Home/Course'">登入</button></h5>
+                        <h5><a>忘記帳號或密碼?</a><button id="submit" >登入</button></h5>
                     </li>
                 </ul>
             </div><! --/row -->
@@ -122,12 +122,6 @@
             </div>
         </div>
     </div><! --/footerwrap -->
-
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -173,13 +167,11 @@
 
     //登入
     function Login() {
-        var loginData = $("#login").serializeFormJSON();
         $.ajax({
             type: 'POST',
             url: '@Url.Action("Login", "Home")',
-            data: loginData,
+            data: { "id":$("#user-id").val(), "password":$("#user-password").val() },
             success: function (response) {
-                console.log(response);
                 DirectToSite();
             }
         });
