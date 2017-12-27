@@ -68,6 +68,7 @@ namespace PASS.Dao
                 return submitInfo;
             }
         }
+
         //取得一作業所有有交的學生
         public List<string> GetOneAssignmentSubmitStudentList(int assignmentID)
         {
@@ -80,7 +81,7 @@ namespace PASS.Dao
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
                 MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
-                if (!reader.HasRows) throw new Exception("Assignment not submit yet");
+                if (!reader.HasRows) throw new Exception("Assignment have not been submited");
                 while (reader.Read())
                 {
                     result.Add(reader.GetString(0));

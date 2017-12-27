@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Personal Web">
+    <meta name="author" content="Chi Wu William Chiang">
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <title>G5 classroom</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Content/IndexStyle.css" rel="stylesheet">
+    <link href="~/Content/CourseStudents.css" rel="stylesheet">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/assignmentStyle.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="http://localhost:50714/Home/Course">個人頁面</a></li>
+                    <li><a href="#about">公告</a></li>
+                    <li><a href="#works">作業</a></li>
+                    <li class="logout"><a href="http://localhost:50714/Home/Index">登出</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 chinese">
+                    @*登入後改成顯示下面的*@
+                    <h1 class="course-name">軟體工程</h1>
+                    <h3 class="teacher">歡迎，你的身分是學生</h3>
+                    <h3 class="ta">目前還沒有TA喔！</h3>
+                </div>
+            </div><! --/row -->
+        </div> <!-- /container -->
+    </div><! --/headerwrap -->
+
+    <section id="about"></section>
+    <div id="about">
+        <div class="container">
+            <div class="row centered mt mb chinese">
+                <div class="title">
+                    <h1>繳交資訊</h1>
+                </div>
+
+                <div class="info-area">
+                    <table class="submit-info-table">
+                        <tr>
+                            <td>學號：</td><td class="student-id"></td>
+                        </tr>
+                        <tr>
+                            <td>繳交名稱：</td>
+                            <td class="submit-name"></td>
+                        </tr>
+                        <tr>
+                            <td>上傳時間：</td>
+                            <td class="submit-time"></td>
+                        </tr>
+                        <tr>
+                            <td>成績：</td>
+                            <td class="submit-score"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="download-all" style="display:none; ">全部下載</button>
+
+                <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data" class="upload-form">
+                    <input type="file" name="file" id="file" />
+                    <input type="number" name="assignmentID" id="assignmentID" style="display: none;" />
+                    <input type="submit" />
+                </form>
+
+            </div><! --/row -->
+        </div><! --/container -->
+    </div>
+
+
+
+    <div id="social">
+        <div class="container">
+            <div class="row centered chinese login">
+            </div><! --/row -->
+        </div><! --/container -->
+    </div><! --/social -->
+
+    <div id="footerwrap">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-4">
+                    <p><b>ASSIGNMENT SUBMIT & CURSE DETAIL</b></p>
+                </div>
+                <div class="col-lg-4">
+                    <p>G5 小教室 © 2017 William Chiang.</p>
+                </div>
+                <div class="col-lg-4">
+                    <p>a912686931work@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div><! --/footerwrap -->
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script>
+        //頁面載入
+        $(function () {
+            var ID = getUrlParameter('ID');
+            var type = getUrlParameter('Type');
+            $(".logout").click(DirectToIndex);
+            $(".download-all").click(DownloadAll(ID));
+            $("#assignmentID").val(ID);
+            if (type == 0) ShowSubmitInfo(ID);
+            else if (type == 1) ShowAllStudentSubmitInfo(ID);
+            else if (type == 2) {
+                var courseID = getUrlParameter('CourseID');
+                ShowStudentAllSubmit(courseID);
+            }
+            else if (type == 3) { ShowAssignmentReport(ID); }
+            else if (type == 4) {
+                var courseID = getUrlParameter('CourseID');
+                ShowCourseReport(courseID);
+            }
+        });
+
+        function openfileDialog() {
+            $("#fileLoader").click();
+        }
+
+        //課程報表
+        function ShowCourseReport(courseID) {
+            $(".submit-info-table").hide();
+            $(".upload-form").hide();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCourseReport", "Home")',
+                data: { "courseID": courseID },
+                success: function (response) {
+                    console.log(response);
+
+                    for (var i = 0; i < response.length; i++) {
+                        $(".info-area").append("<p></p>");
+                        $(".info-area").find("p").last().text("繳交率：" + response[i][0].submitRate + "%" + "，平均分數：" + response[i][0].scoreRate);
+                    }
+                }
+            });
+        }
+
+        //作業報表
+        function ShowAssignmentReport(ID) {
+
+            $(".submit-info-table").hide();
+            $(".upload-form").hide();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAssignmnetReport", "Home")',
+                data: { "assignmentID": ID },
+                success: function (response) {
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("繳交率：" + response[0].submitRate + "%" + "，平均分數：" + response[0].scoreRate);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("0到10分：" + response[1]._score0to10);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("11到20分：" + response[1]._score11to20);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("21到30分：" + response[1]._score21to30);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("31到40分：" + response[1]._score31to40);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("41到50分：" + response[1]._score41to50);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("51到60分：" + response[1]._score51to60);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("61到70分：" + response[1]._score61to70);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("71到80分：" + response[1]._score71to80);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("81到90分：" + response[1]._score81to90);
+
+                    $(".info-area").append("<p></p>");
+                    $(".info-area").find("p").last().text("91到100分：" + response[1]._score91to100);
+                }
+            });
+        }
+
+        //下載全部
+        function DownloadAll(ID) {
+            return function () {
+                window.location.href = '/Home/ZipDownload1?assignmentID=' + ID;
+            }
+        }
+
+        //顯示該學生所有繳交狀況
+        function ShowStudentAllSubmit(courseID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetStudentAllSubmitStatus", "Home")',
+                data: { "courseID": courseID },
+                success: function (response) {
+
+                    $(".submit-info-table").hide();
+                    $(".upload-form").hide();
+
+                    try {
+                        for (var i = 0; i < response.length; i++) {
+                            $(".info-area").append("<p></p>");
+                            $(".info-area").find("p").last().text("課號：" + response[i].First + "，上傳情形：" + response[i].Second);
+                        }
+                    }
+                    catch (err) {
+                        if (response == "Submit not found") {
+                            $("td.submit-name").text("未上傳");
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+                }
+            });
+        }
+
+        //顯示所有學生繳交狀況
+        function ShowAllStudentSubmitInfo(ID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneAssignmentAllSubmitInfo", "Home")',
+                data: { "assignmentID": ID },
+                success: function (response) {
+
+                    $(".submit-info-table").hide();
+                    $(".upload-form").hide();
+                    $(".download-all").show();
+
+                    try {
+                        for (var i = 0; i < response.length; i++) {
+                            $(".info-area").append("<p></p>");
+                            $(".info-area").find("p").last().text("學號：" + response[i]._studentId + "，作業名稱：" + response[i]._submitName);
+                        }
+                    }
+                    catch (err) {
+                        if (response == "Submit not found") {
+                            $("td.submit-name").text("未上傳");
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+                }
+            });
+        }
+
+        //顯示學生個人繳交資訊
+        function ShowSubmitInfo(ID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneAssignmentSubmitInfo", "Home")',
+                data: { "assignmentID": ID},
+                success: function (response) {
+                    try {
+                        $("td.student-id").text(response[1]._studentId);
+                        $("td.submit-name").text(response[1]._submitName);
+                        var date = new Date(parseInt(response[1]._submitTime.substr(6)));
+                        $("td.submit-time").text(date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
+                        if (response[1]._submitScore == -1 || response[1]._submitScore == 0)
+                            $("td.submit-score").text("未輸入");
+                        else
+                            $("td.submit-score").text(response[1]._submitScore);
+                    }
+                    catch (err) {
+                        if (response == "Submit not found") {
+                            $("td.submit-name").text("未上傳");
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+                }
+            });
+        }
+
+        //設定課程資訊
+        function SetCourseInfo(ID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCourse", "Home")',
+                data: { "courseId": ID },
+                success: function (response) {
+                    $(".course-name").text(response[0]._courseName);
+                    $(".teacher").text("指導教授：" + response[0]._instructorID);
+
+                    //如果有TA
+                    if (response.length > 0) {
+                        $(".ta").text(response[1]);
+                    }
+                }
+            });
+        }
+
+        //重新導向到首頁
+        function DirectToIndex() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RedirectPage", "Home")',
+                data: { "data": "Index" },
+                success: function (response) {
+                    window.location.href = response.url;
+                }
+            });
+        };
+
+        //取得url GET變數
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+    </script>
+
+</body>
+</html>
+

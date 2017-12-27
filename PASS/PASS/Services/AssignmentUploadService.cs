@@ -15,6 +15,7 @@ namespace PASS.Services
     {
         private AssignmentDao _assignmentDao = new AssignmentDao();
         private SubmitDao _submitDao = new SubmitDao();
+
         //上傳作業
         public void UploadAssignment(string studentID, int assignmentID, HttpPostedFileBase file)
         {
@@ -44,11 +45,13 @@ namespace PASS.Services
             else
                 throw new Exception("File isn't selected");
         }
+
         //下載作業資訊
         public SubmitInfo DownloadAssignmentInfo(string studentID, int assignmentID)
         {
             return _submitDao.GetOneSubmitInfo(studentID, assignmentID);
         }
+
         //將一作業所有繳交解壓縮到一資料夾，然後壓縮該資料夾並回傳其URL
         public string UnzipIntoFolder(int assignmentID)
         {
@@ -151,6 +154,11 @@ namespace PASS.Services
                 }
             }
             return submitStatusList;
+        }
+
+        public List<SubmitInfo> GetOneAssignmentSubmitList(int assignmentID)
+        {
+            return _submitDao.GetOneAssignmentSubmitList(assignmentID);
         }
     }
 }

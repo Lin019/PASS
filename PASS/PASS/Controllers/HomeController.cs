@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
-using ICSharpCode.SharpZipLib.Zip;
+using System.Web.UI;
 
 namespace PASS.Controllers
 {
@@ -17,17 +17,25 @@ namespace PASS.Controllers
         public CourseService _courseService;
         public AssignmentService _assignmentService;
         public AssignmentUploadService _assignmentUploadService;
+        public StatisticalReportService _statisticalReportService;
+
         public HomeController()
         {
             _memberService = new MemberService();
             _courseService = new CourseService();
             _assignmentService = new AssignmentService();
             _assignmentUploadService = new AssignmentUploadService();
+            _statisticalReportService = new StatisticalReportService();
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "登入";
+            return View();
+        }
+
+        public ActionResult Assignment()
+        {
             return View();
         }
 
@@ -61,11 +69,12 @@ namespace PASS.Controllers
             catch (Exception e)
             {
                 return Json(e.Message);
-            } 
+            }
 
             return Json(courses);
         }
-        
+
+        //顯示所有修課學生
         public JsonResult GetOneCourseStudents(int courseID)
         {
             List<IdAndName> students;
@@ -133,11 +142,59 @@ namespace PASS.Controllers
             }
             return Json("編輯成功！");
         }
-        
+
         //取得課程卡片partial view
         public ActionResult _CourseCard()
         {
             return PartialView();
+        }
+
+        //顯示學生個人對該作業的繳交狀況
+        public JsonResult GetOneAssignmentSubmitInfo(int assignmentID)
+        {
+            Assignment assignment;
+            SubmitInfo submitInfo;
+            string studentID;
+            try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
+            catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+            /*try { studentID = _memberService.GetOneMemberInfo()._id; }
+            catch { return Json("請先登入"); }*/
+            try { submitInfo = _assignmentUploadService.DownloadAssignmentInfo("103590038" /*studentID*/, assignmentID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            ArrayList list = new ArrayList();
+            list.Add(assignment);
+            list.Add(submitInfo);
+
+            return Json(list);
+        }
+
+        //取得所有學生繳交狀況
+        public JsonResult GetStudentAllSubmitStatus(int courseID)
+        {
+            try { return Json(_assignmentUploadService.GetOneStudentSubmitStatusList("103590038", courseID)); }
+            catch (Exception e) { return Json(e.Message); }
+        }
+
+        //顯示該作業所有繳交狀況 (只能列出有交的)
+        public JsonResult GetOneAssignmentAllSubmitInfo(int assignmentID)
+        {
+            Assignment assignment;
+            try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
+            catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
+
+            int courseID;
+            courseID = int.Parse(assignment._courseId);
+
+            List<IdAndName> students;
+            try { students = _courseService.GetOneCourseStudents(courseID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            List<SubmitInfo> submits;
+            try { submits = _assignmentUploadService.GetOneAssignmentSubmitList(assignmentID); }
+            catch (Exception e) { return Json(e.Message); };
+
+            return Json(submits);
         }
 
         //取得課程資料
@@ -204,7 +261,7 @@ namespace PASS.Controllers
                 return Json(e.Message.ToString());
             }
         }
-        
+
         /// <summary>
         /// [0]是課程物件 [1]是教授物件 [3]是TA物件
         /// </summary>
@@ -260,7 +317,7 @@ namespace PASS.Controllers
             {
                 assignments = _assignmentService.GetOneCourseAssignment(courseID);
             }
-            catch (Exception e){ return Json(e.Message.ToString()); }
+            catch (Exception e) { return Json(e.Message.ToString()); }
 
             return Json(assignments);
         }
@@ -271,6 +328,7 @@ namespace PASS.Controllers
             return PartialView();
         }
 
+        //更新作業內容
         public JsonResult UpdateAssignment(int ID, string name, string description, string format, string deadlineString, bool late)
         {
             DateTime deadline;
@@ -280,7 +338,7 @@ namespace PASS.Controllers
             }
             catch { return Json("時間轉換失敗"); }
             try { _assignmentService.UpdateAssignment(ID, name, description, format, deadline, late); }
-            catch(Exception e) { return Json(e.Message); }
+            catch (Exception e) { return Json(e.Message); }
 
             return Json("作業修改成功！");
         }
@@ -320,16 +378,23 @@ namespace PASS.Controllers
             }
             return Json("作業刪除成功！");
         }
+
         //上傳作業
-        /*[HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public ActionResult Upload(HttpPostedFileBase file, int assignmentID)
         {
-            if (file.ContentLength > 0)
+            string studentID;
+
+            if (file != null)
             {
-                _assignmentUploadService.UploadAssignment("103590038",1024, file, Server);
+                /*try { studentID = _memberService.GetOneMemberInfo()._id; }
+                catch { return Json("請先登入"); }*/
+
+                try { _assignmentUploadService.UploadAssignment("103590038" /*studentID*/, assignmentID, file); }
+                catch (Exception e) { return Json("上傳失敗，原因：" + e.Message); }
             }
-            return RedirectToAction("Index");
-        }*/
+
+            return Redirect("/Home/Assignment?ID=" + assignmentID);
+        }
 
         //登入
         [HttpPost]
@@ -376,6 +441,7 @@ namespace PASS.Controllers
             string mimeString = MimeMapping.GetMimeMapping(filePath);
             return File(filePath, mimeString, fileName);
         }
+
         //新增課程
         [HttpPost]
         public JsonResult SetCourse(string courseName, string courseDescription, string instructorID)
@@ -389,7 +455,7 @@ namespace PASS.Controllers
         }
 
         //刪除課程
-        public JsonResult DeleteCourse(string courseID)
+        public JsonResult DeleteCourse(int courseID)
         {
             try { _courseService.DeleteOneCourse(courseID); }
             catch (Exception e)
@@ -397,6 +463,31 @@ namespace PASS.Controllers
                 return Json(e.Message);
             }
             return Json("true");
+        }
+
+        //取得作業報表
+        public JsonResult GetAssignmnetReport(int assignmentID)
+        {
+            AverageSubmitAndScore firstData;
+            try { firstData = _statisticalReportService.GetOneAssignmentReport(assignmentID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            ScoreDistributed secondData;
+            try { secondData = _statisticalReportService.GetOneAssignmentScoreDistributed(assignmentID); }
+            catch (Exception e) { return Json(e.Message); }
+
+            ArrayList list = new ArrayList();
+            list.Add(firstData);
+            list.Add(secondData);
+
+            return Json(list);
+        }
+
+        //取得課程報表
+        public JsonResult GetCourseReport(int courseID)
+        {
+            try { return Json(_statisticalReportService.GetCourseAssignmentsReport(courseID)); }
+            catch (Exception e) { return Json(e.Message); }
         }
     }
 }
