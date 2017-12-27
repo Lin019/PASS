@@ -48,6 +48,7 @@ namespace PASS.Services
                 Member loginMember = GetOneMemberInfo();
                 if (loginMember._memberPassword != password)
                     throw new Exception("Incorrect Password");
+                HttpContext.Current.Session.Add("Authority", loginMember._memberType);
             }
             catch(Exception e)
             {

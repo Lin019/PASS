@@ -49,7 +49,7 @@ namespace PASS.Controllers
         public JsonResult QueryInstructorCourses(string instructorID)
         {
             List<Course> courses;
-            try { courses = _courseService.GetOneInstructorCourse(instructorID); }
+            try { courses = _courseService.GetInstructorCourseOrStudentElective(instructorID); }
             catch (Exception e)
             {
                 return Json(e.Message);

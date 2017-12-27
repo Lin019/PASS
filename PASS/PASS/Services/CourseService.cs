@@ -16,15 +16,14 @@ namespace PASS.Services
             _courseDao = new CourseDao();
         }
      
-        //取得一教授授課課程
-        public List<Course> GetOneInstructorCourse(string instructorID)
+        //取得一教授授課課程或學生修課課程
+        public List<Course> GetInstructorCourseOrStudentElective(string userID)
         {
-            return _courseDao.GetOneInstructorCourse(instructorID);
-        }
-        //取得一學生修課課程
-        public List<Course> GetOneStudentElective(string studentID)
-        {
-            return _courseDao.GetOneStudentElective(studentID);
+            int authority = Convert.ToInt16(HttpContext.Current.Session["Authority"]);
+            if (authority == 2) return _courseDao.GetOneStudentElective(userID);
+            else if (authority == 3) return _courseDao.GetOneInstructorCourse(userID);
+            else
+                throw new Exception("User is not Instructor or Student");
         }
         //取得一課程
         public Course GetOneCourse(string courseID)
