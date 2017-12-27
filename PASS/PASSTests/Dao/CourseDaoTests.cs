@@ -13,99 +13,38 @@ namespace PASS.Dao.Tests
     public class CourseDaoTests
     {
         CourseDao _courseDaoTest = new CourseDao();
-        [TestMethod()]
-        public void GetOneCourseTATest()
-        {
-            _courseDaoTest.CreateOneCourseforTEST("1", "軟公", "軟體老公公", "000590087");
-            List<IdAndName> TAs = new List<IdAndName>();
-            TAs = _courseDaoTest.GetOneCourseTA("1");
-            Assert.AreEqual("103590023", TAs[0]._id);
-            Assert.AreEqual("SM", TAs[1]._memberName);
-            _courseDaoTest.DeleteOneCourse("1");
-        }
-
-        [TestMethod()]
-        public void GetOneInstructorCourseTest()
-        {
-            _courseDaoTest.CreateOneCourseforTEST("1", "軟公", "軟體老公公", "000590087");
-            List<Course> courses = null;
-            courses = _courseDaoTest.GetOneInstructorCourse("000590087");
-            Assert.AreEqual(courses[0]._courseID, "1");
-            Assert.AreEqual(courses[0]._courseDescription, "軟體老公公");
-            Assert.AreEqual(courses[0]._courseName, "軟公");
-            Assert.AreEqual(courses[0]._instructorID, "000590087");
-            _courseDaoTest.DeleteOneCourse("1");
-        }
 
         [TestMethod()]
         public void CreateOneCourseTest()
         {
-            _courseDaoTest.CreateOneCourseforTEST("1", "軟工", "測資", "103590018");
+            _courseDaoTest.CreateOneCourseforTEST("99999", "測試課程3", "Do not delete this", "999999999");
             Course course = null;
-            course = _courseDaoTest.GetOneCourse("1");
-            Assert.AreEqual(course._courseID, "1");
-            Assert.AreEqual(course._courseDescription, "測資");
-            Assert.AreEqual(course._courseName, "軟工");
-            Assert.AreEqual(course._instructorID, "103590018");
-            _courseDaoTest.UpdateOneCourse("1", "軟體工學", "測資二代", "103590019");
-            course = _courseDaoTest.GetOneCourse("1");
-            Assert.AreEqual(course._courseID, "1");
-            Assert.AreEqual(course._courseDescription, "測資二代");
-            Assert.AreEqual(course._courseName, "軟體工學");
-            Assert.AreEqual(course._instructorID, "103590019");
-            _courseDaoTest.DeleteOneCourse("1");
-            try { course = _courseDaoTest.GetOneCourse("1"); }
+            course = _courseDaoTest.GetOneCourse("99999");
+            Assert.AreEqual(course._courseDescription, "Do not delete this");
+            Assert.AreEqual(course._courseName, "測試課程3");
+            Assert.AreEqual(course._instructorID, "999999999");
+            _courseDaoTest.UpdateOneCourse("99999", "測試資料33", "Do not delete me", "999999999");
+            course = _courseDaoTest.GetOneCourse("99999");
+            Assert.AreEqual(course._courseDescription, "Do not delete me");
+            Assert.AreEqual(course._courseName, "測試資料33");
+            List<Course> teacherCourse = _courseDaoTest.GetOneInstructorCourse("999999999");
+            Assert.AreEqual(teacherCourse[2]._courseDescription, "Do not delete me");
+            Assert.AreEqual(teacherCourse[2]._courseName, "測試資料33");
+            List<IdAndName> students = _courseDaoTest.GetOneCourseStudents("999");
+            Assert.AreEqual("103590023", students[0]._id);
+            List<Course> studentCourse = _courseDaoTest.GetOneStudentElective("103590023");
+            Assert.AreEqual("測試用課程", studentCourse[0]._courseName);
+            _courseDaoTest.SetOneCourseTA("99999", "103590038");
+            Assert.AreEqual("103590038", _courseDaoTest.GetOneCourseTA("99999")[0]._id);
+            _courseDaoTest.DeleteCourseTA("99999", "103590038");
+            try { _courseDaoTest.GetOneCourseTA("99999"); }
             catch (Exception e)
-            {
-                Assert.AreEqual("Course not found", e.Message.ToString());
-            }
-        }
-
-        [TestMethod()]
-        public void SetOneCourseTATest()
-        {
-            try
-            {
-                //_courseDaoTest.SetOneCourseTA("1", "103590032");
-                //_courseDaoTest.SetOneCourseTA("1", "103590032");
-                _courseDaoTest.SetOneCourseTA("1", "000590087");
-            }
+            { Assert.AreEqual("TA not found", e.Message); }
+            _courseDaoTest.DeleteOneCourse("99999");
+            try { _courseDaoTest.GetOneCourse("99999"); }
             catch (Exception e)
-            {
-                //Assert.AreEqual("TA already exists", e.Message.ToString());
-                Assert.AreEqual("User is not student", e.Message.ToString());
-            }
+            { Assert.AreEqual("Course not found", e.Message); }
         }
 
-        [TestMethod()]
-        public void DeleteCourseTATest()
-        {
-            try
-            {
-                _courseDaoTest.DeleteCourseTA("1", "103590032");
-                _courseDaoTest.DeleteCourseTA("1", "103590032");
-            }
-            catch (Exception e)
-            {
-                Assert.AreEqual("TA not exists", e.Message.ToString());
-            }
-        }
-
-        [TestMethod()]
-        public void GetOneCourseStudentsTest()
-        {
-            List<IdAndName> idName = _courseDaoTest.GetOneCourseStudents("1");
-            Assert.AreEqual("103590023", idName[0]._id);
-            Assert.AreEqual("LAI", idName[0]._memberName);
-            Assert.AreEqual("103590034", idName[1]._id);
-            Assert.AreEqual("BONIS", idName[1]._memberName);
-        }
-
-        [TestMethod()]
-        public void GetOneStudentElectiveTest()
-        {
-            _courseDaoTest.GetOneStudentElective("103590023");
-            Assert.Fail();
-        }
     }
 }
