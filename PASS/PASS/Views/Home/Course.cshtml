@@ -172,7 +172,7 @@
             $('#datetimepicker1').datetimepicker();
             var ID = getUrlParameter('ID');
             SetCourseInfo(ID);
-            LoadAssignments(ID);
+            //LoadAssignments(ID);
             $(".logout").click(DirectToIndex);
             var btnStudents = $("button.students");
             btnStudents.click(DirectToStudents(ID, btnStudents));
@@ -321,6 +321,8 @@
                 url: '@Url.Action("GetCourse", "Home")',
                 data: { "courseId": ID },
                 success: function (response) {
+                    console.log(response);
+
                     $(".course-name").text(response[0]._courseName);
                     $(".teacher").text("指導教授：" + response[0]._instructorID);
                     $(".description").text(response[0]._courseDescription);
