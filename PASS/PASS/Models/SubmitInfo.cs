@@ -13,7 +13,7 @@ namespace PASS.Models
         public string _submitUrl { get; set; }
         public int _submitScore { get; set; }
         public int _assignmentID { get; set; }
-
+        
         public SubmitInfo(string studentId, string submitName, DateTime submitTime, string submitUrl, int submitScore, int assignmentID)
         {
             _studentId = studentId;
