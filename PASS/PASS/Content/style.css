@@ -31,7 +31,8 @@ body {
     opacity:1;
 }
 
-.course:hover h4,.course:hover h1
+
+.course:hover h4, .course:hover h1
 {
     transition:1s;
     color:black;
@@ -46,6 +47,12 @@ body {
 .course img
 {
    width:100%;
+}
+
+.course input
+{
+    width:170px;
+    margin-left:10px;
 }
 
 /*icon*/
@@ -131,7 +138,25 @@ body {
     margin-left:10px;
 }
 
-#submit
+/*新增內容*/
+#info, #create-course, #create-professor-info, #create-student-info {
+    display: none;
+}
+/*送出icon*/
+#send, #submit ,#send-student , #send-professor{
+    display: none;
+}
+
+/*刪除*/
+.course >.cancle img
 {
-    display:none;
+    position: relative;
+    left:-110px;
+    top:-170px;
+    width:10px;
+}
+
+.create-account {
+    display: none;
+    padding:0 162px;
 }

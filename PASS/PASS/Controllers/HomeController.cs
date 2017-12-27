@@ -195,8 +195,6 @@ namespace PASS.Controllers
         [HttpPost]
         public JsonResult GetOneMemberInfo()
         {
-            //Member member = new Member("103590013","william6931","test","a912686931@gmail.com",1);
-            //return Json(member);
             try
             {
                 return Json(_memberService.GetOneMemberInfo());
@@ -345,7 +343,7 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
-
+        
         //下載作業
         [HttpGet]
         public virtual ActionResult Download(string studentID, int assignmentID)
@@ -377,6 +375,28 @@ namespace PASS.Controllers
             string fileName = Path.GetFileName(filePath);
             string mimeString = MimeMapping.GetMimeMapping(filePath);
             return File(filePath, mimeString, fileName);
+        }
+        //新增課程
+        [HttpPost]
+        public JsonResult SetCourse(string courseName, string courseDescription, string instructorID)
+        {
+            try { _courseService.CreateOneCourse(courseName,courseDescription,instructorID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
+        }
+
+        //刪除課程
+        public JsonResult DeleteCourse(string courseID)
+        {
+            try { _courseService.DeleteOneCourse(courseID); }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+            return Json("true");
         }
     }
 }
