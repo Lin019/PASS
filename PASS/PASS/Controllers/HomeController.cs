@@ -2,12 +2,11 @@
 using System.Web.Mvc;
 using PASS.Services;
 using PASS.Models;
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
-using ICSharpCode.SharpZipLib.Zip;
+using System.Web.UI;
 
 namespace PASS.Controllers
 {
@@ -314,6 +313,12 @@ namespace PASS.Controllers
             string fileName = Path.GetFileName(filePath);
             string mimeString = MimeMapping.GetMimeMapping(filePath);
             return File(filePath, mimeString, fileName);
+        }
+
+        //取得學生個人該課程所有作業繳交狀況
+        public JsonResult GetOneStudentSubmitStatusList(string courseId, int assignmentId)
+        {
+            return Json(_assignmentUploadService.GetOneStudentSubmitStatusList(courseId, assignmentId));
         }
 
         //顯示該作業所有學生繳交狀態，沒有就未繳交
