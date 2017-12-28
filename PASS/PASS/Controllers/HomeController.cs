@@ -324,12 +324,7 @@ namespace PASS.Controllers
         //顯示該作業所有學生繳交狀態，沒有就未繳交
         public JsonResult GetCourseSubmit(string courseId, int assignmentId)
         {
-
-            AssignmentUploadService AssignmentUploadService = new AssignmentUploadService();
-            ArrayList a = new ArrayList();
-           return Json(AssignmentUploadService.GetCourseSubmit(courseId, assignmentId));
-
-
+           return Json(_assignmentUploadService.GetCourseSubmit(courseId, assignmentId));
         }
     }
 }
