@@ -157,9 +157,9 @@ namespace PASS.Controllers
             string studentID;
             try { assignment = _assignmentService.GetOneAssignment(assignmentID); }
             catch (Exception e) { return Json("讀取失敗，原因：" + e.Message); }
-            /*try { studentID = _memberService.GetOneMemberInfo()._id; }
-            catch { return Json("請先登入"); }*/
-            try { submitInfo = _assignmentUploadService.DownloadAssignmentInfo("103590038" /*studentID*/, assignmentID); }
+            try { studentID = _memberService.GetOneMemberInfo()._id; }
+            catch { return Json("請先登入"); }
+            try { submitInfo = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID); }
             catch (Exception e) { return Json(e.Message); }
 
             ArrayList list = new ArrayList();
@@ -172,7 +172,12 @@ namespace PASS.Controllers
         //取得所有學生繳交狀況
         public JsonResult GetStudentAllSubmitStatus(int courseID)
         {
-            try { return Json(_assignmentUploadService.GetOneStudentSubmitStatusList("103590038", courseID)); }
+            string studentID;
+
+            try { studentID = _memberService.GetOneMemberInfo()._id; }
+            catch { return Json("請先登入"); }
+
+            try { return Json(_assignmentUploadService.GetOneStudentSubmitStatusList(studentID, courseID)); }
             catch (Exception e) { return Json(e.Message); }
         }
 
@@ -386,14 +391,19 @@ namespace PASS.Controllers
 
             if (file != null)
             {
-                /*try { studentID = _memberService.GetOneMemberInfo()._id; }
-                catch { return Json("請先登入"); }*/
+                try { studentID = _memberService.GetOneMemberInfo()._id; }
+                catch { return Json("請先登入"); }
 
-                try { _assignmentUploadService.UploadAssignment("103590038" /*studentID*/, assignmentID, file); }
-                catch (Exception e) { return Json("上傳失敗，原因：" + e.Message); }
+                try { _assignmentUploadService.UploadAssignment(studentID, assignmentID, file); }
+                catch (Exception e)
+                {
+                    Redirect("/Home/Assignment?ID=" + assignmentID);
+                    return Json("上傳失敗，原因：" + e.Message);
+                }
             }
 
-            return Redirect("/Home/Assignment?ID=" + assignmentID);
+            Redirect("/Home/Assignment?ID=" + assignmentID + "&Type=0");
+            return Redirect("/Home/Assignment?ID=" + assignmentID + "&Type=0");
         }
 
         //登入
