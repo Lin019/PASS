@@ -16,8 +16,25 @@ namespace PASS.Dao.Tests
         [TestMethod()]
         public void GetOneAssignmentSubmitStudentListTest()
         {
+
             SubmitDao _submitDao = new SubmitDao();
-            Assert.AreEqual(_submitDao.GetOneAssignmentSubmitStudentList(1024)[0], "103590023");
+            List<SubmitInfo> submitInfo = new List<SubmitInfo>();
+            //actual 
+            string studentID = "103590055";
+            string submitName = "測試用_HW1";
+            DateTime sumitDatetime = DateTime.Now;
+            string submitURL = @"\PASS\2\測試用_HW1";
+            int assignmentID = 1099;
+            _submitDao.SubmitAssignment(studentID, submitName, sumitDatetime, submitURL, assignmentID);
+            //act
+            submitInfo = _submitDao.GetOneAssignmentSubmitList(1099);
+            //assert
+            Assert.AreEqual(submitInfo[0]._submitUrl, @"\PASS\2\測試用_HW1");
+            Assert.AreEqual(submitInfo[0]._submitName, "測試用_HW1");
+            Assert.AreEqual(_submitDao.GetOneAssignmentSubmitStudentList(1099)[0], "103590055");
+
+            //刪除資料庫
+            _submitDao.DeleteAssignmentSubmit(assignmentID.ToString());
         }
 
         [TestMethod()]
@@ -31,15 +48,16 @@ namespace PASS.Dao.Tests
             string submitName = "計算機概論_HW1";
             DateTime sumitDatetime = DateTime.Now;
             string submitURL = @"\PASS\2\作業系統_HW1";
-            int assignmentID = 1027;
+            int assignmentID = 1099;
             _submitDao.SubmitAssignment(studentID, submitName, sumitDatetime, submitURL, assignmentID);
             //act
-            submitInfo = _submitDao.GetOneAssignmentSubmitList(1027);
+            submitInfo = _submitDao.GetOneAssignmentSubmitList(1099);
             //assert
             Assert.AreEqual(submitInfo[0]._submitUrl, @"\PASS\2\作業系統_HW1");
             Assert.AreEqual(submitInfo[0]._submitName, "計算機概論_HW1");
 
-
+            //刪除資料庫
+            _submitDao.DeleteAssignmentSubmit(assignmentID.ToString());
 
         }
 
@@ -51,9 +69,26 @@ namespace PASS.Dao.Tests
             string studentID = "103590055";
             int assignmentID = 1027;
 
-            string act =_submitDao.SetOneStudentAssignmentScore(studentID, assignmentID, score);
+            string act = _submitDao.SetOneStudentAssignmentScore(studentID, assignmentID, score);
 
             Assert.AreEqual(act, "Success");
+        }
+
+        [TestMethod()]
+        public void DeleteAssignmentSubmitTest()
+        {
+            //actual 
+            SubmitDao _submitDao = new SubmitDao();
+            string studentID = "103590055";
+            string submitName = "計算機概論_HW1";
+            DateTime sumitDatetime = DateTime.Now;
+            string submitURL = @"\PASS\2\作業系統_HW1";
+            int assignmentID = 1099;
+            _submitDao.SubmitAssignment(studentID, submitName, sumitDatetime, submitURL, assignmentID);
+            //act
+            _submitDao.GetOneAssignmentSubmitList(1099);
+           
+            _submitDao.DeleteAssignmentSubmit("1099");
         }
     }
 }
