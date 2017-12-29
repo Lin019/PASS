@@ -47,8 +47,8 @@
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
                     <h1 class="course-name">軟體工程</h1>
-                    <h3>歡迎，你的身分是學生</h3>
-                    <h3 class="eng">Welcome,you are student</h3>
+                    <h3 class="identity-chinese">歡迎，你的身分是學生</h3>
+                    <h3 class="identity-eng">Welcome, you are student</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
@@ -171,8 +171,9 @@
         $(function () {
             $('#datetimepicker1').datetimepicker();
             var ID = getUrlParameter('ID');
+            SetUserInfo();
             SetCourseInfo(ID);
-            //LoadAssignments(ID);
+            LoadAssignments(ID);
             $(".logout").click(DirectToIndex);
             var btnStudents = $("button.students");
             btnStudents.click(DirectToStudents(ID, btnStudents));
@@ -185,6 +186,26 @@
             $(document).on('click', '.update-hw', function (event) { UpdateAssignment($(event.target)) });
             $(document).on('click', '.create-send', CreateAssignment(ID));
         });
+
+        function SetUserInfo() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneMemberInfo", "Home")',
+                data: "",
+                success: function (response) {
+                    if (response._memberType == 2) {
+                        $(".identity-chinese").text("歡迎，你的身分是學生");
+                        $(".identity-eng").text("Welcome, you are student");
+                    } else if (response._memberType == 3) {
+                        $(".identity-chinese").text("歡迎，你的身分是教授");
+                        $(".identity-eng").text("Welcome, you are instructor");
+                    } else if (response._memberType == 1) {
+                        $(".identity-chinese").text("歡迎，你的身分是管理者");
+                        $(".identity-eng").text("Welcome, you are admin");
+                    }
+                }
+            });
+        }
 
         function UpdateAssignment(source) {
             var name = source.siblings(".hw-name").text();
