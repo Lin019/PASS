@@ -10,6 +10,7 @@ namespace PASS.Services
 {
     public class StatisticalReportService
     {
+        
         //取得一作業繳交率平均分數
         public AverageSubmitAndScore GetOneAssignmentReport(int assignmentID)
         {

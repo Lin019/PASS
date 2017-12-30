@@ -13,7 +13,8 @@ namespace PASS.Dao
         {
             return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
-
+        
+       
         /// <summary>
         ///  新增作業
         /// </summary>
