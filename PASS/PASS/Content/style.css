@@ -25,12 +25,25 @@ body {
     color:darkgray;
 }
 
+.course h5 /*警示訊息*/
+{
+    padding:0px 20px;
+    text-align:center;
+    color:red;
+    opacity:0.5;
+}
+
 .course:hover
 {
     transition:1s;
     opacity:1;
 }
 
+.course:hover h5
+{
+    transition:1s;
+    opacity:1;
+}
 
 .course:hover h4, .course:hover h1
 {

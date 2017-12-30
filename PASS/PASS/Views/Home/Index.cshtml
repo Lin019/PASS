@@ -102,6 +102,10 @@
                     <li>
                         <h5><a>忘記帳號或密碼?</a><button id="submit" >登入</button></h5>
                     </li>
+                    <li>
+                        <h5 id="alert"></h5>
+                    </li>
+
                 </ul>
             </div><! --/row -->
         </div><! --/container -->
@@ -172,7 +176,18 @@
             url: '@Url.Action("Login", "Home")',
             data: { "id":$("#user-id").val(), "password":$("#user-password").val() },
             success: function (response) {
-                DirectToSite();
+                console.log(response);
+                if (response == "ID not found")
+                {
+                    console.log(response);
+                    $("#alert").text("查無此帳號，請重新輸入");
+                }
+                else if (response == "Incorrect Password")
+                {
+                    console.log(response);
+                    $("#alert").text("密碼錯誤，請重新輸入");
+                }
+                else DirectToSite();
             }
         });
     };

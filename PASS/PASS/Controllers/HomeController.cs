@@ -267,6 +267,20 @@ namespace PASS.Controllers
             }
         }
 
+        //驗證會員資料
+        [HttpPost]
+        public JsonResult VerifyOneMemberInfo(string userID)
+        {
+            try
+            {
+                return Json(_memberService.GetOneMemberInfo(userID));
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
+        }
+
         /// <summary>
         /// [0]是課程物件 [1]是教授物件 [3]是TA物件
         /// </summary>
