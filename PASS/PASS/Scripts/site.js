@@ -22,10 +22,6 @@ $("#modify").click(function () {
 
 //送出個人資料
 $("#submit").click(function () {
-    //$("#detail").show();
-    //$("#modify").show();
-    //$("#detail-form").hide();
-    //$("#submit").hide();
     setMemberInfo();
     DirectToSite();
 });
@@ -47,7 +43,6 @@ $(".cancle").click(function () {
 //送出課堂資料
 $("#send").click(function () {
     setCourse();
-    DirectToSite();
 });
 
 //新增課程
@@ -57,13 +52,22 @@ function setCourse()
     console.log(userId);
     var formData = $("#info").serializeFormJSON();
     console.log(formData);
-    $.ajax({
-        type: 'POST',
-        url: './SetCourse',
-        data: formData,
-        success: function (response) {
-        }
-    });
+    if (formData["courseName"] == "") {
+        $(".console").text("課程名稱不能為空");
+    }
+    else if (formData["courseDescription"] == "") {
+        $(".console").text("課程敘述不能為空");
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: './SetCourse',
+            data: formData,
+            success: function (response) {
+                DirectToSite();
+            }
+        });
+    }
 }
 
 //刪除課程
@@ -97,18 +101,33 @@ function setMemberInfo() {
     $("#name").val($("#user-name").text());
     $("#student-id-hide").val(userId);
     var formData = $("#detail-form").serializeFormJSON();
-    if (formData["password"] == "" || formData["email"] == "") {
-        console.log("錯誤");
+    //都沒改
+    if (formData["password"] == "" && formData["email"] == "") {
+        console.log("都沒有");
+        formData["password"] = userPassword;
+        formData["email"] = userEmail;
     }
-    else {
-        $.ajax({
-            type: 'POST',
-            url: './SetOneMemberInfo',
-            data: formData,
-            success: function (response) {
-            }
-        });
+    //只改信箱
+    else if (formData["password"] == "" && formData["email"] != "")
+    {
+        console.log("只有信箱");
+        formData["password"] = userPassword;
+        console.log(formData);        
     }
+    //只改密碼
+    else if (formData["password"] != "" && formData["email"] == "") {
+        console.log("只有密碼");
+        formData["email"] = userEmail;
+        console.log(formData);
+    }
+    //送資料
+    $.ajax({
+        type: 'POST',
+        url: './SetOneMemberInfo',
+        data: formData,
+        success: function (response) {
+        }
+    });
 }
 
 //顯示使用者資訊
@@ -125,10 +144,31 @@ function showMemberInfo() {
             $("#user-name").text(response["_memberName"]);
             GetCourses(response["_id"]); //顯示課程
             JudgeMemberType(response["_memberType"]);
-            userId = response["_id"];  
+            userId = response["_id"];
+            userPassword = response["_memberPassword"];
+            userEmail = response["_memberEmail"];
         }
     });
 };
+
+//查詢帳號資料
+function VerifyMemberInfo(userID)
+{
+    $.ajax({
+        type: 'POST',
+        url: './VerifyOneMemberInfo',
+        data: { 'userID': userID },
+        success: function (response) {
+            //console.log(response);
+            if (response == "ID not found") {
+                memberExist = false;
+            }
+            else {
+                memberExist = true;
+            }
+        }
+    }); 
+}
 
 //序列化
 (function ($) {
@@ -206,12 +246,13 @@ function GetCourses(id) {
         data: { "instructorID": id },
         success: function (response) {
             console.log(response);
-            if (response != "Student not found") {
+            if (response != "Student not found" && response != "User is not Instructor or Student" && response != "Course not found") {
                 for (i = 0; i < response.length; i++) {
                     //設定課程卡片
                     SetCourseCard(response[i]._courseID, response[i]._courseName, response[i]._courseDescription);
                 }
             }
+            else console.log(response);
         }
     });
 }
@@ -252,14 +293,12 @@ $("#add-professor").click(function () {
 
 //學生送出icon
 $("#send-student").click(function () {
-    CreateStudent();
-    EscStudent();
+    CreateStudent(); 
 });
 
 //教授送出icon
 $("#send-professor").click(function () {
     CreateProfessor();
-    EscProfessor();
 });
 
 //展開學生
@@ -286,6 +325,7 @@ function EscStudent()
     $("#add-student").show();
     $("#create-student-info").css("display", "none");
     $("#student").text("學生");
+    $(".console").text("");
 }
 
 //收起教授
@@ -294,6 +334,7 @@ function EscProfessor() {
     $("#add-professor").show();
     $("#create-professor-info").css("display", "none");
     $("#professor").text("教授");
+    $(".console").text("");
 }
 
 //創造學生
@@ -301,9 +342,23 @@ function CreateStudent()
 {
     $("#password-student").val($("#id-student").val());
     var formData = $("#create-student-info").serializeFormJSON();
+    VerifyMemberInfo(formData["id"]);
     //console.log(formData);
+    //資料不齊全
     if (formData["name"] == "" || formData["id"] == "" || formData["email"] == "") {
         console.log("error");
+        $(".console").text("資料不齊全，請重新確認");
+    }
+    //帳號格式有誤
+    else if (formData["id"].length != 9)
+    {
+        console.log("長度不正確");
+        $(".console").text("學號格式有誤，請重新確認");
+    }
+    //帳號存在
+    else if (memberExist)
+    {
+        $(".console").text("學號已存在，請重新確認");
     }
     else {
         $.ajax({
@@ -312,6 +367,7 @@ function CreateStudent()
             data: formData,
             success: function (response) {
                 console.log(response);
+                DirectToSite();
             }
         });
     }
@@ -321,9 +377,21 @@ function CreateStudent()
 function CreateProfessor() {
     $("#password-professor").val($("#id-professor").val());
     var formData = $("#create-professor-info").serializeFormJSON();
+    VerifyMemberInfo(formData["id"]);
     //console.log(formData);
+    //資料不齊全
     if (formData["name"] == "" || formData["id"] == "" || formData["email"] == "") {
         console.log("error");
+        $(".console").text("資料不齊全，請重新確認");
+    }
+    //帳號格式有誤
+    else if (formData["id"].length != 9) {
+        console.log("長度不正確");
+        $(".console").text("帳號格式有誤，請重新確認");
+    }
+    //帳號存在
+    else if (memberExist) {
+        $(".console").text("帳號已存在，請重新確認");
     }
     else {
         $.ajax({
@@ -332,6 +400,7 @@ function CreateProfessor() {
             data: formData,
             success: function (response) {
                 console.log(response);
+                DirectToSite();
             }
         });
     }

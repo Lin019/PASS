@@ -30,9 +30,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="/Home/Course">個人頁面</a></li>
-                    <li><a href="#about">公告</a></li>
-                    <li><a href="#works">作業</a></li>
+                    <li class="active"><a href="/Home/Site">個人頁面</a></li>
                     <li class="logout"><a href="/Home/Index">登出</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -45,8 +43,7 @@
                 <div class="col-lg-6 col-lg-offset-3 chinese">
                     @*登入後改成顯示下面的*@
                     <h1 class="course-name">軟體工程</h1>
-                    <h3 class="teacher">歡迎，你的身分是學生</h3>
-                    <h3 class="ta">目前還沒有TA喔！</h3>
+                    <h3 class="identity-chinese">歡迎，你的身分是學生</h3>
                 </div>
             </div><! --/row -->
         </div> <!-- /container -->
@@ -129,6 +126,7 @@
         $(function () {
             var ID = getUrlParameter('ID');
             var type = getUrlParameter('Type');
+            SetUserInfo();
             $(".logout").click(DirectToIndex);
             $(".download-all").click(DownloadAll(ID));
             $("#assignmentID").val(ID);
@@ -144,6 +142,23 @@
                 ShowCourseReport(courseID);
             }
         });
+
+        function SetUserInfo() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneMemberInfo", "Home")',
+                data: "",
+                success: function (response) {
+                    if (response._memberType == 2) {
+                        $(".identity-chinese").text("歡迎，你的身分是學生");
+                    } else if (response._memberType == 3) {
+                        $(".identity-chinese").text("歡迎，你的身分是教授");
+                    } else if (response._memberType == 1) {
+                        $(".identity-chinese").text("歡迎，你的身分是管理者");
+                    }
+                }
+            });
+        }
 
         function openfileDialog() {
             $("#fileLoader").click();
