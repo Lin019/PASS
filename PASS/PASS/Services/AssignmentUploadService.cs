@@ -163,7 +163,7 @@ namespace PASS.Services
         }
 
         //顯示該作業所有學生繳交狀態，沒有就未繳交
-        public ArrayList GetCourseSubmit(string courseId,int assignmentId)
+        public ArrayList GetCourseSubmit(int courseId,int assignmentId)
         {
             CourseDao courseStudent = new CourseDao();
             SubmitDao courseSubmit = new SubmitDao();  
