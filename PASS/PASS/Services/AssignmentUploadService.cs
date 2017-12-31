@@ -8,6 +8,7 @@ using PASS.Models;
 using System.Net.Mail;
 using System.Net;
 using System.Web.UI;
+using System.Collections;
 
 namespace PASS.Services
 {
@@ -155,10 +156,42 @@ namespace PASS.Services
             }
             return submitStatusList;
         }
-
+        
         public List<SubmitInfo> GetOneAssignmentSubmitList(int assignmentID)
         {
             return _submitDao.GetOneAssignmentSubmitList(assignmentID);
+        }
+
+        //顯示該作業所有學生繳交狀態，沒有就未繳交
+        public ArrayList GetCourseSubmit(string courseId,int assignmentId)
+        {
+            CourseDao courseStudent = new CourseDao();
+            SubmitDao courseSubmit = new SubmitDao();  
+            List<IdAndName> courseStudentList = courseStudent.GetOneCourseStudents(courseId);//課程學生
+            List<string> courseAlreadySubmitStudentList = courseSubmit.GetOneAssignmentSubmitStudentList(assignmentId);//已交學生名單
+            List <string>isSubmitList = new List<string>();
+            ArrayList arrayList = new ArrayList();
+
+            for (int i=0;i<courseStudentList.Count;i++)
+            {
+                for (int k = 0; k < courseAlreadySubmitStudentList.Count; k++)
+                {
+                    if (courseAlreadySubmitStudentList[k] == courseStudentList[i]._id)
+                    {
+                        isSubmitList.Add("已繳交");
+                        break;
+                    }
+                    else if(k== courseAlreadySubmitStudentList.Count-1)
+                    {
+                        isSubmitList.Add("未繳交");
+                    }
+                    
+                }
+                
+            }
+            arrayList.Add(courseStudentList);
+            arrayList.Add(isSubmitList);
+            return arrayList;
         }
     }
 }

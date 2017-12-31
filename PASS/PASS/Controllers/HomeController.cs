@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using PASS.Services;
 using PASS.Models;
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web;
@@ -441,7 +440,7 @@ namespace PASS.Controllers
             string mimeString = MimeMapping.GetMimeMapping(filePath);
             return File(filePath, mimeString, fileName);
         }
-
+        
         //新增課程
         [HttpPost]
         public JsonResult SetCourse(string courseName, string courseDescription, string instructorID)
@@ -488,6 +487,17 @@ namespace PASS.Controllers
         {
             try { return Json(_statisticalReportService.GetCourseAssignmentsReport(courseID)); }
             catch (Exception e) { return Json(e.Message); }
+        }
+        //取得學生個人該課程所有作業繳交狀況
+        public JsonResult GetOneStudentSubmitStatusList(string courseId, int assignmentId)
+        {
+            return Json(_assignmentUploadService.GetOneStudentSubmitStatusList(courseId, assignmentId));
+        }
+
+        //顯示該作業所有學生繳交狀態，沒有就未繳交
+        public JsonResult GetCourseSubmit(string courseId, int assignmentId)
+        {
+           return Json(_assignmentUploadService.GetCourseSubmit(courseId, assignmentId));
         }
     }
 }

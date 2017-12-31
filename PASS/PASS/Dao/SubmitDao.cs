@@ -158,5 +158,21 @@ namespace PASS.Dao
             }
 
         }
+        //測試用 刪除繳交作業
+        public void DeleteAssignmentSubmit(string assignmentID)
+        {
+
+            string sql = "DELETE FROM submit WHERE assignment_ID=@assignmentID";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                if (cmd.ExecuteNonQuery() == 0) throw new Exception("Course not exists");
+            }
+
+        }
     }
 }

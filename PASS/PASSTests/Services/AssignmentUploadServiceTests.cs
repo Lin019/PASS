@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using PASS.Services;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Web.UI;
 
@@ -29,6 +30,13 @@ namespace PASS.Services.Tests
                 Assert.AreEqual(actual[i].First, expect[i].First);
                 Assert.AreEqual(actual[i].Second, expect[i].Second);
             }
+        }
+
+        [TestMethod()]
+        public void GetCourseSubmitTest()
+        {
+            _assignmentUploadService = new AssignmentUploadService();
+            _assignmentUploadService.GetCourseSubmit("1",1024);
         }
     }
 }
