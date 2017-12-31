@@ -36,7 +36,7 @@ namespace PASS.Services.Tests
         public void GetCourseSubmitTest()
         {
             _assignmentUploadService = new AssignmentUploadService();
-            _assignmentUploadService.GetCourseSubmit("1",1024);
+            _assignmentUploadService.GetCourseSubmit(1,1024);
         }
     }
 }
