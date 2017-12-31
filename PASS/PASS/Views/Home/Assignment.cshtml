@@ -71,6 +71,10 @@
                             <td class="submit-time"></td>
                         </tr>
                         <tr>
+                            <td>繳交格式：</td>
+                            <td class="submit-format"></td>
+                        </tr>
+                        <tr>
                             <td>成績：</td>
                             <td class="submit-score"></td>
                         </tr>
@@ -127,6 +131,7 @@
             var ID = getUrlParameter('ID');
             var type = getUrlParameter('Type');
             SetUserInfo();
+            $(document).on('click', 'a.download', Download(ID));
             $(".logout").click(DirectToIndex);
             $(".download-all").click(DownloadAll(ID));
             $("#assignmentID").val(ID);
@@ -142,6 +147,12 @@
                 ShowCourseReport(courseID);
             }
         });
+
+        function Download(ID) {
+            return function () {
+                window.location.href = "/Home/Download?assignmentID=" + ID;
+            }
+        }
 
         function SetUserInfo() {
             $.ajax({
@@ -306,11 +317,14 @@
                 url: '@Url.Action("GetOneAssignmentSubmitInfo", "Home")',
                 data: { "assignmentID": ID},
                 success: function (response) {
+                    console.log(response);
                     try {
                         $("td.student-id").text(response[1]._studentId);
-                        $("td.submit-name").text(response[1]._submitName);
+                        $("td.submit-name").html("<a class=\"download\"></a>");
+                        $("a.download").text(response[1]._submitName);
                         var date = new Date(parseInt(response[1]._submitTime.substr(6)));
                         $("td.submit-time").text(date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
+                        $("td.submit-format").text(response[0]._assignmentFormat);
                         if (response[1]._submitScore == -1 || response[1]._submitScore == 0)
                             $("td.submit-score").text("未輸入");
                         else

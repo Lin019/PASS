@@ -70,6 +70,7 @@
                 </ul>
                 <div class="new-ta-area"></div>
                 <button class="confirm" style="display: none">確定</button>
+                <p id="result" style="display:none;"></p>
                 <button class="create-ta">新增TA</button>
             </div><! --/row -->
         </div><! --/container -->
@@ -185,7 +186,13 @@
             $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
             $(document).on('click', '.update-hw', function (event) { UpdateAssignment($(event.target)) });
             $(document).on('click', '.create-send', CreateAssignment(ID));
+
+
         });
+        function SetTAtext()
+        {
+            $("#result").text($("#dropdown").find("option:selected").text());
+        }
 
         function SetUserInfo() {
             $.ajax({
@@ -337,6 +344,7 @@
         function SetCourseInfo(ID)
         {
             $(".new-ta-area").html("");
+            $("#ta-list").html("");
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetCourse", "Home")',
@@ -348,6 +356,9 @@
                     $(".teacher").text("指導教授：" + response[0]._instructorID);
                     $(".description").text(response[0]._courseDescription);
                     var listHtml = "<li><div class=\"ta\" style=\"display: inline-block\"><p class=\"ta-id\" style=\"display: inline-block\"></p><p class=\"ta-name\" style=\"display: inline-block\"></p></div><button class=\"update-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
+
+                    $(".new-ta-area").html("");
+                    $("#ta-list").html("");
 
                     //如果有TA
                     if (response.length > 1) {
@@ -400,10 +411,11 @@
         function SubmitTa(ID, Ta_ID, instr, sourse)
         {
             return function () {
+
                 var functionUrl;
                 if (instr == "new") {
-                    functionUrl = '@Url.Action("NewCourseTA", "Home")';
-                    Ta_ID = $(".new-ta").val();
+                    Ta_ID = $("#result").text();
+                    functionUrl = '@Url.Action("NewCourseTA", "Home")'
                 }
                 else if (instr == "delete") functionUrl = '@Url.Action("DeleteCourseTA", "Home")'
                 $(".create-ta").show();
@@ -472,10 +484,22 @@
         //新增TA
         function NewTa(ID, sourse) {
             return function () {
-                $(".new-ta-area").append("<input type=\"text\" class=\"new-ta\"><br>");
+                $(".new-ta-area").append("<select id=\"dropdown\" onchange=\"SetTAtext();\"></select><br>");
+                $("#dropdown").append("<option selected=\"selected\">" + "選擇TA" + "</option>");
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetOneCourseStudents", "Home")',
+                    data: { "courseID": ID },
+                    success: function (response) {
+                        for (var i = 0; i < response.length; i++) {
+                            $("#dropdown").append("<option>" + response[i]._id + "</option>");
+                        }
+                    }
+                });
                 $(".create-ta").hide();
                 $(".confirm").show();
-                $(".confirm").click(SubmitTa(ID, $("input.new-ta").val(), "new", $(".confirm")));
+                $(".confirm").click(SubmitTa(ID, $("#result").text(), "new", $(".confirm")));
             }
         }
 

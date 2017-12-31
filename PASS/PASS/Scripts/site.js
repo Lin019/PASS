@@ -2,7 +2,12 @@
     showMemberInfo();  
     $(document).on('click', 'a.course-page', DirectToCoursePage);
     $(document).on('click', 'a.cancle', deleteCourse);
+    $(document).on('click', 'a.assignment-page', function (event) { DirectToAssignment($(event.target)) });
 });
+
+function DirectToAssignment(source) {
+    window.location.href = "/Home/Assignment?CourseID=" + source.parents().siblings("p.course-id").text() + "&Type=2";
+}
 
 //登出
 $(".logout").click(function () {
@@ -267,6 +272,7 @@ function SetCourseCard(id, name, description) {
             $("#course-card").append(partialHtml);
             $(".id:last").text(id);
             $(".courseId:last").text(id);
+            $(".course-id").last().text(id);
             $(".name:last").text(name);
             $(".description:last").text(description);
         }

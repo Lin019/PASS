@@ -410,8 +410,7 @@ namespace PASS.Controllers
                 try { _assignmentUploadService.UploadAssignment(studentID, assignmentID, file); }
                 catch (Exception e)
                 {
-                    Redirect("/Home/Assignment?ID=" + assignmentID);
-                    return Json("上傳失敗，原因：" + e.Message);
+                    Redirect("/Home/Assignment?ID=" + assignmentID + "&Type=0");
                 }
             }
 
@@ -434,10 +433,14 @@ namespace PASS.Controllers
         
         //下載作業
         [HttpGet]
-        public virtual ActionResult Download(string studentID, int assignmentID)
+        public ActionResult Download(int assignmentID)
         {
             /*string studentID = "103590038";
             int assignmentID = 1024;*/
+            string studentID;
+            try { studentID = _memberService.GetOneMemberInfo()._id; }
+            catch { return Json("請先登入"); }
+
             SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
             string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string filePath = MyDocumentsPath + submit._submitUrl + "\\" + submit._submitName;
