@@ -226,6 +226,20 @@ namespace PASS.Dao
                 return result;
             }
         }
-
+        public void CreateOneCourseforTEST(int id, string courseName, string courseDescription, string instructorID)
+        {
+            string sql = "INSERT INTO course(course_ID, course_Name, course_Description, instructor_ID) VALUES(@courseID,@courseName, @courseDescription, @instructorID)";
+            using (var connection = new MySqlConnection(GetDBConnectionString()))
+            {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@courseID", id);
+                cmd.Parameters.AddWithValue("@courseName", courseName);
+                cmd.Parameters.AddWithValue("@courseDescription", courseDescription);
+                cmd.Parameters.AddWithValue("@instructorID", instructorID);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

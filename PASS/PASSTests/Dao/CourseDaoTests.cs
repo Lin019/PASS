@@ -156,7 +156,6 @@ namespace PASS.Dao.Tests
             //assert
             Assert.AreEqual(act[0]._id, studenID);
         }
-        /*
         [TestMethod()]
         [ExpectedException(typeof(Exception))]
         public void DeleteOneCourseTest()
@@ -176,6 +175,6 @@ namespace PASS.Dao.Tests
             _courseDaoTest.CreateOneCourseforTEST(55, "ccc", "ccc", "123456789");
             //act
             _courseDaoTest.DeleteOneCourse(55);
-        }*/
+        }
     }
 }

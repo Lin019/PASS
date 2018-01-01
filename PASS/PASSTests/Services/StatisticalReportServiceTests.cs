@@ -44,14 +44,14 @@ namespace PASS.Services.Tests
         {   
             if (clean =="")
             {
-                _courseDaoTest.CreateOneCourseforTEST("123", "請刪", "請刪", "1035566558");
-                CreateAssignment("2018","123", "123", "123", DateTime.Now, true, "123");
+                _courseDaoTest.CreateOneCourseforTEST(123, "請刪", "請刪", "1035566558");
+                CreateAssignment("2018", "123", "123", "123", DateTime.Now, true, "123");
                 _submitDao.SubmitAssignment("103590038", "測試用hw1", DateTime.Now, "123", 2018);
                 
             }
             if(clean == "clean")
             {
-                _courseDaoTest.DeleteOneCourse("123");
+                _courseDaoTest.DeleteOneCourse(123);
                 _assignmentDao.DeleteAssignment(2018);
                 
             }
