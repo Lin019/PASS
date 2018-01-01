@@ -54,7 +54,7 @@ namespace PASS.Dao.Tests
             //act
             List<Course> actual = _courseDaoTest.GetOneInstructorCourse(InstructorId);
             //assert
-            Assert.AreEqual(actual[0]._courseName, "軟體工程");
+            Assert.AreEqual(actual[0]._courseName, "作業系統");
         }
 
         [TestMethod()]
@@ -65,7 +65,7 @@ namespace PASS.Dao.Tests
             //act
             List<Course> actual = _courseDaoTest.GetOneStudentElective(studentId);
             //assert
-            Assert.AreEqual(actual[0]._courseName, "軟體工程");
+            Assert.AreEqual(actual[0]._courseName, "作業系統");
         }
 
         [TestMethod()]
@@ -76,7 +76,7 @@ namespace PASS.Dao.Tests
             //act
             Course actual = _courseDaoTest.GetOneCourse(courseId);
             //assert
-            Assert.AreEqual(actual._courseName, "軟體工程");
+            Assert.AreEqual(actual._courseName, "作業系統");
         }
 
 
@@ -157,7 +157,6 @@ namespace PASS.Dao.Tests
             Assert.AreEqual(act[0]._id, studenID);
         }
         [TestMethod()]
-        [ExpectedException(typeof(Exception))]
         public void DeleteOneCourseTest()
         {
             //arrange

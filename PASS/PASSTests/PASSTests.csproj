@@ -60,10 +60,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Dao\CourseDaoTests.cs" />
-    <Compile Include="Dao\AssignmentDaoTests.cs" />
     <Compile Include="Dao\MemberDaoTests.cs" />
     <Compile Include="Dao\SubmitDaoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AssignmentServiceTests.cs" />
     <Compile Include="Services\AssignmentUploadServiceTests.cs" />
     <Compile Include="Services\StatisticalReportServiceTests.cs" />
   </ItemGroup>

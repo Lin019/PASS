@@ -177,7 +177,7 @@ namespace PASS.Dao
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@courseID", courseID);
                 MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
-                if (!reader.HasRows) throw new Exception("Course not found");
+                if (!reader.HasRows) throw new Exception("Assignment not found");
                 List<Assignment> assignment = new List<Assignment>() ;
                 while (reader.Read())
                 {
