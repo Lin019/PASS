@@ -170,26 +170,35 @@
     };
 
     //登入
-    function Login() {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Login", "Home")',
-            data: { "id":$("#user-id").val(), "password":$("#user-password").val() },
-            success: function (response) {
-                console.log(response);
-                if (response == "ID not found")
-                {
-                    console.log(response);
-                    $("#alert").text("查無此帳號，請重新輸入");
-                }
-                else if (response == "Incorrect Password")
-                {
-                    console.log(response);
-                    $("#alert").text("密碼錯誤，請重新輸入");
-                }
-                else DirectToSite();
+        function Login() {
+            if ($("#user-id").val() == "")
+            {
+                $("#alert").text("請輸入帳號");
             }
-        });
+            else if ($("#user-password").val() == "")
+            {
+                $("#alert").text("請輸入密碼");
+            }
+            else
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Login", "Home")',
+                    data: { "id": $("#user-id").val(), "password": $("#user-password").val() },
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "ID not found") {
+                            console.log(response);
+                            $("#alert").text("查無此帳號，請重新輸入");
+                        }
+                        else if (response == "Incorrect Password") {
+                            console.log(response);
+                            $("#alert").text("密碼錯誤，請重新輸入");
+                        }
+                        else DirectToSite();
+                    }
+                });
+            }
     };
     </script>
     <!--以下為後端測試用程式碼，請勿刪除-->
