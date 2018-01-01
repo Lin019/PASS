@@ -55,18 +55,14 @@ namespace PASS.Dao
         //取得單一會員資料
         public Member GetOneMemberInfo(string memberID)
         {
-           string sql = @"SELECT  User_ID AS ID,
-	                              User_Password as Password,
-                                  User_Name as Name,
-                                  User_Email as Email,
-                                  User_Authority as Type
-                        FROM user
-                        WHERE User_ID=" + memberID;
+
+            string sql = "SELECT  user_ID ,user_Password ,user_Name ,user_Email ,user_Authority FROM user WHERE user_ID =@ID";
             using (var connection = new MySqlConnection(GetDBConnectionString()))
             {
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@ID", memberID);
                 MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
                 if (!reader.HasRows) throw new Exception("ID not found");
                 Member member = null;
@@ -82,7 +78,7 @@ namespace PASS.Dao
                 return member;
             }
         }
-        
+
         //設定單一會員個人資訊
         public void SetOneMemberInfo(string id, string password, string name, string email)
         {

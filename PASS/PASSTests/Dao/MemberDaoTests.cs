@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace PASS.Dao.Tests
 {
     [TestClass()]
-    //測試新增帳號
     public class MemberDaoTests
     {
         MemberDao _memberDaoTest = new MemberDao();
@@ -33,6 +32,35 @@ namespace PASS.Dao.Tests
             Assert.AreEqual("fail", actual);
 
             actual = _memberDaoTest.DeleteUser(id);//刪除保持資料庫乾淨*/
+        }
+
+
+        [TestMethod()]
+        public void GetOneMemberInfoTest()
+        {
+            //arrange
+            string id = "103590002";
+
+            //act
+            string name = _memberDaoTest.GetOneMemberInfo(id)._memberName;
+
+            //assert 
+            Assert.AreEqual(name, "洪子軒");
+        }
+
+        [TestMethod()]
+        public void SetOneMemberInfoTest()
+        {
+            //arrange
+            string id = "1035900g5";
+            string password = "123456";
+            string name = "陳東東";
+            string email = "123@yahoo";
+
+            //act
+            _memberDaoTest.SetOneMemberInfo(id, password, name, email);
+            //assert
+
         }
     }
 }
