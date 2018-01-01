@@ -100,7 +100,7 @@
             <div id="assignment-cards">
 
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="col-lg-3 col-md-3 col-sm-3 assign-card">
                 <div class="course chinese">
                     <img src="~/img/assignment/paper.png" class="img-responsive">
                     <h1 class="assign">指派作業</h1>
@@ -186,9 +186,26 @@
             $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
             $(document).on('click', '.update-hw', function (event) { UpdateAssignment($(event.target)) });
             $(document).on('click', '.create-send', CreateAssignment(ID));
-
-
+            SetAuthority();
         });
+
+        function SetAuthority() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneMemberInfo", "Home")',
+                data: "",
+                success: function (response) {
+                    if (response._memberType == 3 || response._memberType == 1) {
+                        
+                    }
+                    else if (response._memberType == 2) {
+                        $(".assign-card").hide();
+                        $("button").hide();
+                    }
+                }
+            });
+        }
+
         function SetTAtext()
         {
             $("#result").text($("#dropdown").find("option:selected").text());
