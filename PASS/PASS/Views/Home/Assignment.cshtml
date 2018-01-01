@@ -80,6 +80,7 @@
                         </tr>
                     </table>
                 </div>
+                <canvas id="myChart" width="400" height="400" style="display:none;"></canvas>
                 <button class="download-all" style="display:none; ">全部下載</button>
 
                 <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data" class="upload-form">
@@ -117,15 +118,18 @@
         </div>
     </div><! --/footerwrap -->
 
-
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
     <script>
+
         //頁面載入
         $(function () {
             var ID = getUrlParameter('ID');
@@ -147,6 +151,49 @@
                 ShowCourseReport(courseID);
             }
         });
+
+        function SetChart(array) {
+
+            $("#myChart").show();
+            
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["0-10分", "11-20分", "21-30分", "31-40分", "41-50分", "51-60分", "61-70分", "71-80分", "81-90分", "91-100分"],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: array,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 0.5
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
 
         function Download(ID) {
             return function () {
@@ -206,9 +253,23 @@
                 url: '@Url.Action("GetAssignmnetReport", "Home")',
                 data: { "assignmentID": ID },
                 success: function (response) {
+                    var array = [];
+                    array.push(response[1]._score0to10);
+                    array.push(response[1]._score11to20);
+                    array.push(response[1]._score21to30);
+                    array.push(response[1]._score31to40);
+                    array.push(response[1]._score41to50);
+                    array.push(response[1]._score51to60);
+                    array.push(response[1]._score61to70);
+                    array.push(response[1]._score71to80);
+                    array.push(response[1]._score81to90);
+                    array.push(response[1]._score91to100);
+
+                    SetChart(array);
+                    
                     $(".info-area").append("<p></p>");
                     $(".info-area").find("p").last().text("繳交率：" + response[0].submitRate + "%" + "，平均分數：" + response[0].scoreRate);
-
+                    /*
                     $(".info-area").append("<p></p>");
                     $(".info-area").find("p").last().text("0到10分：" + response[1]._score0to10);
 
@@ -238,6 +299,7 @@
 
                     $(".info-area").append("<p></p>");
                     $(".info-area").find("p").last().text("91到100分：" + response[1]._score91to100);
+                    */
                 }
             });
         }
