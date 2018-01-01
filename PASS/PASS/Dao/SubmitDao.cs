@@ -12,6 +12,8 @@ namespace PASS.Dao
         {
             return WebConfigurationManager.ConnectionStrings["PASSDatabase"].ConnectionString;
         }
+
+        //新增作業
         public void SubmitAssignment(string studentID, string submitName, DateTime sumitDatetime,string submitURL,int assignmentID)
         {
             string sql = null;
@@ -42,6 +44,8 @@ namespace PASS.Dao
             }
 
         }
+
+        //取得一個作業繳交狀況
         public SubmitInfo GetOneSubmitInfo(string studentID,int assignmentID)
         {
             string sql = "SELECT student_ID, submit_name, submit_Datetime, submit_Url, submit_Score, assignment_ID FROM submit WHERE (student_ID=@studentID AND assignment_ID=@assignmentID)";
