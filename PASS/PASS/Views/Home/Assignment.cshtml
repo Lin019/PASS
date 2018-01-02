@@ -174,7 +174,7 @@
                 data: {
                     labels: ["0-10分", "11-20分", "21-30分", "31-40分", "41-50分", "51-60分", "61-70分", "71-80分", "81-90分", "91-100分"],
                     datasets: [{
-                        label: '# of Votes',
+                        label: '人數',
                         data: array,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -192,7 +192,70 @@
                             'rgba(153, 102, 255, 1)',
                             'rgba(255, 159, 64, 1)'
                         ],
-                        borderWidth: 0.5
+                        borderWidth: 0.8
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function SetChartCourse(labels, data1, data2) {
+
+            $("#myChart").show();
+
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '繳交率',
+                        data: data1,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 0.8
+                    }, {
+                        label: '平均率',
+                        data: data2,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 0.8
                     }]
                 },
                 options: {
@@ -209,7 +272,7 @@
 
         function Download(ID) {
             return function () {
-                window.location.href = "/Home/Download?assignmentID=" + ID;
+                window.location.href = "/Home/DownloadFile?assignmentID=" + ID;
             }
         }
 
@@ -238,7 +301,10 @@
         function ShowCourseReport(courseID) {
             $(".submit-info-table").hide();
             $(".upload-form").hide();
-
+            var label = [];
+            var index;
+            var data = [];
+            var data2 = [];
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetCourseReport", "Home")',
@@ -247,9 +313,14 @@
                     console.log(response);
 
                     for (var i = 0; i < response.length; i++) {
-                        $(".info-area").append("<p></p>");
-                        $(".info-area").find("p").last().text("繳交率：" + response[i][0].submitRate + "%" + "，平均分數：" + response[i][0].scoreRate);
+                        //$(".info-area").append("<p></p>");
+                        //$(".info-area").find("p").last().text("繳交率：" + response[i].submitRate + "%" + "，平均分數：" + response[i].scoreRate);
+                        index = i + 1;
+                        label.push("作業" + index);
+                        data.push(response[i].submitRate);
+                        data2.push(response[i].scoreRate);
                     }
+                    SetChartCourse(label, data, data2);
                 }
             });
         }
@@ -265,6 +336,7 @@
                 url: '@Url.Action("GetAssignmnetReport", "Home")',
                 data: { "assignmentID": ID },
                 success: function (response) {
+                    console.log(response);
                     var array = [];
                     array.push(response[1]._score0to10);
                     array.push(response[1]._score11to20);
