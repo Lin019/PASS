@@ -179,7 +179,6 @@
             var ID = getUrlParameter('ID');
             SetUserInfo();
             SetCourseInfo(ID);
-            LoadAssignments(ID);
             $(".logout").click(DirectToIndex);
             var btnStudents = $("button.students");
             btnStudents.click(DirectToStudents(ID, btnStudents));
@@ -191,7 +190,6 @@
             $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
             $(document).on('click', '.update-hw', function (event) { UpdateAssignment($(event.target)) });
             $(document).on('click', '.create-send', CreateAssignment(ID));
-            SetAuthority();
             ShowAllStudents(ID);
         });
 
@@ -202,15 +200,14 @@
                 data: "",
                 success: function (response) {
                     console.log(response);
-                    if (response["_memberType"] == 3 || response["_memberType"] == 1) {
+                    if (response._memberType == 3 || response._memberType == 1) {
+                        $(".icon_edit").show();
                         $(".icon_downLoad").show();
-                        $(".icon_showAssignment").hide();
                         $(".icon_downLoad").css("display", "inline-block");
-                        $(".icon_showAll").hide();
                     }
-                    else if (response["_memberType"] == 2) {
-                        $(".icon_edit").hide();
-                        $(".icon_downLoad").hide();
+                    else {
+                        $(".icon_showAssignment").show();
+                        $(".icon_showAll").show();
                         $(".assign-card").hide();
                         $("button").hide();
                         $("#open").show();
@@ -308,6 +305,7 @@
                     $("#assignment-cards").html("");
                     console.log(response);
                     SetCard(response);
+                    SetAuthority();
                 }
             });
         }
@@ -403,6 +401,7 @@
                     else {
                         $(".ta").text("目前還沒有TA喔！");
                     }
+                    LoadAssignments(ID);
                 }
             });
         }
