@@ -56,8 +56,8 @@ namespace PASS.Services
             List<SubmitInfo> submitStudentList = submitDao.GetOneAssignmentSubmitList(assignmentID);
             for(int i=0;i<submitStudentList.Count();i++)
             {
-                if (submitStudentList[i]._submitScore < 0)
-                    throw new Exception(submitStudentList[i]._submitName + " is not score yet");
+                /*if (submitStudentList[i]._submitScore < 0)
+                    throw new Exception(submitStudentList[i]._submitName + " is not score yet");*/
                 if (submitStudentList[i]._submitScore < 11) result._score0to10++;
                 else if (submitStudentList[i]._submitScore < 21) result._score11to20++;
                 else if (submitStudentList[i]._submitScore < 31) result._score21to30++;

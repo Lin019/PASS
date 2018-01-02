@@ -430,8 +430,21 @@ namespace PASS.Controllers
             }
             return Json("true");
         }
-        
+
         //下載作業
+        [HttpGet]
+        public FileResult DownloadFile(int assignmentID)
+        {
+            string studentID;
+            studentID = _memberService.GetOneMemberInfo()._id;
+            SubmitInfo submit = _assignmentUploadService.DownloadAssignmentInfo(studentID, assignmentID);
+            string MyDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = MyDocumentsPath + submit._submitUrl + submit._submitName;
+            string mimeString = MimeMapping.GetMimeMapping(submit._submitName);
+            Stream iStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return File(iStream, mimeString, submit._submitName);
+        }
+
         [HttpGet]
         public ActionResult Download(int assignmentID)
         {
