@@ -23,3 +23,8 @@ table tr td {
     padding: 10px 0px;
     font-size: 20pt;
 }
+
+.info-area
+{
+    text-align:justify;
+}

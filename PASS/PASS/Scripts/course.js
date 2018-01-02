@@ -19,9 +19,14 @@ $(document).on('click', '.icon_info', function () {
 });
 
 $(document).on('click', '.icon_showAssignment', function (event) {
-    window.location.href = "/Home/Assignment?ID=" + $(event.target).parent().parent(".icon").siblings(".hw-id").text() + "&Type=0";
+    window.location.href = "/Home/Assignment?ID=" + $(event.target).parent().parent(".icon").siblings(".hw-id").text() + "&Type=3";
 });
 
 $(document).on('click', '.icon_showAll', function (event) {
+    window.location.href = "/Home/Assignment?ID=" + $(event.target).parent().parent(".icon").siblings(".hw-id").text() + "&Type=0";
+});
+
+$(document).on('click', '.icon_downLoad', function (event) {
     window.location.href = "/Home/Assignment?ID=" + $(event.target).parent().parent(".icon").siblings(".hw-id").text() + "&Type=1";
 });
+

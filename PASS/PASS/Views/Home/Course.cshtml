@@ -33,8 +33,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active"><a href="/Home/Site">個人頁面</a></li>
-                    <li><a href="#about">公告</a></li>
-                    <li><a href="#works">作業</a></li>
+                    <li><a href="#course-information">課程資訊</a></li>
+                    <li><a href="#list">修課名單</a></li>
+                    <li><a href="#assignment">作業</a></li>
                     <li class="logout"><a href="/Home/Index">登出</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -57,48 +58,57 @@
     <section id="course-information"></section>
     <div id="information">
         <div class="container">
-            <div class="row centered mt mb chinese">
+            <di class="row centered mt mb chinese button">
                 <div class="title">
                     <h1>課程資訊</h1>
                 </div>
-                <p class="teacher"></p>
-
-                <div class="description-area"><p class="description"></p></div>
-            <button id="description-update">修改課程資訊</button><button id="description-confirm" style="display: none">確定修改</button>
-
-                <ul id="ta-list" type="none">
-                </ul>
-                <div class="new-ta-area"></div>
-                <button class="confirm" style="display: none">確定</button>
-                <p id="result" style="display:none;"></p>
-                <button class="create-ta">新增TA</button>
-            </div><! --/row -->
+                <h2>簡介</h2>
+                <div class="description-area">
+                    <p class="description"></p>
+                    <button id="description-update">修改</button><button id="description-confirm" style="display: none">確定修改</button>
+                </div>
+                <div id="ta">
+                    <h2>TA</h2>
+                    <ul id="ta-list" type="none"></ul>                    
+                </div>
+                <div>
+                    <button class="create-ta">新增</button>
+                    <div class="new-ta-area"></div>
+                    <button class="confirm" style="display: none">確定</button>
+                </div>
+                <p id="result" style="display:none;"></p>    
+                <h3 class="teacher"></h3>
+            </di>><! --/row -->
         </div><! --/container -->
     </div>
 
-    <section id="about"></section>
-    <div id="about">
-        <div class="container">
-            <div class="row centered mt mb chinese">
-                <div class="title">
-                    <h1>公告</h1>
-                </div>
-                <div class="col-lg-12 demo">
-                    <img src="~/img/demo/task.png" class="img-responsive">
-                </div>
-                <button class="students">顯示所有修課學生</button>
-            </div><! --/row -->
-        </div><! --/container -->
-    </div>
+    <section id="list"></section>
+    <div class="container">
+        <div class="row centered mt mb chinese button">
+            <div class="title">
+                <h1>修課名單</h1>
+            </div>
+            <div class="student-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>學號</th>
+                            <th>姓名</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            
+        </div><! --/row -->
+    </div><! --/container -->
 
-    <section id="works"></section>
+    <section id="assignment"></section>
     <div class="container">
         <div class="row centered mt mb chinese">
             <div class="title">
                 <h1>作業</h1>
             </div>
             <div id="assignment-cards">
-
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 assign-card">
                 <div class="course chinese">
@@ -122,12 +132,6 @@
                         <a class="create-send" style="display: none;"><img src="~/img/icon/icon_next.png" class="img-responsive"></a>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-
             </div>
         </div><! --/row -->
     </div><! --/container -->
@@ -168,6 +172,7 @@
 
     <script>
 
+
         //頁面載入
         $(function () {
             $('#datetimepicker1').datetimepicker();
@@ -181,12 +186,13 @@
 
             $("#description-update").click(UpdateDescription(ID));
             $(document).on('click', '.create-ta', NewTa(ID, $(".create-ta")));
-            $(document).on('click', '.update-ta', function (event) { UpdateTa($(event.target)) });
+            $(document).on('click', '.update-hw', function (event) { UpdateTa($(event.target)) });
             $(document).on('click', '.delete-ta', function (event) { DeleteTa($(event.target)) });
             $(document).on('click', '.delete-hw', function (event) { DeleteAssignment($(event.target)) });
             $(document).on('click', '.update-hw', function (event) { UpdateAssignment($(event.target)) });
             $(document).on('click', '.create-send', CreateAssignment(ID));
             SetAuthority();
+            ShowAllStudents(ID);
         });
 
         function SetAuthority() {
@@ -195,12 +201,19 @@
                 url: '@Url.Action("GetOneMemberInfo", "Home")',
                 data: "",
                 success: function (response) {
-                    if (response._memberType == 3 || response._memberType == 1) {
-                        
+                    console.log(response);
+                    if (response["_memberType"] == 3 || response["_memberType"] == 1) {
+                        $(".icon_downLoad").show();
+                        $(".icon_showAssignment").hide();
+                        $(".icon_downLoad").css("display", "inline-block");
+                        $(".icon_showAll").hide();
                     }
-                    else if (response._memberType == 2) {
+                    else if (response["_memberType"] == 2) {
+                        $(".icon_edit").hide();
+                        $(".icon_downLoad").hide();
                         $(".assign-card").hide();
                         $("button").hide();
+                        $("#open").show();
                     }
                 }
             });
@@ -372,8 +385,8 @@
                     $(".course-name").text(response[0]._courseName);
                     $(".teacher").text("指導教授：" + response[0]._instructorID);
                     $(".description").text(response[0]._courseDescription);
-                    var listHtml = "<li><div class=\"ta\" style=\"display: inline-block\"><p class=\"ta-id\" style=\"display: inline-block\"></p><p class=\"ta-name\" style=\"display: inline-block\"></p></div><button class=\"update-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
-
+                    var listHtml = "<li><div class=\"ta\" style=\"display: inline-block\"><p class=\"ta-id\" style=\"display: inline-block\"></p><p class=\"ta-name\" style=\"display: inline-block\"></p></div></li>";
+                    var button = "<li><button class=\"update-ta\">修改</button><button class=\"delete-ta\">刪除</button><button class=\"confirm-ta\" style=\"display: none;\">確認</button></li>";
                     $(".new-ta-area").html("");
                     $("#ta-list").html("");
 
@@ -384,6 +397,7 @@
                             $("ul#ta-list").append(listHtml);
                             $(".ta-id").last().text(response[1][i]._id);
                             $(".ta-name").last().text(response[1][i]._memberName);
+                            $("ul#ta-list").append(button);
                         }
                     }
                     else {
@@ -547,6 +561,23 @@
                 }
             }
         };
+
+        //顯示學生表格
+        function ShowAllStudents(ID) {
+            var html = "<tr><td class=\"id\"></td><td class=\"name\"></td></tr>"
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneCourseStudents", "Home")',
+                data: { "courseID": ID },
+                success: function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        $("table").append(html);
+                        $("td.id").last().text(response[i]._id);
+                        $("td.name").last().text(response[i]._memberName);
+                    }
+                }
+            });
+        }
 
     </script>
 </body>

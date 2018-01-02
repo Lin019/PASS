@@ -54,7 +54,7 @@
         <div class="container">
             <div class="row centered mt mb chinese">
                 <div class="title">
-                    <h1>繳交資訊</h1>
+                    <h1 id="title">繳交資訊</h1>
                 </div>
 
                 <div class="info-area">
@@ -139,13 +139,25 @@
             $(".logout").click(DirectToIndex);
             $(".download-all").click(DownloadAll(ID));
             $("#assignmentID").val(ID);
-            if (type == 0) ShowSubmitInfo(ID);
-            else if (type == 1) ShowAllStudentSubmitInfo(ID);
+            if (type == 0)
+            {
+                ShowSubmitInfo(ID);
+                $("#title").text("上傳作業");
+            }
+            else if (type == 1)
+            {
+                ShowAllStudentSubmitInfo(ID);
+                $("#title").text("下載作業");
+            }
             else if (type == 2) {
                 var courseID = getUrlParameter('CourseID');
                 ShowStudentAllSubmit(courseID);
             }
-            else if (type == 3) { ShowAssignmentReport(ID); }
+            else if (type == 3)
+            {
+                ShowAssignmentReport(ID);
+                $("#title").text("作業報表");
+            }
             else if (type == 4) {
                 var courseID = getUrlParameter('CourseID');
                 ShowCourseReport(courseID);

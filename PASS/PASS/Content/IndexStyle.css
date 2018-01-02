@@ -312,7 +312,7 @@ h1, h2, h3, h4, h5, h6 , p {
 }
 
 /*文字*/
-.chinese h1,h2,h3,h4,h5,h6,p
+.chinese h1,h2,h3,h4,h5,h6,p,td
 {
     font-family:"思源宋體 ExtraLight";
     line-height:200%;
