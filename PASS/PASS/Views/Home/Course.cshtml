@@ -322,12 +322,26 @@
                         $("#assignment-cards").last().append(partialView);
                         $(".hw-name").last().text(response[i]._assignmentName);
                         $(".hw-id").last().text(response[i]._assignmentId);
+                        SetScore(response[i]._assignmentId);
                         $(".hw-description").last().text(response[i]._assignmentDescription);
                         var date = new Date(parseInt(response[i]._assignmentDeadline.substr(6)));
                         $(".hw-deadline").last().text(date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes());
                         $(".hw-late").last().text(response[i]._assignmentLate);
                         $(".hw-format").last().text(response[i]._assignmentFormat);
                     }
+                }
+            });
+        }
+
+        function SetScore(id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetOneAssignmentSubmitInfo", "Home")',
+                data: { "assignmentID" : id },
+                success: function (response) {
+                    console.log(response);
+                    if (response[1]._submitScore >= 0)
+                        $(".submit-score").last().text(response[1]._submitScore + "分");
                 }
             });
         }
